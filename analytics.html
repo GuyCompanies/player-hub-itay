@@ -1,0 +1,540 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Itay Gussarsky — GPS Analytics</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:   #fcfcfb;
+    --surface-2:   #f5f6f2;
+    --page:        #f9f9f7;
+    --ink-1:       #0b0b0b;
+    --ink-2:       #52514e;
+    --ink-mut:     #898781;
+    --grid:        #e6e5de;
+    --border:      rgba(11,11,11,0.10);
+    --c-hero:      #0a7d2c;
+    --c-hero-fill: #0a7d2c;
+    --c-hero-area: rgba(10,125,44,0.14);
+    --c-personal:  #2a78d6;
+    --c-team:      #9a9992;
+    --c-good:      #0a7d2c;
+    --c-bad:       #c8393a;
+    --z1: #cfe1fb; --z2: #9ec5f4; --z3: #5598e7; --z4: #2a78d6; --z5: #12437f;
+    --card-shadow: 0 1px 2px rgba(11,11,11,0.05), 0 1px 8px rgba(11,11,11,0.04);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --surface-1: #191a17;
+      --surface-2: #202220;
+      --page:      #101110;
+      --ink-1:     #f5f5f2;
+      --ink-2:     #c3c2b7;
+      --ink-mut:   #8f8e87;
+      --grid:      #2c2c2a;
+      --border:    rgba(255,255,255,0.10);
+      --c-hero:      #3ddc7a;
+      --c-hero-fill: #3ddc7a;
+      --c-hero-area: rgba(61,220,122,0.16);
+      --c-personal:  #6fa8ec;
+      --c-team:      #8b8a83;
+      --c-good:      #3ddc7a;
+      --c-bad:       #e8706f;
+      --z1: #16324f; --z2: #1c4c85; --z3: #2568b8; --z4: #4a92e6; --z5: #9ec5f4;
+      --card-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 1px 10px rgba(0,0,0,0.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1: #191a17; --surface-2: #202220; --page: #101110;
+    --ink-1: #f5f5f2; --ink-2: #c3c2b7; --ink-mut: #8f8e87; --grid: #2c2c2a;
+    --border: rgba(255,255,255,0.10);
+    --c-hero: #3ddc7a; --c-hero-fill: #3ddc7a; --c-hero-area: rgba(61,220,122,0.16);
+    --c-personal: #6fa8ec; --c-team: #8b8a83; --c-good: #3ddc7a; --c-bad: #e8706f;
+    --z1: #16324f; --z2: #1c4c85; --z3: #2568b8; --z4: #4a92e6; --z5: #9ec5f4;
+    --card-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 1px 10px rgba(0,0,0,0.25);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink-1);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 20px 64px; }
+
+  /* Header */
+  .hero {
+    background: linear-gradient(135deg, var(--c-hero) 0%, #0a5e22 100%);
+    border-radius: 18px; padding: 28px 30px; color: #fff; margin-bottom: 22px;
+    box-shadow: var(--card-shadow);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .hero { background: linear-gradient(135deg, #1a6b3a 0%, #0d3d20 100%); }
+  }
+  :root[data-theme="dark"] .hero { background: linear-gradient(135deg, #1a6b3a 0%, #0d3d20 100%); }
+  .hero-top { display:flex; justify-content: space-between; align-items:flex-start; flex-wrap: wrap; gap: 14px;}
+  .hero h1 { margin: 0 0 4px; font-size: 26px; font-weight: 800; letter-spacing: -0.01em; }
+  .hero .subtitle { opacity: 0.92; font-size: 14px; margin: 0; }
+  .hero-meta { display:flex; gap: 22px; flex-wrap: wrap; margin-top: 16px; }
+  .hero-meta div { font-size: 12.5px; opacity: 0.85; }
+  .hero-meta b { display:block; font-size: 15px; font-weight: 700; opacity: 1; }
+  .hero-badge {
+    background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px; padding: 7px 14px; font-size: 12.5px; font-weight: 700;
+    white-space: nowrap;
+  }
+
+  h2.section-title {
+    font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--ink-2); margin: 34px 0 14px; font-weight: 700;
+  }
+  .section-note { font-size: 12.5px; color: var(--ink-mut); margin: -10px 0 16px; }
+
+  /* KPI cards */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); gap: 12px; }
+  .kpi-card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px; box-shadow: var(--card-shadow);
+  }
+  .kpi-top { display:flex; align-items:center; gap:6px; margin-bottom: 8px; }
+  .kpi-icon { font-size: 12px; color: var(--c-hero); }
+  .kpi-label { font-size: 12px; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.03em;}
+  .kpi-value { font-size: 28px; font-weight: 800; line-height:1.1; font-variant-numeric: tabular-nums; }
+  .kpi-unit { font-size: 13px; font-weight: 600; color: var(--ink-mut); margin-left: 3px;}
+  .kpi-sub { font-size: 11.5px; color: var(--ink-mut); margin-top: 2px; }
+  .kpi-note { font-size: 11.5px; color: var(--ink-2); margin-top: 4px; }
+  .kpi-badge {
+    display:inline-block; margin-top: 8px; font-size: 10.5px; font-weight: 800;
+    background: var(--surface-2); color: var(--ink-2); padding: 3px 9px; border-radius: 999px;
+    letter-spacing: 0.03em;
+  }
+  .kpi-badge .of { font-weight: 500; color: var(--ink-mut); }
+  .badge-strength { background: var(--c-hero-area); color: var(--c-hero); }
+  .kpi-deltas { margin-top: 10px; display:flex; flex-direction:column; gap: 3px; }
+  .kpi-delta { font-size: 11.5px; font-weight: 600; display:flex; align-items:center; gap:4px; }
+  .kpi-delta .arrow { font-size: 9px; }
+  .delta-up { color: var(--c-good); }
+  .delta-down { color: var(--c-bad); }
+
+  /* Comparison small multiples */
+  .compare-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: 12px; }
+  .compare-card { background: var(--surface-1); border:1px solid var(--border); border-radius:14px; padding:16px; box-shadow: var(--card-shadow); }
+  .compare-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+  .compare-unit { font-weight: 500; color: var(--ink-mut); font-size: 11.5px; }
+  .cbar-group { display:flex; gap: 10px; align-items:flex-end; height: 150px; }
+  .cbar-col { flex:1; display:flex; flex-direction:column; align-items:center; height:100%; }
+  .cbar-track { flex:1; width:100%; display:flex; align-items:flex-end; }
+  .cbar-fill { width:100%; border-radius: 4px 4px 0 0; position:relative; min-height:2px; display:flex; justify-content:center;}
+  .cbar-val { position:absolute; top:-18px; font-size:11px; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap; color: var(--ink-1);}
+  .bar-latest { background: var(--c-hero-fill); }
+  .bar-personal { background: var(--c-personal); }
+  .bar-team { background: var(--c-team); }
+  .cbar-label { font-size: 10.5px; font-weight:700; color: var(--ink-2); margin-top:8px; }
+  .cbar-sublabel { font-size: 9.5px; color: var(--ink-mut); }
+  .legend-row { display:flex; gap:18px; flex-wrap:wrap; margin: 4px 0 16px; font-size:12px; color: var(--ink-2);}
+  .legend-item { display:flex; align-items:center; gap:6px; }
+  .legend-swatch { width:14px; height:14px; border-radius:4px; display:inline-block; }
+  .legend-line { width:18px; height:0; border-top:3px solid; display:inline-block; }
+
+  /* Trend charts */
+  .trend-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(420px,1fr)); gap: 14px; }
+  .trend-card { background: var(--surface-1); border:1px solid var(--border); border-radius:14px; padding:16px; box-shadow: var(--card-shadow); }
+  .trend-title { font-size:13px; font-weight:700; margin-bottom:6px; }
+  .trend-svg { width:100%; height:auto; overflow: visible; }
+  .grid-line { stroke: var(--grid); stroke-width:1; }
+  .axis-label { fill: var(--ink-mut); font-size:9.5px; font-variant-numeric: tabular-nums; }
+  .axis-label-x { fill: var(--ink-mut); font-size:9px; }
+  .match-x { fill: var(--c-bad); font-weight:700; }
+  .match-tag { fill: var(--c-bad); font-size:7.5px; font-weight:800; letter-spacing:0.04em; }
+  .area-fill { fill: var(--c-hero-area); stroke:none; }
+  .line-hero { fill:none; stroke: var(--c-hero); stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; }
+  .line-team { fill:none; stroke: var(--c-team); stroke-width:1.75; stroke-dasharray:4 3; }
+  .pt-normal { fill: var(--c-hero); stroke: var(--surface-1); stroke-width:1.5; }
+  .pt-best { fill: var(--c-hero); stroke: var(--surface-1); stroke-width:2; }
+  .pt-match { fill: var(--c-bad); stroke: var(--surface-1); stroke-width:1.5; }
+  .pt-team { fill: var(--c-team); stroke: var(--surface-1); stroke-width:1; }
+  .pt-label-best { fill: var(--c-hero); font-size:10px; font-weight:800; }
+
+  /* Speed zone */
+  .zone-card { background: var(--surface-1); border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow: var(--card-shadow); }
+  .zbar { display:flex; width:100%; height:34px; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+  .zseg { height:100%; }
+  .z-c1 { background: var(--z1); } .z-c2 { background: var(--z2); } .z-c3 { background: var(--z3); }
+  .z-c4 { background: var(--z4); } .z-c5 { background: var(--z5); }
+  table.zone-table { width:100%; border-collapse: collapse; margin-top:18px; font-size:13px; }
+  table.zone-table th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-mut); padding:6px 10px; border-bottom:1px solid var(--border); }
+  table.zone-table td { padding:8px 10px; border-bottom:1px solid var(--border); }
+  .swatch { width:11px; height:11px; border-radius:3px; display:inline-block; margin-right:8px; vertical-align:middle; }
+  .num { font-variant-numeric: tabular-nums; text-align:right; }
+  .mut { color: var(--ink-mut); }
+
+  /* Data table */
+  .table-scroll { overflow-x:auto; border-radius:14px; border:1px solid var(--border); box-shadow: var(--card-shadow); background:var(--surface-1); }
+  table.data-table { border-collapse: collapse; width:100%; min-width:1400px; font-size:12px; }
+  table.data-table th, table.data-table td { padding:7px 9px; white-space:nowrap; }
+  table.data-table thead tr:first-child th {
+    background: var(--surface-2); border-bottom:1px solid var(--border); font-size:10.5px;
+    text-transform:uppercase; letter-spacing:0.02em; color:var(--ink-2); text-align:center; font-weight:700;
+    position:sticky; top:0;
+  }
+  table.data-table thead tr:last-child th {
+    background: var(--surface-2); border-bottom:2px solid var(--border); font-size:10px; color:var(--ink-mut); font-weight:600;
+    position:sticky; top:26px;
+  }
+  table.data-table th.sub { text-align:right; padding-right:9px; }
+  table.data-table td { border-bottom:1px solid var(--border); font-variant-numeric:tabular-nums; }
+  table.data-table td.date-cell { font-weight:700; position:sticky; left:0; background:var(--surface-1); border-right:1px solid var(--border); }
+  .tag-match { background: var(--c-bad); color:#fff; font-size:8.5px; font-weight:800; padding:2px 6px; border-radius:5px; margin-left:4px; letter-spacing:0.03em; }
+
+  /* Insight box */
+  .insight-box {
+    background: var(--c-hero-area); border:1px solid var(--c-hero); border-left-width:4px;
+    border-radius: 12px; padding: 20px 22px; margin-top: 18px;
+  }
+  .insight-box h3 { margin:0 0 10px; font-size:15px; color: var(--c-hero); }
+  .insight-box p { margin: 0 0 10px; font-size:13.5px; line-height:1.6; color: var(--ink-1); }
+  .insight-box p:last-child { margin-bottom:0; }
+  .insight-box ul { margin: 8px 0; padding-left: 20px; font-size:13.5px; line-height:1.6; }
+
+  footer { text-align:center; font-size:11.5px; color:var(--ink-mut); margin-top: 40px; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 21px; }
+    .kpi-value { font-size: 24px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <h1>Itay Gussarsky — GPS Analytics</h1>
+        <p class="subtitle">Team reports list him as <b>"Gosa"</b> (short for Gussarsky) · Winger / Attacking Midfielder · Born 09 Oct 2011 (14y 10m) · 1.77 m · 57 kg</p>
+      </div>
+      <div class="hero-badge">Peak top speed: 30.8 km/h &nbsp;•&nbsp; 2 sessions ≥ 30 km/h</div>
+    </div>
+    <div class="hero-meta">
+      <div><b>10</b> sessions analyzed</div>
+      <div><b>30 Jul – 19 Aug 2026</b> date range</div>
+      <div><b>9 training + 1 match</b> session mix</div>
+      <div><b>19–23</b> squad size range</div>
+    </div>
+  </div>
+
+  <h2 class="section-title">1 &middot; Latest-Session KPIs</h2>
+  <div class="section-note">19 Aug 2026 session vs. rank in squad, vs. team average, and vs. Itay's own 10-session average. Top-speed card leads with his career-best peak, not a single session.</div>
+  <div class="kpi-grid">
+    
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-icon">📏</span>
+        <span class="kpi-label">Total Distance</span>
+      </div>
+      <div class="kpi-value">5,908<span class="kpi-unit">m</span></div>
+      <div class="kpi-sub">Latest session · 19 Aug</div>
+      <div class="kpi-badge">RANK 1 <span class="of">of 19</span></div>
+      
+      <div class="kpi-deltas"><div class="kpi-delta delta-up"><span class="arrow">▲</span> 21% vs team avg</div><div class="kpi-delta delta-up"><span class="arrow">▲</span> 0% vs personal avg</div></div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-icon">⚡</span>
+        <span class="kpi-label">Distance / Min</span>
+      </div>
+      <div class="kpi-value">68.4<span class="kpi-unit">m/min</span></div>
+      <div class="kpi-sub">Latest session · 19 Aug</div>
+      <div class="kpi-badge">RANK 1 <span class="of">of 19</span></div>
+      
+      <div class="kpi-deltas"><div class="kpi-delta delta-up"><span class="arrow">▲</span> 21% vs team avg</div><div class="kpi-delta delta-down"><span class="arrow">▼</span> 5% vs personal avg</div></div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-icon">💨</span>
+        <span class="kpi-label">Max Speed</span>
+      </div>
+      <div class="kpi-value">30.8<span class="kpi-unit">km/h</span></div>
+      <div class="kpi-sub">Peak (all sessions) · hit on 18 Aug</div>
+      <div class="kpi-badge badge-strength">TOP-SPEED STRENGTH — 2 sessions ≥30 km/h</div>
+      <div class="kpi-note">Latest (19 Aug): 27.2 km/h · rank 3 of 19</div>
+      <div class="kpi-deltas"><div class="kpi-delta delta-up"><span class="arrow">▲</span> 10% vs team avg (latest)</div><div class="kpi-delta delta-down"><span class="arrow">▼</span> 3% vs personal avg</div></div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-icon">🚀</span>
+        <span class="kpi-label">Sprint Distance (25+ km/h)</span>
+      </div>
+      <div class="kpi-value">44<span class="kpi-unit">m</span></div>
+      <div class="kpi-sub">Latest session · 19 Aug</div>
+      <div class="kpi-badge">RANK 1 <span class="of">of 19</span></div>
+      
+      <div class="kpi-deltas"><div class="kpi-delta delta-up"><span class="arrow">▲</span> 368% vs team avg</div><div class="kpi-delta delta-down"><span class="arrow">▼</span> 15% vs personal avg</div></div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-icon">▲</span>
+        <span class="kpi-label">Accelerations</span>
+      </div>
+      <div class="kpi-value">26<span class="kpi-unit"></span></div>
+      <div class="kpi-sub">Latest session · 19 Aug</div>
+      <div class="kpi-badge">RANK 7 <span class="of">of 19</span></div>
+      
+      <div class="kpi-deltas"><div class="kpi-delta delta-up"><span class="arrow">▲</span> 15% vs team avg</div><div class="kpi-delta delta-up"><span class="arrow">▲</span> 17% vs personal avg</div></div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-icon">▼</span>
+        <span class="kpi-label">Decelerations</span>
+      </div>
+      <div class="kpi-value">32<span class="kpi-unit"></span></div>
+      <div class="kpi-sub">Latest session · 19 Aug</div>
+      <div class="kpi-badge">RANK 2 <span class="of">of 19</span></div>
+      
+      <div class="kpi-deltas"><div class="kpi-delta delta-up"><span class="arrow">▲</span> 76% vs team avg</div><div class="kpi-delta delta-up"><span class="arrow">▲</span> 27% vs personal avg</div></div>
+    </div>
+  </div>
+
+  <h2 class="section-title">2 &middot; Latest vs Personal Avg vs Team Avg</h2>
+  <div class="legend-row">
+    <span class="legend-item"><span class="legend-swatch" style="background:var(--c-hero-fill)"></span>Latest (19 Aug)</span>
+    <span class="legend-item"><span class="legend-swatch" style="background:var(--c-personal)"></span>Personal Avg (10 sessions)</span>
+    <span class="legend-item"><span class="legend-swatch" style="background:var(--c-team)"></span>Team Avg (that session's squad)</span>
+  </div>
+  <div class="compare-grid">
+    
+    <div class="compare-card">
+      <div class="compare-title">Total Distance <span class="compare-unit">(m)</span></div>
+      <div class="cbar-group"><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-latest" style="height:89.3%"><span class="cbar-val">5,908</span></div></div>
+          <div class="cbar-label">Latest</div>
+          <div class="cbar-sublabel">19 Aug</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-personal" style="height:89.2%"><span class="cbar-val">5,902</span></div></div>
+          <div class="cbar-label">Personal Avg</div>
+          <div class="cbar-sublabel">10-session</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-team" style="height:73.9%"><span class="cbar-val">4,892</span></div></div>
+          <div class="cbar-label">Team Avg</div>
+          <div class="cbar-sublabel">squad</div>
+        </div></div>
+    </div>
+
+    <div class="compare-card">
+      <div class="compare-title">Distance / Min <span class="compare-unit">(m/min)</span></div>
+      <div class="cbar-group"><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-latest" style="height:84.7%"><span class="cbar-val">68.4</span></div></div>
+          <div class="cbar-label">Latest</div>
+          <div class="cbar-sublabel">19 Aug</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-personal" style="height:89.3%"><span class="cbar-val">72.1</span></div></div>
+          <div class="cbar-label">Personal Avg</div>
+          <div class="cbar-sublabel">10-session</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-team" style="height:70.2%"><span class="cbar-val">56.7</span></div></div>
+          <div class="cbar-label">Team Avg</div>
+          <div class="cbar-sublabel">squad</div>
+        </div></div>
+    </div>
+
+    <div class="compare-card">
+      <div class="compare-title">Max Speed <span class="compare-unit">(km/h)</span></div>
+      <div class="cbar-group"><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-latest" style="height:87.0%"><span class="cbar-val">27.2</span></div></div>
+          <div class="cbar-label">Latest</div>
+          <div class="cbar-sublabel">19 Aug</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-personal" style="height:89.3%"><span class="cbar-val">27.9</span></div></div>
+          <div class="cbar-label">Personal Avg</div>
+          <div class="cbar-sublabel">10-session</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-team" style="height:79.4%"><span class="cbar-val">24.8</span></div></div>
+          <div class="cbar-label">Team Avg</div>
+          <div class="cbar-sublabel">squad</div>
+        </div></div>
+    </div>
+
+    <div class="compare-card">
+      <div class="compare-title">Sprint Distance (25+ km/h) <span class="compare-unit">(m)</span></div>
+      <div class="cbar-group"><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-latest" style="height:75.7%"><span class="cbar-val">44</span></div></div>
+          <div class="cbar-label">Latest</div>
+          <div class="cbar-sublabel">19 Aug</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-personal" style="height:89.3%"><span class="cbar-val">52</span></div></div>
+          <div class="cbar-label">Personal Avg</div>
+          <div class="cbar-sublabel">10-session</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-team" style="height:16.2%"><span class="cbar-val">9</span></div></div>
+          <div class="cbar-label">Team Avg</div>
+          <div class="cbar-sublabel">squad</div>
+        </div></div>
+    </div>
+
+    <div class="compare-card">
+      <div class="compare-title">Accelerations <span class="compare-unit">(count)</span></div>
+      <div class="cbar-group"><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-latest" style="height:89.3%"><span class="cbar-val">26</span></div></div>
+          <div class="cbar-label">Latest</div>
+          <div class="cbar-sublabel">19 Aug</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-personal" style="height:76.6%"><span class="cbar-val">22</span></div></div>
+          <div class="cbar-label">Personal Avg</div>
+          <div class="cbar-sublabel">10-session</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-team" style="height:78.0%"><span class="cbar-val">23</span></div></div>
+          <div class="cbar-label">Team Avg</div>
+          <div class="cbar-sublabel">squad</div>
+        </div></div>
+    </div>
+
+    <div class="compare-card">
+      <div class="compare-title">Decelerations <span class="compare-unit">(count)</span></div>
+      <div class="cbar-group"><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-latest" style="height:89.3%"><span class="cbar-val">32</span></div></div>
+          <div class="cbar-label">Latest</div>
+          <div class="cbar-sublabel">19 Aug</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-personal" style="height:70.0%"><span class="cbar-val">25</span></div></div>
+          <div class="cbar-label">Personal Avg</div>
+          <div class="cbar-sublabel">10-session</div>
+        </div><div class="cbar-col">
+          <div class="cbar-track"><div class="cbar-fill bar-team" style="height:50.8%"><span class="cbar-val">18</span></div></div>
+          <div class="cbar-label">Team Avg</div>
+          <div class="cbar-sublabel">squad</div>
+        </div></div>
+    </div>
+  </div>
+
+  <h2 class="section-title">3 &middot; Week-by-Week Trend</h2>
+  <div class="section-note">All 10 sessions in order. The 07 Aug match is flagged in red — short high-intensity substitute appearance, different context from training load. PB = personal best marked on each chart.</div>
+  <div class="legend-row">
+    <span class="legend-item"><span class="legend-line" style="border-color:var(--c-hero)"></span>Itay (Gosa)</span>
+    <span class="legend-item"><span class="legend-line" style="border-color:var(--c-team); border-top-style:dashed;"></span>Team Avg</span>
+  </div>
+  <div class="trend-grid">
+    
+    <div class="trend-card">
+      <div class="trend-title">Total Distance <span class="compare-unit">(m)</span></div>
+      <svg viewBox="0 0 720 250" class="trend-svg" role="img" aria-label="Total Distance trend across sessions">
+        <line x1="54" y1="216.0" x2="704" y2="216.0" class="grid-line"/><text x="46" y="220.0" class="axis-label" text-anchor="end">2,060</text><line x1="54" y1="167.0" x2="704" y2="167.0" class="grid-line"/><text x="46" y="171.0" class="axis-label" text-anchor="end">3,593</text><line x1="54" y1="118.0" x2="704" y2="118.0" class="grid-line"/><text x="46" y="122.0" class="axis-label" text-anchor="end">5,126</text><line x1="54" y1="69.0" x2="704" y2="69.0" class="grid-line"/><text x="46" y="73.0" class="axis-label" text-anchor="end">6,660</text><line x1="54" y1="20.0" x2="704" y2="20.0" class="grid-line"/><text x="46" y="24.0" class="axis-label" text-anchor="end">8,193</text>
+        <path d="M54.0,216.0 L54.0,72.0 L126.2,94.9 L198.4,100.9 L270.7,193.4 L342.9,75.0 L415.1,117.4 L487.3,42.6 L559.6,54.4 L631.8,88.4 L704.0,93.0 L704.0,216.0 Z" class="area-fill"/>
+        <polyline points="54.0,74.5 126.2,114.0 198.4,120.1 270.7,138.7 342.9,103.2 415.1,138.8 487.3,78.9 559.6,89.2 631.8,93.3 704.0,125.5" class="line-team"/>
+        <polyline points="54.0,72.0 126.2,94.9 198.4,100.9 270.7,193.4 342.9,75.0 415.1,117.4 487.3,42.6 559.6,54.4 631.8,88.4 704.0,93.0" class="line-hero"/>
+        <circle cx="54.0" cy="72.0" r="4" class="pt-normal"><title>30 Jul (Training): 6,567 m</title></circle><circle cx="126.2" cy="94.9" r="4" class="pt-normal"><title>4 Aug (Training): 5,849 m</title></circle><circle cx="198.4" cy="100.9" r="4" class="pt-normal"><title>5 Aug (Training): 5,660 m</title></circle><circle cx="270.7" cy="193.4" r="4" class="pt-match"><title>7 Aug (Match): 2,768 m</title></circle><circle cx="342.9" cy="75.0" r="4" class="pt-normal"><title>9 Aug (Training): 6,471 m</title></circle><circle cx="415.1" cy="117.4" r="4" class="pt-normal"><title>10 Aug (Training): 5,146 m</title></circle><circle cx="487.3" cy="42.6" r="6" class="pt-best"><title>11 Aug (Training): 7,485 m</title></circle><text x="487.3" y="30.6" class="pt-label-best" text-anchor="middle">PB 7,485</text><circle cx="559.6" cy="54.4" r="4" class="pt-normal"><title>12 Aug (Training): 7,116 m</title></circle><circle cx="631.8" cy="88.4" r="4" class="pt-normal"><title>18 Aug (Training): 6,053 m</title></circle><circle cx="704.0" cy="93.0" r="4" class="pt-normal"><title>19 Aug (Training): 5,908 m</title></circle><circle cx="54.0" cy="74.5" r="3" class="pt-team"><title>30 Jul team avg: 6,487 m</title></circle><circle cx="126.2" cy="114.0" r="3" class="pt-team"><title>4 Aug team avg: 5,252 m</title></circle><circle cx="198.4" cy="120.1" r="3" class="pt-team"><title>5 Aug team avg: 5,061 m</title></circle><circle cx="270.7" cy="138.7" r="3" class="pt-team"><title>7 Aug team avg: 4,479 m</title></circle><circle cx="342.9" cy="103.2" r="3" class="pt-team"><title>9 Aug team avg: 5,588 m</title></circle><circle cx="415.1" cy="138.8" r="3" class="pt-team"><title>10 Aug team avg: 4,475 m</title></circle><circle cx="487.3" cy="78.9" r="3" class="pt-team"><title>11 Aug team avg: 6,348 m</title></circle><circle cx="559.6" cy="89.2" r="3" class="pt-team"><title>12 Aug team avg: 6,029 m</title></circle><circle cx="631.8" cy="93.3" r="3" class="pt-team"><title>18 Aug team avg: 5,898 m</title></circle><circle cx="704.0" cy="125.5" r="3" class="pt-team"><title>19 Aug team avg: 4,892 m</title></circle>
+        <text x="54.0" y="240" class="axis-label-x" text-anchor="middle">30 Jul</text><text x="126.2" y="240" class="axis-label-x" text-anchor="middle">4 Aug</text><text x="198.4" y="240" class="axis-label-x" text-anchor="middle">5 Aug</text><text x="270.7" y="240" class="axis-label-x match-x" text-anchor="middle">7 Aug</text><text x="270.7" y="228" class="axis-label-x match-tag" text-anchor="middle">MATCH</text><text x="342.9" y="240" class="axis-label-x" text-anchor="middle">9 Aug</text><text x="415.1" y="240" class="axis-label-x" text-anchor="middle">10 Aug</text><text x="487.3" y="240" class="axis-label-x" text-anchor="middle">11 Aug</text><text x="559.6" y="240" class="axis-label-x" text-anchor="middle">12 Aug</text><text x="631.8" y="240" class="axis-label-x" text-anchor="middle">18 Aug</text><text x="704.0" y="240" class="axis-label-x" text-anchor="middle">19 Aug</text>
+      </svg>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-title">Distance / Min <span class="compare-unit">(m/min)</span></div>
+      <svg viewBox="0 0 720 250" class="trend-svg" role="img" aria-label="Distance / Min trend across sessions">
+        <line x1="54" y1="216.0" x2="704" y2="216.0" class="grid-line"/><text x="46" y="220.0" class="axis-label" text-anchor="end">39.5</text><line x1="54" y1="167.0" x2="704" y2="167.0" class="grid-line"/><text x="46" y="171.0" class="axis-label" text-anchor="end">58.4</text><line x1="54" y1="118.0" x2="704" y2="118.0" class="grid-line"/><text x="46" y="122.0" class="axis-label" text-anchor="end">77.2</text><line x1="54" y1="69.0" x2="704" y2="69.0" class="grid-line"/><text x="46" y="73.0" class="axis-label" text-anchor="end">96.1</text><line x1="54" y1="20.0" x2="704" y2="20.0" class="grid-line"/><text x="46" y="24.0" class="axis-label" text-anchor="end">114.9</text>
+        <path d="M54.0,216.0 L54.0,134.9 L126.2,157.5 L198.4,153.9 L270.7,42.6 L342.9,130.0 L415.1,174.4 L487.3,103.4 L559.6,122.9 L631.8,151.8 L704.0,140.9 L704.0,216.0 Z" class="area-fill"/>
+        <polyline points="54.0,139.1 126.2,173.6 198.4,171.3 270.7,70.4 342.9,154.9 415.1,193.4 487.3,135.2 559.6,152.8 631.8,155.7 704.0,171.3" class="line-team"/>
+        <polyline points="54.0,134.9 126.2,157.5 198.4,153.9 270.7,42.6 342.9,130.0 415.1,174.4 487.3,103.4 559.6,122.9 631.8,151.8 704.0,140.9" class="line-hero"/>
+        <circle cx="54.0" cy="134.9" r="4" class="pt-normal"><title>30 Jul (Training): 70.7 m/min</title></circle><circle cx="126.2" cy="157.5" r="4" class="pt-normal"><title>4 Aug (Training): 62.0 m/min</title></circle><circle cx="198.4" cy="153.9" r="4" class="pt-normal"><title>5 Aug (Training): 63.4 m/min</title></circle><circle cx="270.7" cy="42.6" r="6" class="pt-best"><title>7 Aug (Match): 106.2 m/min</title></circle><text x="270.7" y="30.6" class="pt-label-best" text-anchor="middle">PB 106.2</text><circle cx="342.9" cy="130.0" r="4" class="pt-normal"><title>9 Aug (Training): 72.6 m/min</title></circle><circle cx="415.1" cy="174.4" r="4" class="pt-normal"><title>10 Aug (Training): 55.5 m/min</title></circle><circle cx="487.3" cy="103.4" r="4" class="pt-normal"><title>11 Aug (Training): 82.8 m/min</title></circle><circle cx="559.6" cy="122.9" r="4" class="pt-normal"><title>12 Aug (Training): 75.3 m/min</title></circle><circle cx="631.8" cy="151.8" r="4" class="pt-normal"><title>18 Aug (Training): 64.2 m/min</title></circle><circle cx="704.0" cy="140.9" r="4" class="pt-normal"><title>19 Aug (Training): 68.4 m/min</title></circle><circle cx="54.0" cy="139.1" r="3" class="pt-team"><title>30 Jul team avg: 69.1 m/min</title></circle><circle cx="126.2" cy="173.6" r="3" class="pt-team"><title>4 Aug team avg: 55.8 m/min</title></circle><circle cx="198.4" cy="171.3" r="3" class="pt-team"><title>5 Aug team avg: 56.7 m/min</title></circle><circle cx="270.7" cy="70.4" r="3" class="pt-team"><title>7 Aug team avg: 95.5 m/min</title></circle><circle cx="342.9" cy="154.9" r="3" class="pt-team"><title>9 Aug team avg: 63.0 m/min</title></circle><circle cx="415.1" cy="193.4" r="3" class="pt-team"><title>10 Aug team avg: 48.2 m/min</title></circle><circle cx="487.3" cy="135.2" r="3" class="pt-team"><title>11 Aug team avg: 70.6 m/min</title></circle><circle cx="559.6" cy="152.8" r="3" class="pt-team"><title>12 Aug team avg: 63.8 m/min</title></circle><circle cx="631.8" cy="155.7" r="3" class="pt-team"><title>18 Aug team avg: 62.7 m/min</title></circle><circle cx="704.0" cy="171.3" r="3" class="pt-team"><title>19 Aug team avg: 56.7 m/min</title></circle>
+        <text x="54.0" y="240" class="axis-label-x" text-anchor="middle">30 Jul</text><text x="126.2" y="240" class="axis-label-x" text-anchor="middle">4 Aug</text><text x="198.4" y="240" class="axis-label-x" text-anchor="middle">5 Aug</text><text x="270.7" y="240" class="axis-label-x match-x" text-anchor="middle">7 Aug</text><text x="270.7" y="228" class="axis-label-x match-tag" text-anchor="middle">MATCH</text><text x="342.9" y="240" class="axis-label-x" text-anchor="middle">9 Aug</text><text x="415.1" y="240" class="axis-label-x" text-anchor="middle">10 Aug</text><text x="487.3" y="240" class="axis-label-x" text-anchor="middle">11 Aug</text><text x="559.6" y="240" class="axis-label-x" text-anchor="middle">12 Aug</text><text x="631.8" y="240" class="axis-label-x" text-anchor="middle">18 Aug</text><text x="704.0" y="240" class="axis-label-x" text-anchor="middle">19 Aug</text>
+      </svg>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-title">Max Speed <span class="compare-unit">(km/h)</span></div>
+      <svg viewBox="0 0 720 250" class="trend-svg" role="img" aria-label="Max Speed trend across sessions">
+        <line x1="54" y1="216.0" x2="704" y2="216.0" class="grid-line"/><text x="46" y="220.0" class="axis-label" text-anchor="end">20.2</text><line x1="54" y1="167.0" x2="704" y2="167.0" class="grid-line"/><text x="46" y="171.0" class="axis-label" text-anchor="end">23.2</text><line x1="54" y1="118.0" x2="704" y2="118.0" class="grid-line"/><text x="46" y="122.0" class="axis-label" text-anchor="end">26.2</text><line x1="54" y1="69.0" x2="704" y2="69.0" class="grid-line"/><text x="46" y="73.0" class="axis-label" text-anchor="end">29.3</text><line x1="54" y1="20.0" x2="704" y2="20.0" class="grid-line"/><text x="46" y="24.0" class="axis-label" text-anchor="end">32.3</text>
+        <path d="M54.0,216.0 L54.0,75.0 L126.2,138.3 L198.4,79.9 L270.7,47.5 L342.9,76.7 L415.1,193.4 L487.3,91.3 L559.6,71.8 L631.8,44.2 L704.0,102.6 L704.0,216.0 Z" class="area-fill"/>
+        <polyline points="54.0,110.7 126.2,136.6 198.4,123.7 270.7,89.6 342.9,117.2 415.1,165.8 487.3,86.4 559.6,70.2 631.8,42.6 704.0,141.5" class="line-team"/>
+        <polyline points="54.0,75.0 126.2,138.3 198.4,79.9 270.7,47.5 342.9,76.7 415.1,193.4 487.3,91.3 559.6,71.8 631.8,44.2 704.0,102.6" class="line-hero"/>
+        <circle cx="54.0" cy="75.0" r="4" class="pt-normal"><title>30 Jul (Training): 28.9 km/h</title></circle><circle cx="126.2" cy="138.3" r="4" class="pt-normal"><title>4 Aug (Training): 25.0 km/h</title></circle><circle cx="198.4" cy="79.9" r="4" class="pt-normal"><title>5 Aug (Training): 28.6 km/h</title></circle><circle cx="270.7" cy="47.5" r="4" class="pt-match"><title>7 Aug (Match): 30.6 km/h</title></circle><circle cx="342.9" cy="76.7" r="4" class="pt-normal"><title>9 Aug (Training): 28.8 km/h</title></circle><circle cx="415.1" cy="193.4" r="4" class="pt-normal"><title>10 Aug (Training): 21.6 km/h</title></circle><circle cx="487.3" cy="91.3" r="4" class="pt-normal"><title>11 Aug (Training): 27.9 km/h</title></circle><circle cx="559.6" cy="71.8" r="4" class="pt-normal"><title>12 Aug (Training): 29.1 km/h</title></circle><circle cx="631.8" cy="44.2" r="6" class="pt-best"><title>18 Aug (Training): 30.8 km/h</title></circle><text x="631.8" y="32.2" class="pt-label-best" text-anchor="middle">PB 30.8</text><circle cx="704.0" cy="102.6" r="4" class="pt-normal"><title>19 Aug (Training): 27.2 km/h</title></circle><circle cx="54.0" cy="110.7" r="3" class="pt-team"><title>30 Jul team avg: 26.7 km/h</title></circle><circle cx="126.2" cy="136.6" r="3" class="pt-team"><title>4 Aug team avg: 25.1 km/h</title></circle><circle cx="198.4" cy="123.7" r="3" class="pt-team"><title>5 Aug team avg: 25.9 km/h</title></circle><circle cx="270.7" cy="89.6" r="3" class="pt-team"><title>7 Aug team avg: 28.0 km/h</title></circle><circle cx="342.9" cy="117.2" r="3" class="pt-team"><title>9 Aug team avg: 26.3 km/h</title></circle><circle cx="415.1" cy="165.8" r="3" class="pt-team"><title>10 Aug team avg: 23.3 km/h</title></circle><circle cx="487.3" cy="86.4" r="3" class="pt-team"><title>11 Aug team avg: 28.2 km/h</title></circle><circle cx="559.6" cy="70.2" r="3" class="pt-team"><title>12 Aug team avg: 29.2 km/h</title></circle><circle cx="631.8" cy="42.6" r="3" class="pt-team"><title>18 Aug team avg: 30.9 km/h</title></circle><circle cx="704.0" cy="141.5" r="3" class="pt-team"><title>19 Aug team avg: 24.8 km/h</title></circle>
+        <text x="54.0" y="240" class="axis-label-x" text-anchor="middle">30 Jul</text><text x="126.2" y="240" class="axis-label-x" text-anchor="middle">4 Aug</text><text x="198.4" y="240" class="axis-label-x" text-anchor="middle">5 Aug</text><text x="270.7" y="240" class="axis-label-x match-x" text-anchor="middle">7 Aug</text><text x="270.7" y="228" class="axis-label-x match-tag" text-anchor="middle">MATCH</text><text x="342.9" y="240" class="axis-label-x" text-anchor="middle">9 Aug</text><text x="415.1" y="240" class="axis-label-x" text-anchor="middle">10 Aug</text><text x="487.3" y="240" class="axis-label-x" text-anchor="middle">11 Aug</text><text x="559.6" y="240" class="axis-label-x" text-anchor="middle">12 Aug</text><text x="631.8" y="240" class="axis-label-x" text-anchor="middle">18 Aug</text><text x="704.0" y="240" class="axis-label-x" text-anchor="middle">19 Aug</text>
+      </svg>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-title">Sprint Distance (25+ km/h) <span class="compare-unit">(m)</span></div>
+      <svg viewBox="0 0 720 250" class="trend-svg" role="img" aria-label="Sprint Distance (25+ km/h) trend across sessions">
+        <line x1="54" y1="216.0" x2="704" y2="216.0" class="grid-line"/><text x="46" y="220.0" class="axis-label" text-anchor="end">-29</text><line x1="54" y1="167.0" x2="704" y2="167.0" class="grid-line"/><text x="46" y="171.0" class="axis-label" text-anchor="end">34</text><line x1="54" y1="118.0" x2="704" y2="118.0" class="grid-line"/><text x="46" y="122.0" class="axis-label" text-anchor="end">98</text><line x1="54" y1="69.0" x2="704" y2="69.0" class="grid-line"/><text x="46" y="73.0" class="axis-label" text-anchor="end">161</text><line x1="54" y1="20.0" x2="704" y2="20.0" class="grid-line"/><text x="46" y="24.0" class="axis-label" text-anchor="end">224</text>
+        <path d="M54.0,216.0 L54.0,160.1 L126.2,192.6 L198.4,181.0 L270.7,147.0 L342.9,177.9 L415.1,193.4 L487.3,153.2 L559.6,125.3 L631.8,42.6 L704.0,159.4 L704.0,216.0 Z" class="area-fill"/>
+        <polyline points="54.0,175.9 126.2,184.8 198.4,180.5 270.7,164.5 342.9,185.2 415.1,193.0 487.3,147.6 559.6,117.8 631.8,60.6 704.0,186.1" class="line-team"/>
+        <polyline points="54.0,160.1 126.2,192.6 198.4,181.0 270.7,147.0 342.9,177.9 415.1,193.4 487.3,153.2 559.6,125.3 631.8,42.6 704.0,159.4" class="line-hero"/>
+        <circle cx="54.0" cy="160.1" r="4" class="pt-normal"><title>30 Jul (Training): 43 m</title></circle><circle cx="126.2" cy="192.6" r="4" class="pt-normal"><title>4 Aug (Training): 1 m</title></circle><circle cx="198.4" cy="181.0" r="4" class="pt-normal"><title>5 Aug (Training): 16 m</title></circle><circle cx="270.7" cy="147.0" r="4" class="pt-match"><title>7 Aug (Match): 60 m</title></circle><circle cx="342.9" cy="177.9" r="4" class="pt-normal"><title>9 Aug (Training): 20 m</title></circle><circle cx="415.1" cy="193.4" r="4" class="pt-normal"><title>10 Aug (Training): 0 m</title></circle><circle cx="487.3" cy="153.2" r="4" class="pt-normal"><title>11 Aug (Training): 52 m</title></circle><circle cx="559.6" cy="125.3" r="4" class="pt-normal"><title>12 Aug (Training): 88 m</title></circle><circle cx="631.8" cy="42.6" r="6" class="pt-best"><title>18 Aug (Training): 195 m</title></circle><text x="631.8" y="30.6" class="pt-label-best" text-anchor="middle">PB 195</text><circle cx="704.0" cy="159.4" r="4" class="pt-normal"><title>19 Aug (Training): 44 m</title></circle><circle cx="54.0" cy="175.9" r="3" class="pt-team"><title>30 Jul team avg: 23 m</title></circle><circle cx="126.2" cy="184.8" r="3" class="pt-team"><title>4 Aug team avg: 11 m</title></circle><circle cx="198.4" cy="180.5" r="3" class="pt-team"><title>5 Aug team avg: 17 m</title></circle><circle cx="270.7" cy="164.5" r="3" class="pt-team"><title>7 Aug team avg: 37 m</title></circle><circle cx="342.9" cy="185.2" r="3" class="pt-team"><title>9 Aug team avg: 11 m</title></circle><circle cx="415.1" cy="193.0" r="3" class="pt-team"><title>10 Aug team avg: 0 m</title></circle><circle cx="487.3" cy="147.6" r="3" class="pt-team"><title>11 Aug team avg: 59 m</title></circle><circle cx="559.6" cy="117.8" r="3" class="pt-team"><title>12 Aug team avg: 98 m</title></circle><circle cx="631.8" cy="60.6" r="3" class="pt-team"><title>18 Aug team avg: 172 m</title></circle><circle cx="704.0" cy="186.1" r="3" class="pt-team"><title>19 Aug team avg: 9 m</title></circle>
+        <text x="54.0" y="240" class="axis-label-x" text-anchor="middle">30 Jul</text><text x="126.2" y="240" class="axis-label-x" text-anchor="middle">4 Aug</text><text x="198.4" y="240" class="axis-label-x" text-anchor="middle">5 Aug</text><text x="270.7" y="240" class="axis-label-x match-x" text-anchor="middle">7 Aug</text><text x="270.7" y="228" class="axis-label-x match-tag" text-anchor="middle">MATCH</text><text x="342.9" y="240" class="axis-label-x" text-anchor="middle">9 Aug</text><text x="415.1" y="240" class="axis-label-x" text-anchor="middle">10 Aug</text><text x="487.3" y="240" class="axis-label-x" text-anchor="middle">11 Aug</text><text x="559.6" y="240" class="axis-label-x" text-anchor="middle">12 Aug</text><text x="631.8" y="240" class="axis-label-x" text-anchor="middle">18 Aug</text><text x="704.0" y="240" class="axis-label-x" text-anchor="middle">19 Aug</text>
+      </svg>
+    </div>
+  </div>
+
+  <h2 class="section-title">4 &middot; Speed-Zone Distribution &mdash; Latest Session (19 Aug)</h2>
+  <div class="zone-card">
+    <div class="zbar"><div class="zseg z-c1" style="width:57.18%"><title>0–7 km/h: 3379 m (57.2%)</title></div><div class="zseg z-c2" style="width:30.82%"><title>7–15 km/h: 1821 m (30.8%)</title></div><div class="zseg z-c3" style="width:8.51%"><title>15–20 km/h: 503 m (8.5%)</title></div><div class="zseg z-c4" style="width:2.74%"><title>20–25 km/h: 162 m (2.7%)</title></div><div class="zseg z-c5" style="width:0.74%"><title>25+ km/h: 44 m (0.7%)</title></div></div>
+    <table class="zone-table">
+      <thead><tr><th>Zone</th><th>Description</th><th class="num">Itay (m)</th><th class="num">Itay %</th><th class="num">Team avg (m)</th><th class="num">Team avg %</th></tr></thead>
+      <tbody><tr>
+      <td><span class="swatch z-c1"></span>0–7 km/h</td>
+      <td class="mut">Walk / jog</td>
+      <td class="num">3379 m</td>
+      <td class="num">57.2%</td>
+      <td class="num mut">2990 m</td>
+      <td class="num mut">61.1%</td>
+    </tr><tr>
+      <td><span class="swatch z-c2"></span>7–15 km/h</td>
+      <td class="mut">Low-med run</td>
+      <td class="num">1821 m</td>
+      <td class="num">30.8%</td>
+      <td class="num mut">1483 m</td>
+      <td class="num mut">30.3%</td>
+    </tr><tr>
+      <td><span class="swatch z-c3"></span>15–20 km/h</td>
+      <td class="mut">Med-high run</td>
+      <td class="num">503 m</td>
+      <td class="num">8.5%</td>
+      <td class="num mut">321 m</td>
+      <td class="num mut">6.6%</td>
+    </tr><tr>
+      <td><span class="swatch z-c4"></span>20–25 km/h</td>
+      <td class="mut">High speed</td>
+      <td class="num">162 m</td>
+      <td class="num">2.7%</td>
+      <td class="num mut">88 m</td>
+      <td class="num mut">1.8%</td>
+    </tr><tr>
+      <td><span class="swatch z-c5"></span>25+ km/h</td>
+      <td class="mut">Sprint</td>
+      <td class="num">44 m</td>
+      <td class="num">0.7%</td>
+      <td class="num mut">9 m</td>
+      <td class="num mut">0.2%</td>
+    </tr></tbody>
+    </table>
+  </div>
+
+  <h2 class="section-title">5 &middot; Full Data Table (Auditable)</h2>
+  <div class="section-note">Every extracted value: Itay's figure and that session's team average, for all 10 metrics across all 10 sessions. Scroll horizontally to see all columns.</div>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr><th rowspan="2" style="text-align:left;">Session</th><th rowspan="2">Squad</th><th colspan="2">Max speed (km/h)</th><th colspan="2">Total distance (m)</th><th colspan="2">Distance/min (m/min)</th><th colspan="2">Accelerations (#)</th><th colspan="2">Decelerations (#)</th><th colspan="2">Zone 0–7 (m)</th><th colspan="2">Zone 7–15 (m)</th><th colspan="2">Zone 15–20 (m)</th><th colspan="2">Zone 20–25 (m)</th><th colspan="2">Sprint 25+ (m)</th></tr>
+        <tr><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="date-cell">30 Jul</td><td class="num mut">21</td><td class="num">28.9</td><td class="num mut">26.7</td><td class="num">6,567</td><td class="num mut">6,487</td><td class="num">70.7</td><td class="num mut">69.1</td><td class="num"><span class="mut">n/a</span></td><td class="num mut"><span class="mut">n/a</span></td><td class="num"><span class="mut">n/a</span></td><td class="num mut"><span class="mut">n/a</span></td><td class="num"><span class="mut">n/a</span></td><td class="num mut"><span class="mut">n/a</span></td><td class="num"><span class="mut">n/a</span></td><td class="num mut"><span class="mut">n/a</span></td><td class="num"><span class="mut">n/a</span></td><td class="num mut"><span class="mut">n/a</span></td><td class="num">196</td><td class="num mut">157</td><td class="num">43</td><td class="num mut">23</td></tr><tr><td class="date-cell">4 Aug</td><td class="num mut">19</td><td class="num">25.0</td><td class="num mut">25.1</td><td class="num">5,849</td><td class="num mut">5,252</td><td class="num">62.0</td><td class="num mut">55.8</td><td class="num">22</td><td class="num mut">33</td><td class="num">32</td><td class="num mut">31</td><td class="num">3,519</td><td class="num mut">2,978</td><td class="num">1,368</td><td class="num mut">1,354</td><td class="num">668</td><td class="num mut">530</td><td class="num">293</td><td class="num mut">378</td><td class="num">1</td><td class="num mut">11</td></tr><tr><td class="date-cell">5 Aug</td><td class="num mut">21</td><td class="num">28.6</td><td class="num mut">25.9</td><td class="num">5,660</td><td class="num mut">5,061</td><td class="num">63.4</td><td class="num mut">56.7</td><td class="num">27</td><td class="num mut">22</td><td class="num">17</td><td class="num mut">28</td><td class="num">3,127</td><td class="num mut">2,828</td><td class="num">1,887</td><td class="num mut">1,718</td><td class="num">510</td><td class="num mut">353</td><td class="num">121</td><td class="num mut">146</td><td class="num">16</td><td class="num mut">17</td></tr><tr><td class="date-cell">7 Aug <span class="tag-match">MATCH</span></td><td class="num mut">19</td><td class="num">30.6</td><td class="num mut">28.0</td><td class="num">2,768</td><td class="num mut">4,479</td><td class="num">106.2</td><td class="num mut">95.5</td><td class="num">10</td><td class="num mut">14</td><td class="num">13</td><td class="num mut">18</td><td class="num">1,071</td><td class="num mut">1,825</td><td class="num">1,179</td><td class="num mut">1,852</td><td class="num">346</td><td class="num mut">550</td><td class="num">112</td><td class="num mut">215</td><td class="num">60</td><td class="num mut">37</td></tr><tr><td class="date-cell">9 Aug</td><td class="num mut">22</td><td class="num">28.8</td><td class="num mut">26.3</td><td class="num">6,471</td><td class="num mut">5,588</td><td class="num">72.6</td><td class="num mut">63.0</td><td class="num">33</td><td class="num mut">28</td><td class="num">28</td><td class="num mut">25</td><td class="num">3,354</td><td class="num mut">3,170</td><td class="num">2,551</td><td class="num mut">1,931</td><td class="num">426</td><td class="num mut">376</td><td class="num">120</td><td class="num mut">101</td><td class="num">20</td><td class="num mut">11</td></tr><tr><td class="date-cell">10 Aug</td><td class="num mut">23</td><td class="num">21.6</td><td class="num mut">23.3</td><td class="num">5,146</td><td class="num mut">4,475</td><td class="num">55.5</td><td class="num mut">48.2</td><td class="num">18</td><td class="num mut">23</td><td class="num">25</td><td class="num mut">24</td><td class="num">2,879</td><td class="num mut">2,801</td><td class="num">1,994</td><td class="num mut">1,436</td><td class="num">257</td><td class="num mut">208</td><td class="num">16</td><td class="num mut">29</td><td class="num">0</td><td class="num mut">0</td></tr><tr><td class="date-cell">11 Aug</td><td class="num mut">20</td><td class="num">27.9</td><td class="num mut">28.2</td><td class="num">7,485</td><td class="num mut">6,348</td><td class="num">82.8</td><td class="num mut">70.6</td><td class="num">23</td><td class="num mut">28</td><td class="num">21</td><td class="num mut">25</td><td class="num">3,202</td><td class="num mut">2,866</td><td class="num">3,195</td><td class="num mut">2,589</td><td class="num">605</td><td class="num mut">612</td><td class="num">431</td><td class="num mut">223</td><td class="num">52</td><td class="num mut">59</td></tr><tr><td class="date-cell">12 Aug</td><td class="num mut">22</td><td class="num">29.1</td><td class="num mut">29.2</td><td class="num">7,116</td><td class="num mut">6,029</td><td class="num">75.3</td><td class="num mut">63.8</td><td class="num">23</td><td class="num mut">28</td><td class="num">34</td><td class="num mut">29</td><td class="num">3,770</td><td class="num mut">3,502</td><td class="num">2,747</td><td class="num mut">1,983</td><td class="num">393</td><td class="num mut">349</td><td class="num">117</td><td class="num mut">97</td><td class="num">88</td><td class="num mut">98</td></tr><tr><td class="date-cell">18 Aug</td><td class="num mut">19</td><td class="num">30.8</td><td class="num mut">30.9</td><td class="num">6,053</td><td class="num mut">5,898</td><td class="num">64.2</td><td class="num mut">62.7</td><td class="num">19</td><td class="num mut">30</td><td class="num">24</td><td class="num mut">22</td><td class="num">3,147</td><td class="num mut">3,031</td><td class="num">1,928</td><td class="num mut">1,945</td><td class="num">588</td><td class="num mut">540</td><td class="num">195</td><td class="num mut">211</td><td class="num">195</td><td class="num mut">172</td></tr><tr><td class="date-cell">19 Aug</td><td class="num mut">19</td><td class="num">27.2</td><td class="num mut">24.8</td><td class="num">5,908</td><td class="num mut">4,892</td><td class="num">68.4</td><td class="num mut">56.7</td><td class="num">26</td><td class="num mut">23</td><td class="num">32</td><td class="num mut">18</td><td class="num">3,379</td><td class="num mut">2,990</td><td class="num">1,821</td><td class="num mut">1,483</td><td class="num">503</td><td class="num mut">321</td><td class="num">162</td><td class="num mut">88</td><td class="num">44</td><td class="num mut">9</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight-box">
+    <h3>What the trend says</h3>
+    <p><b>Top speed is a strength, not a development area.</b> Across 10 sessions his max speed ranged 21.6–30.8 km/h, peaking at <b>30.8 km/h on 18 Aug</b> and touching 30.6 km/h in the 07 Aug match — two sessions at or above 30 km/h, plus five more in the 27–29 km/h band. Training-only trend across the 9 non-match sessions is upward (+6% early-to-late split, slope +0.18 km/h/session), so his ceiling is climbing, not just a one-off.</p>
+    <p><b>The engine (work-rate) is climbing.</b> Total distance and m/min both trend up across training sessions (distance +6%, m/min +6% comparing his first 3 to his last 3 training sessions), with personal bests on <b>11 Aug (7,485 m, 82.8 m/min)</b> and <b>12 Aug (7,116 m, 75.3 m/min)</b> — both far above his own average and the squad average. He ranked #1 in the squad for total distance and m/min in 4 of the last 5 training sessions.</p>
+    <p><b>Sprint output is trending sharply up.</b> Distance covered at 25+ km/h rose from single digits in early August to 88 m (12 Aug) and 195–196 m (18 Aug match-week), a +445% early-to-late increase — consistent with the rising top-speed ceiling.</p>
+    <ul>
+      <li><b>Outlier to flag:</b> 10 Aug was his weakest session across the board (21.6 km/h max, lowest of the whole squad that day, and his personal low for distance/accel/decel) — worth checking with the coach whether this was a recovery/rotation day, minor knock, or a genuinely off session.</li>
+      <li><b>07 Aug match:</b> very low total distance (2,768 m) but very high intensity-per-minute (106.2 m/min, 30.6 km/h peak) — reads as a short, high-impact substitute cameo rather than a full 90.</li>
+      <li><b>Deceleration load</b> is consistently well above team average (latest 32 vs team 18.2, +76%) — combined with his high sprint volume, this is a normal signature of an explosive wide player, but worth monitoring for injury-prevention conditioning as training load builds.</li>
+    </ul>
+  </div>
+
+  <footer>Generated from 10 session GPS reports (30 Jul – 19 Aug 2026) &middot; Player identified as "Gosa" in source reports &middot; All figures cross-checked against source PDFs</footer>
+</div>
