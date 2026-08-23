@@ -1,41 +1,67 @@
-<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
-<title>Itay Gussarsky — Player Hub</title>
+<meta name="robots" content="noindex,nofollow">
+<title>Itay Gussarsky &mdash; Player Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
+    color-scheme: light;
     --bg:#eef3ee; --surface:#ffffff; --surface-2:#f6f9f6;
     --ink:#13201a; --muted:#5b6c62; --line:#e0e8e1;
     --pitch:#0f7a43; --pitch-deep:#0a5730; --pitch-soft:#e3f2e8;
     --gold:#b7791a; --gold-soft:#fbf1dd;
     --good:#12925a; --warn:#b4791a; --crit:#c0453b; --nav:rgba(255,255,255,.86);
+    --personal:#2f6fa8;
+    --z1:#dcefe3; --z2:#a9d9bc; --z3:#6cbd8d; --z4:#2f9c63; --z5:#0f7a43;
+    --shadow: 0 1px 2px rgba(19,32,26,0.06), 0 4px 18px rgba(19,32,26,0.06);
+    --tooltip-bg: rgba(15,25,20,0.96); --tooltip-ink: #f4f8f5;
   }
   @media (prefers-color-scheme:dark){:root{
+    color-scheme: dark;
     --bg:#0c1310; --surface:#121c17; --surface-2:#0f1813; --ink:#e9f2ec; --muted:#98aaa0; --line:#223028;
     --pitch:#2ed67f; --pitch-deep:#1b8f54; --pitch-soft:#152a1f; --gold:#e0a53a; --gold-soft:#211a0e;
-    --good:#2ed67f; --warn:#e0a53a; --crit:#e26a5f; --nav:rgba(15,24,19,.86);}}
-  :root[data-theme="dark"]{--bg:#0c1310;--surface:#121c17;--surface-2:#0f1813;--ink:#e9f2ec;--muted:#98aaa0;--line:#223028;--pitch:#2ed67f;--pitch-deep:#1b8f54;--pitch-soft:#152a1f;--gold:#e0a53a;--gold-soft:#211a0e;--good:#2ed67f;--warn:#e0a53a;--crit:#e26a5f;--nav:rgba(15,24,19,.86)}
-  :root[data-theme="light"]{--bg:#eef3ee;--surface:#ffffff;--surface-2:#f6f9f6;--ink:#13201a;--muted:#5b6c62;--line:#e0e8e1;--pitch:#0f7a43;--pitch-deep:#0a5730;--pitch-soft:#e3f2e8;--gold:#b7791a;--gold-soft:#fbf1dd;--good:#12925a;--warn:#b4791a;--crit:#c0453b;--nav:rgba(255,255,255,.86)}
+    --good:#2ed67f; --warn:#e0a53a; --crit:#e26a5f; --nav:rgba(15,24,19,.86);
+    --personal:#6fa8dc;
+    --z1:#15251d; --z2:#1f4231; --z3:#2c6b48; --z4:#39a06a; --z5:#2ed67f;
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 4px 20px rgba(0,0,0,0.3);
+  }}
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --bg:#0c1310;--surface:#121c17;--surface-2:#0f1813;--ink:#e9f2ec;--muted:#98aaa0;--line:#223028;
+    --pitch:#2ed67f;--pitch-deep:#1b8f54;--pitch-soft:#152a1f;--gold:#e0a53a;--gold-soft:#211a0e;
+    --good:#2ed67f;--warn:#e0a53a;--crit:#e26a5f;--nav:rgba(15,24,19,.86);
+    --personal:#6fa8dc;
+    --z1:#15251d;--z2:#1f4231;--z3:#2c6b48;--z4:#39a06a;--z5:#2ed67f;
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 4px 20px rgba(0,0,0,0.3);
+  }
+  :root[data-theme="light"]{
+    color-scheme: light;
+    --bg:#eef3ee;--surface:#ffffff;--surface-2:#f6f9f6;--ink:#13201a;--muted:#5b6c62;--line:#e0e8e1;
+    --pitch:#0f7a43;--pitch-deep:#0a5730;--pitch-soft:#e3f2e8;--gold:#b7791a;--gold-soft:#fbf1dd;
+    --good:#12925a;--warn:#b4791a;--crit:#c0453b;--nav:rgba(255,255,255,.86);
+    --personal:#2f6fa8;
+    --z1:#dcefe3;--z2:#a9d9bc;--z3:#6cbd8d;--z4:#2f9c63;--z5:#0f7a43;
+    --shadow: 0 1px 2px rgba(19,32,26,0.06), 0 4px 18px rgba(19,32,26,0.06);
+  }
+
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
-  .wrap{max-width:960px;margin:0 auto;padding:0 18px 80px}
-  /* nav */
-  nav{position:sticky;top:0;z-index:20;background:var(--nav);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
-    display:flex;gap:6px;align-items:center;padding:10px 18px;margin:0 -18px 18px;flex-wrap:wrap}
-  nav .brand{font-weight:800;letter-spacing:-.01em;margin-right:auto;font-size:14.5px}
-  nav .brand span{color:var(--pitch)}
-  nav a{color:var(--muted);text-decoration:none;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:8px}
-  nav a:hover{color:var(--ink);background:var(--pitch-soft)}
-  .eyebrow{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--pitch)}
-  h2{font-size:20px;letter-spacing:-.01em;margin:8px 0 12px;scroll-margin-top:64px;text-wrap:balance}
+  a{color:var(--pitch)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 18px 80px}
   section{padding-top:22px}
-  p{max-width:66ch}
-  /* hero card */
-  .card{position:relative;border-radius:20px;overflow:hidden;color:#fff;background:radial-gradient(120% 140% at 85% -10%, rgba(255,255,255,.18), transparent 55%),linear-gradient(150deg,var(--pitch-deep),var(--pitch) 130%);box-shadow:0 18px 44px -22px rgba(6,54,30,.6)}
+  h2{font-size:20px;letter-spacing:-.01em;margin:8px 0 12px;text-wrap:balance}
+  .eyebrow{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--pitch)}
+  b.hl{color:var(--pitch)}
+
+  /* ---------- persistent hero header ---------- */
+  .card{position:relative;border-radius:20px;overflow:hidden;color:#fff;background:radial-gradient(120% 140% at 85% -10%, rgba(255,255,255,.18), transparent 55%),linear-gradient(150deg,var(--pitch-deep),var(--pitch) 130%);box-shadow:0 18px 44px -22px rgba(6,54,30,.6);margin-top:18px}
   .card::after{content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 46px)}
   .card-in{position:relative;padding:24px 26px}
   .kit{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-  .num{font-size:58px;font-weight:800;line-height:.9;letter-spacing:-.04em;text-shadow:0 2px 0 rgba(0,0,0,.15)}
+  .kit-num{font-size:58px;font-weight:800;line-height:.9;letter-spacing:-.04em;text-shadow:0 2px 0 rgba(0,0,0,.15)}
   .who h1{margin:0;font-size:27px;letter-spacing:-.02em}.who .club{opacity:.92;font-size:13.5px;margin-top:2px}
   .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
   .chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:4px 11px;font-size:12.5px}
@@ -44,180 +70,885 @@
   .strip .lab{font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#f2fff8}
   .strip .val{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-top:4px}
   .strip .sub{font-size:11.5px;font-weight:600;opacity:.95;margin-top:2px}
+
+  /* ---------- tab bar ---------- */
+  .tabbar{position:sticky;top:0;z-index:30;background:var(--nav);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+    display:flex;gap:6px;align-items:center;padding:10px 18px;margin:18px -18px 18px;flex-wrap:wrap}
+  .tabbar .brand{font-weight:800;letter-spacing:-.01em;margin-right:auto;font-size:14.5px;color:var(--ink)}
+  .tabbar .brand span{color:var(--pitch)}
+  .tabbar button.tab{appearance:none;-webkit-appearance:none;border:none;background:transparent;cursor:pointer;font:inherit;
+    color:var(--muted);text-decoration:none;font-size:12.5px;font-weight:700;padding:8px 13px;border-radius:8px;transition:background .15s ease,color .15s ease}
+  .tabbar button.tab:hover{color:var(--ink);background:var(--pitch-soft)}
+  .tabbar button.tab[aria-selected="true"]{color:#fff;background:var(--pitch)}
+  .tabbar button.tab:focus-visible{outline:2px solid var(--pitch);outline-offset:2px}
+
+  /* ---------- tab panels ---------- */
+  .tabpanel{display:none}
+  .tabpanel.active{display:block}
+  .tabpanel:focus{outline:none}
+
+  /* ---------- hub-scoped: overview / video / profile ---------- */
+  .panel-hub p{max-width:66ch}
+  .panel-hub table{width:100%;border-collapse:collapse;font-size:12.5px}
+  .panel-hub th,.panel-hub td{padding:8px 11px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+  .panel-hub th:first-child,.panel-hub td:first-child{text-align:left}
+  .panel-hub th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .panel-hub tr:last-child td{border-bottom:none}
+
   .verdict{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-top:16px}
   .verdict ul{margin:6px 0 0;padding-left:20px}.verdict li{margin:6px 0}
-  b.hl{color:var(--pitch)}
-  /* timeline */
+
   .tl{display:grid;gap:10px}
   .ev{display:grid;grid-template-columns:104px 1fr;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px 16px}
   .ev .yr{font-weight:800;font-size:13px;color:var(--pitch)}.ev .yr small{display:block;color:var(--muted);font-weight:600;font-size:11px;margin-top:2px}
   .ev .body{font-size:13.5px}
   .kitdot{display:inline-block;width:9px;height:9px;border-radius:2px;vertical-align:middle;margin-right:5px;border:1px solid rgba(0,0,0,.12)}
-  /* kpis + bars */
-  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px}
-  .kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
-  .kpi .lab{font-size:11px;color:var(--muted)}.kpi .val{font-size:25px;font-weight:800;letter-spacing:-.02em;margin:2px 0}.kpi .tag{font-size:11.5px;font-weight:700}
-  .up{color:var(--good)}.flat{color:var(--muted)}.peak{color:var(--gold)}
-  .bars{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-top:12px}
-  .legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-bottom:12px;flex-wrap:wrap}
-  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:middle}
-  .row{display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center;margin:8px 0}
-  .row .lab{font-size:12.5px;color:var(--muted);text-align:right}.bset{display:grid;gap:5px}
-  .bar{height:22px;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:11px;font-weight:800;color:#fff;min-width:34px;white-space:nowrap}
-  .b-itay{background:linear-gradient(90deg,var(--pitch-deep),var(--pitch))}.b-team{background:#93a79b}
+
   .twrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-top:12px}
-  table{width:100%;border-collapse:collapse;font-size:12.5px}
-  th,td{padding:8px 11px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
-  th:first-child,td:first-child{text-align:left}
-  th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-  tr:last-child td{border-bottom:none}tr.avg td{font-weight:800;background:var(--surface-2)}
-  td.hi{color:var(--pitch);font-weight:800}.match td:first-child{color:var(--gold);font-weight:700}
-  /* video */
+
   .vid-actions{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 4px}
   .btn{display:inline-flex;align-items:center;gap:8px;background:var(--pitch);color:#fff;text-decoration:none;font-weight:800;font-size:13.5px;padding:11px 16px;border-radius:11px}
-  .btn.yt{background:#c0392b}.btn.alt{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+  .btn.yt{background:#c0392b}
   .todo{background:var(--gold-soft);border:1px dashed color-mix(in srgb,var(--gold) 45%,transparent);border-radius:10px;padding:9px 13px;font-size:12.5px;color:var(--ink);margin-top:8px}
   .goal{color:var(--good);font-weight:700}
-  /* profile */
+
   .split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
   .panel h3{margin:0 0 8px;font-size:14px}.panel ul{margin:0;padding-left:18px}.panel li{margin:6px 0;font-size:13.5px}
   .note{background:var(--gold-soft);border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);border-radius:12px;padding:11px 15px;font-size:12.5px;margin-top:14px}
+
   .foot{color:var(--muted);font-size:12px;margin-top:26px;border-top:1px solid var(--line);padding-top:14px}
   .foot .rep{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 15px;margin-bottom:12px;color:var(--ink)}
-  @media (max-width:620px){.strip{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}.ev{grid-template-columns:84px 1fr}.num{font-size:48px}}
+
+  @media (max-width:620px){.strip{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}.ev{grid-template-columns:84px 1fr}.kit-num{font-size:48px}}
+
+  /* ================= GPS analytics tab (ported from Analytics Dashboard) ================= */
+  h2.section-title{
+    font-size: 14.5px; text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--muted); margin: 40px 0 6px; font-weight: 800;
+  }
+  .section-note { font-size: 13px; color: var(--muted); margin: 0 0 18px; line-height: 1.55; max-width: 760px; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .kpi-grid { grid-template-columns: 1fr; } }
+  .kpi-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 20px 22px; box-shadow: var(--shadow); display:flex; flex-direction:column;
+  }
+  .kpi-card.lead { background: linear-gradient(160deg, var(--surface) 60%, color-mix(in srgb, var(--gold) 10%, var(--surface)) 100%); border-color: color-mix(in srgb, var(--gold) 40%, var(--line)); }
+  .kpi-top { display:flex; align-items:center; gap:8px; margin-bottom: 10px; }
+  .kpi-icon { font-size: 16px; line-height:1; }
+  .kpi-label { font-size: 12.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .kpi-value { font-size: 32px; font-weight: 800; line-height:1.08; }
+  .kpi-unit { font-size: 14px; font-weight: 600; color: var(--muted); margin-left: 4px; }
+  .kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .kpi-note { font-size: 12px; color: var(--ink); margin-top: 8px; padding-top:8px; border-top: 1px dashed var(--line); }
+  .kpi-badge {
+    display:inline-flex; align-items:center; gap:5px; margin-top: 12px; font-size: 11px; font-weight: 800;
+    background: var(--bg); color: var(--ink); padding: 5px 11px; border-radius: 999px;
+    letter-spacing: 0.03em; align-self:flex-start;
+  }
+  .kpi-badge .of { font-weight: 500; color: var(--muted); }
+  .badge-strength {
+    background: color-mix(in srgb, var(--gold) 16%, var(--surface)); color: var(--gold);
+    font-size: 11.5px; padding: 6px 12px;
+  }
+  .kpi-deltas { margin-top: 14px; display:flex; flex-direction:column; gap: 5px; }
+  .kpi-delta { font-size: 12.5px; font-weight: 600; display:flex; align-items:center; gap:5px; }
+  .kpi-delta .arrow { font-size: 10px; }
+  .delta-up { color: var(--good); }
+  .delta-down { color: var(--crit); }
+
+  .legend-row { display:flex; gap:20px; flex-wrap:wrap; margin: 2px 0 18px; font-size:12.5px; color: var(--ink); align-items:center; }
+  .legend-item { display:flex; align-items:center; gap:7px; }
+  .legend-swatch { width:14px; height:14px; border-radius:4px; display:inline-block; flex-shrink:0; }
+  .legend-line { width:20px; height:0; border-top:3px solid; display:inline-block; flex-shrink:0; }
+  .legend-line.dashed { border-top-style:dashed; }
+  .legend-dot { width:11px; height:11px; border-radius:50%; display:inline-block; flex-shrink:0; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line); }
+
+  .compare-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .compare-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card { background: var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px 20px 16px; box-shadow: var(--shadow); }
+  .compare-title { font-size: 13.5px; font-weight: 700; margin-bottom: 14px; }
+  .compare-unit { font-weight: 500; color: var(--muted); font-size: 11.5px; }
+  .cbar-group { display:flex; gap: 12px; align-items:flex-end; height: 150px; }
+  .cbar-col { flex:1; display:flex; flex-direction:column; align-items:center; height:100%; }
+  .cbar-track { flex:1; width:100%; display:flex; align-items:flex-end; }
+  .cbar-fill { width:100%; border-radius: 4px 4px 0 0; position:relative; min-height:2px; display:flex; justify-content:center; }
+  .cbar-val { position:absolute; top:-19px; font-size:11.5px; font-weight:700; white-space:nowrap; color: var(--ink); }
+  .bar-latest { background: var(--pitch); }
+  .bar-personal { background: var(--personal); }
+  .bar-team { background: var(--muted); }
+  .cbar-label { font-size: 10.5px; font-weight:700; color: var(--ink); margin-top:9px; }
+  .cbar-sublabel { font-size: 9.5px; color: var(--muted); }
+
+  .controls-row {
+    display:flex; align-items:center; gap: 14px; flex-wrap: wrap;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 12px 16px; margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .control-group { display:flex; align-items:center; gap: 8px; }
+  .control-group label { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+  .control-group select {
+    font: inherit; font-size: 12.5px; font-weight: 600; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+    padding: 6px 10px; cursor:pointer; -webkit-appearance:none; appearance:none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+    background-position: calc(100% - 14px) center, calc(100% - 9px) center;
+    background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 26px;
+  }
+  .control-group select:focus-visible { outline: 2px solid var(--pitch); outline-offset: 1px; }
+  .controls-note { font-size: 11.5px; color: var(--muted); margin-left: auto; }
+
+  .trend-card { background: var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px 20px; box-shadow: var(--shadow); margin-bottom: 16px; }
+  .trend-card.featured { padding-top: 16px; }
+  .trend-title-row { display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom: 10px; flex-wrap:wrap; }
+  .trend-title { font-size:14px; font-weight:700; }
+  .trend-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .trend-grid { grid-template-columns: 1fr; } }
+  .chart-wrap { position: relative; }
+  .trend-svg { width:100%; height:auto; overflow: visible; display:block; touch-action: pan-y; }
+  .grid-line { stroke: var(--line); stroke-width:1; }
+  .axis-label { fill: var(--muted); font-size:10px; }
+  .axis-label-x { fill: var(--muted); font-size:9.5px; }
+  .match-x { fill: var(--crit); font-weight:700; }
+  .match-tag { fill: var(--crit); font-size:7.5px; font-weight:800; letter-spacing:0.05em; }
+  .area-fill { fill: var(--pitch); opacity: 0.09; }
+  .line-hero { fill:none; stroke: var(--pitch); stroke-width:2; stroke-linejoin:round; stroke-linecap:round; }
+  .line-team { fill:none; stroke: var(--muted); stroke-width:1.75; stroke-dasharray:4 3; stroke-linecap:round; }
+  .pt-normal { fill: var(--pitch); stroke: var(--surface); stroke-width:2; }
+  .pt-match { fill: var(--gold); stroke: var(--surface); stroke-width:2; }
+  .pt-team { fill: var(--muted); stroke: var(--surface); stroke-width:1.5; }
+  .pt-latest-ring { fill:none; stroke: var(--pitch); stroke-width:1.5; opacity:0.45; }
+  .pt-hit { fill: transparent; cursor: pointer; }
+  .pt-hit:focus-visible { fill: color-mix(in srgb, var(--pitch) 18%, transparent); outline: none; }
+  .crosshair { stroke: var(--line); stroke-width: 1.5; pointer-events: none; opacity: 0; }
+  .crosshair.visible { opacity: 1; }
+
+  .chart-tooltip {
+    position:absolute; pointer-events:none; background: var(--tooltip-bg); color: var(--tooltip-ink);
+    font-size: 11.5px; line-height:1.55; padding: 9px 12px; border-radius: 10px; box-shadow: var(--shadow);
+    white-space: nowrap; z-index: 5; opacity: 0; top:0; left:0; transform: translate(-50%,-100%);
+    transition: opacity .12s ease;
+  }
+  .chart-tooltip.visible { opacity: 1; }
+  .chart-tooltip.edge-left { transform: translate(-6%,-100%); }
+  .chart-tooltip.edge-right { transform: translate(-94%,-100%); }
+  .chart-tooltip .tt-date { font-weight: 800; margin-bottom: 5px; letter-spacing: 0.01em; }
+  .chart-tooltip .tt-row { display:flex; align-items:center; gap:7px; }
+  .chart-tooltip .tt-row + .tt-row { margin-top: 2px; }
+  .chart-tooltip .tt-key { width:13px; height:2px; display:inline-block; border-radius:1px; }
+  .chart-tooltip .tt-key.k-hero { background: var(--pitch); }
+  .chart-tooltip .tt-key.k-team { background: var(--muted); background-image: linear-gradient(90deg, var(--muted) 60%, transparent 40%); background-size: 5px 2px; }
+  .chart-tooltip b { font-weight: 800; }
+  @media (prefers-reduced-motion: reduce) {
+    .chart-tooltip, .crosshair { transition: none; }
+  }
+
+  .zone-card { background: var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px 24px; box-shadow: var(--shadow); }
+  .zbar { display:flex; width:100%; height:36px; border-radius:9px; overflow:hidden; }
+  .zseg { height:100%; position:relative; }
+  .zseg + .zseg { border-left: 2px solid var(--surface); }
+  .z-c1 { background: var(--z1); } .z-c2 { background: var(--z2); } .z-c3 { background: var(--z3); }
+  .z-c4 { background: var(--z4); } .z-c5 { background: var(--z5); }
+  table.zone-table { width:100%; border-collapse: collapse; margin-top:20px; font-size:13px; }
+  table.zone-table th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.03em; color:var(--muted); padding:7px 10px; border-bottom:1px solid var(--line); font-weight:700; }
+  table.zone-table td { padding:9px 10px; border-bottom:1px solid var(--line); }
+  .swatch { width:11px; height:11px; border-radius:3px; display:inline-block; margin-right:9px; vertical-align:middle; }
+  .a-num { font-variant-numeric: tabular-nums; text-align:right; }
+  .mut { color: var(--muted); }
+
+  .table-scroll { overflow-x:auto; border-radius:16px; border:1px solid var(--line); box-shadow: var(--shadow); background:var(--surface); }
+  table.data-table { border-collapse: collapse; width:100%; min-width:1360px; font-size:12px; }
+  table.data-table th, table.data-table td { padding:8px 10px; white-space:nowrap; }
+  table.data-table thead tr:first-child th {
+    background: var(--bg); border-bottom:1px solid var(--line); font-size:10.5px;
+    text-transform:uppercase; letter-spacing:0.02em; color:var(--muted); text-align:center; font-weight:800;
+    position:sticky; top:0;
+  }
+  table.data-table thead tr:last-child th {
+    background: var(--bg); border-bottom:2px solid var(--line); font-size:10px; color:var(--muted); font-weight:600;
+    position:sticky; top:27px;
+  }
+  table.data-table th.sub { text-align:right; padding-right:10px; }
+  table.data-table td { border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums; }
+  table.data-table td.date-cell { font-weight:700; position:sticky; left:0; background:var(--surface); border-right:1px solid var(--line); }
+  .tag-match { background: var(--crit); color:#fff; font-size:8.5px; font-weight:800; padding:2px 7px; border-radius:5px; margin-left:5px; letter-spacing:0.03em; }
+
+  .insight-box {
+    background: color-mix(in srgb, var(--pitch) 8%, var(--surface)); border:1px solid var(--pitch); border-left-width:4px;
+    border-radius: 14px; padding: 22px 24px; margin-top: 20px;
+  }
+  .insight-box h3 { margin:0 0 12px; font-size:15.5px; color: var(--pitch-deep); }
+  :root[data-theme="dark"] .insight-box h3 { color: var(--pitch); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .insight-box h3 { color: var(--pitch); } }
+  .insight-box p { margin: 0 0 12px; font-size:13.5px; line-height:1.65; color: var(--ink); }
+  .insight-box p:last-of-type { margin-bottom:0; }
+  .insight-box ul { margin: 10px 0 0; padding-left: 20px; font-size:13.5px; line-height:1.65; }
+  .insight-box li + li { margin-top: 6px; }
+
+  @media (max-width: 640px) {
+    .kpi-value { font-size: 27px; }
+  }
 </style>
-
-<nav>
-  <div class="brand">⚽ Itay Gussarsky <span>· Player Hub</span></div>
-  <a href="#overview">Overview</a><a href="#physical">Physical</a><a href="https://guycompanies.github.io/player-hub-itay/analytics.html">Analytics</a><a href="#video">Video</a><a href="#profile">Profile</a>
-</nav>
-
+</head>
+<body>
 <div class="wrap">
 
-  <!-- OVERVIEW -->
-  <section id="overview">
+  <!-- ================= PERSISTENT HEADER ================= -->
   <div class="card"><div class="card-in">
-    <div class="kit"><div class="num">7</div><div class="who">
+    <div class="kit"><div class="kit-num">7</div><div class="who">
       <h1>Itay Gussarsky</h1>
-      <div class="club">Hapoel Tel Aviv · U15 &nbsp;·&nbsp; Winger (L/R) &amp; Attacking Midfielder</div></div></div>
+      <div class="club">Hapoel Tel Aviv &middot; U15 &nbsp;&middot;&nbsp; Winger (L/R) &amp; Attacking Midfielder</div></div></div>
     <div class="meta">
-      <span class="chip">Born 09 Oct 2011 · 14y 10m</span><span class="chip">1.77 m · 57 kg</span>
+      <span class="chip">Born 09 Oct 2011 &middot; 14y 10m</span><span class="chip">1.77 m &middot; 57 kg</span>
       <span class="chip">Two-footed</span><span class="chip">Right &amp; left flank + central</span></div>
     <div class="strip">
-      <div class="s"><div class="lab">Team work-rate</div><div class="val">#1</div><div class="sub">68.4 m/min · +21%</div></div>
-      <div class="s"><div class="lab">Distance</div><div class="val">#1</div><div class="sub">5,908 m · +21%</div></div>
-      <div class="s"><div class="lab">Top speed</div><div class="val">30.8 km/h</div><div class="sub">peak · 2 sessions ≥30</div></div>
+      <div class="s"><div class="lab">Team work-rate</div><div class="val">#1</div><div class="sub">68.4 m/min &middot; +21%</div></div>
+      <div class="s"><div class="lab">Distance</div><div class="val">#1</div><div class="sub">5,908 m &middot; +21%</div></div>
+      <div class="s"><div class="lab">Top speed</div><div class="val">30.8 km/h</div><div class="sub">peak &middot; 2 sessions &ge;30</div></div>
       <div class="s"><div class="lab">Sprinting</div><div class="val">=#1</div><div class="sub">most sprint distance</div></div>
     </div>
   </div></div>
 
-  <div class="verdict">
-    <div class="eyebrow">Scout's verdict</div>
-    <ul>
-      <li><b class="hl">A high-ceiling attacking talent</b> — his team's <b>most physically dominant player</b> <i>and</i> a genuine <b>goalscorer</b>. A rare double.</li>
-      <li><b class="hl">Two-footed &amp; scores two ways</b> — finishes with <b>either foot</b>, from self-created driving runs <i>and</i> poacher's finishes — against <b>top academies</b>.</li>
-      <li><b class="hl">Elite pace + an engine</b> — hits <b>30.8 km/h</b> (two sessions ≥30) alongside the squad's highest work-rate.</li>
-      <li><b class="hl">Pedigree:</b> <b>scouted by Real Betis</b> (Spain), played <b>up an age group</b>, came through <b>two top-3 Israeli academies</b>.</li>
-    </ul>
+  <!-- ================= TAB BAR ================= -->
+  <div class="tabbar" role="tablist" aria-label="Player Hub sections">
+    <div class="brand">&#9917; Itay Gussarsky <span>&middot; Player Hub</span></div>
+    <button type="button" class="tab" id="tabbtn-overview" role="tab" aria-selected="true" aria-controls="panel-overview" tabindex="0">Overview</button>
+    <button type="button" class="tab" id="tabbtn-analytics" role="tab" aria-selected="false" aria-controls="panel-analytics" tabindex="-1">Analytics</button>
+    <button type="button" class="tab" id="tabbtn-video" role="tab" aria-selected="false" aria-controls="panel-video" tabindex="-1">Video</button>
+    <button type="button" class="tab" id="tabbtn-profile" role="tab" aria-selected="false" aria-controls="panel-profile" tabindex="-1">Profile</button>
   </div>
 
-  <h2 style="margin-top:26px"><span class="eyebrow">Career journey</span></h2>
-  <div class="tl">
-    <div class="ev"><div class="yr">2015–2020<small>Spain</small></div><div class="body"><span class="kitdot" style="background:#0a7a3f"></span><b>Lived &amp; played in Spain</b> — formative years abroad, including being <b>scouted by La Liga club Real Betis</b>.</div></div>
-    <div class="ev"><div class="yr">2020–2022<small>up an age</small></div><div class="body"><span class="kitdot" style="background:#eef1ee;border-color:#c9d3cc"></span><b>Maccabi Petach Tikva</b> — white/blue, <b>#20</b>. Played <b>a year up</b>, as a <b>left-back</b>.</div></div>
-    <div class="ev"><div class="yr">2022–2024<small>his age</small></div><div class="body"><span class="kitdot" style="background:#f5d020"></span><b>Maccabi Tel Aviv</b> — yellow &amp; blue. His age group; <b>left wing · right wing · attacking mid</b>.</div></div>
-    <div class="ev"><div class="yr">2024–now<small>current</small></div><div class="body"><span class="kitdot" style="background:#c0392b"></span><b>Hapoel Tel Aviv</b> — red, <b>#7</b>. <b>Elite academy (top-3 in Israel)</b>; <b>left wing · right wing · attacking mid</b>.</div></div>
-  </div>
+  <!-- ================= OVERVIEW ================= -->
+  <section id="panel-overview" class="tabpanel panel-hub active" role="tabpanel" aria-labelledby="tabbtn-overview" tabindex="0">
+
+    <div class="verdict">
+      <div class="eyebrow">Scout's verdict</div>
+      <ul>
+        <li><b class="hl">A high-ceiling attacking talent</b> &mdash; his team's <b>most physically dominant player</b> <i>and</i> a genuine <b>goalscorer</b>. A rare double.</li>
+        <li><b class="hl">Two-footed &amp; scores two ways</b> &mdash; finishes with <b>either foot</b>, from self-created driving runs <i>and</i> poacher's finishes &mdash; against <b>top academies</b>.</li>
+        <li><b class="hl">Elite pace + an engine</b> &mdash; hits <b>30.8 km/h</b> (two sessions &ge;30) alongside the squad's highest work-rate.</li>
+        <li><b class="hl">Pedigree:</b> <b>scouted by Real Betis</b> (Spain), played <b>up an age group</b>, came through <b>two top-3 Israeli academies</b>.</li>
+      </ul>
+    </div>
+
+    <h2 style="margin-top:26px"><span class="eyebrow">Career journey</span></h2>
+    <div class="tl">
+      <div class="ev"><div class="yr">2015&ndash;2020<small>Spain</small></div><div class="body"><span class="kitdot" style="background:#0a7a3f"></span><b>Lived &amp; played in Spain</b> &mdash; formative years abroad, including being <b>scouted by La Liga club Real Betis</b>.</div></div>
+      <div class="ev"><div class="yr">2020&ndash;2022<small>up an age</small></div><div class="body"><span class="kitdot" style="background:#eef1ee;border-color:#c9d3cc"></span><b>Maccabi Petach Tikva</b> &mdash; white/blue, <b>#20</b>. Played <b>a year up</b>, as a <b>left-back</b>.</div></div>
+      <div class="ev"><div class="yr">2022&ndash;2024<small>his age</small></div><div class="body"><span class="kitdot" style="background:#f5d020"></span><b>Maccabi Tel Aviv</b> &mdash; yellow &amp; blue. His age group; <b>left wing &middot; right wing &middot; attacking mid</b>.</div></div>
+      <div class="ev"><div class="yr">2024&ndash;now<small>current</small></div><div class="body"><span class="kitdot" style="background:#c0392b"></span><b>Hapoel Tel Aviv</b> &mdash; red, <b>#7</b>. <b>Elite academy (top-3 in Israel)</b>; <b>left wing &middot; right wing &middot; attacking mid</b>.</div></div>
+    </div>
+
   </section>
 
-  <!-- PHYSICAL -->
-  <section id="physical">
-  <h2><span class="eyebrow">Physical · GPS</span><br>Performance &amp; trend</h2>
-  <p><b>10 sessions</b> analysed (9 training + the 07 Aug match). Output is <b>trending up across the board</b>; verified top-speed peak <b>30.8 km/h</b>.</p>
-  <div class="kpis">
-    <div class="kpi"><div class="lab">Total distance (latest)</div><div class="val">5,908 m</div><div class="tag up">▲ #1 of 19 · +21%</div></div>
-    <div class="kpi"><div class="lab">Work-rate (latest)</div><div class="val">68.4 <span style="font-size:13px;color:var(--muted)">m/min</span></div><div class="tag up">▲ #1 of 19</div></div>
-    <div class="kpi"><div class="lab">Top speed (peak)</div><div class="val">30.8 <span style="font-size:13px;color:var(--muted)">km/h</span></div><div class="tag peak">★ 2 sessions ≥30</div></div>
-    <div class="kpi"><div class="lab">Peak distance</div><div class="val">7,485 m</div><div class="tag up">▲ 11 Aug best</div></div>
-    <div class="kpi"><div class="lab">Peak work-rate</div><div class="val">82.8 <span style="font-size:13px;color:var(--muted)">m/min</span></div><div class="tag up">▲ 12 Aug best</div></div>
-    <div class="kpi"><div class="lab">Direction</div><div class="val up" style="font-size:19px">▲ Improving</div><div class="tag flat">dist · work · speed · sprint</div></div>
-  </div>
+  <!-- ================= ANALYTICS ================= -->
+  <section id="panel-analytics" class="tabpanel panel-gps" role="tabpanel" aria-labelledby="tabbtn-analytics" tabindex="0">
 
-  <div class="bars">
-    <div class="eyebrow" style="margin-bottom:10px">Itay vs team average (latest session)</div>
-    <div class="legend"><span><i class="b-itay"></i>Itay</span><span><i class="b-team"></i>Team average</span></div>
-    <div class="row"><div class="lab">Total distance (m)</div><div class="bset"><div class="bar b-itay" style="width:100%">5,908</div><div class="bar b-team" style="width:83%">4,892</div></div></div>
-    <div class="row"><div class="lab">Work-rate (m/min)</div><div class="bset"><div class="bar b-itay" style="width:100%">68.4</div><div class="bar b-team" style="width:83%">56.7</div></div></div>
-    <div class="row"><div class="lab">Sprint dist (m)</div><div class="bset"><div class="bar b-itay" style="width:100%">44</div><div class="bar b-team" style="width:21%">9.4</div></div></div>
-  </div>
+    <p class="section-note" style="margin-top:16px">10 sessions analysed (9 training + the 07 Aug match), 30 Jul&ndash;19 Aug 2026 &middot; team reports list him as &ldquo;Gosa&rdquo; (short for Gussarsky). Every figure below is cross-checked against the source GPS PDFs.</p>
 
-  <div class="twrap">
-    <table>
-      <thead><tr><th>Session</th><th>Type</th><th>Distance</th><th>m/min</th><th>Max spd</th><th>Sprint 25+</th><th>Accel</th><th>Decel</th></tr></thead>
-      <tbody>
-        <tr><td>30 Jul</td><td>Train</td><td>6,567</td><td>70.7</td><td>28.9</td><td>43</td><td>—</td><td>—</td></tr>
-        <tr><td>04 Aug</td><td>Train</td><td>5,849</td><td>62.0</td><td>25.0</td><td>1</td><td>22</td><td>32</td></tr>
-        <tr><td>05 Aug</td><td>Train</td><td>5,660</td><td>63.4</td><td>28.6</td><td>16</td><td>27</td><td>17</td></tr>
-        <tr class="match"><td>07 Aug</td><td>Match</td><td>2,768</td><td class="hi">106.2</td><td>30.6</td><td>60</td><td>13</td><td>10</td></tr>
-        <tr><td>09 Aug</td><td>Train</td><td>6,471</td><td>72.6</td><td>28.8</td><td>20</td><td>33</td><td>28</td></tr>
-        <tr><td>10 Aug</td><td>Train</td><td>5,146</td><td>55.5</td><td>21.6</td><td>0</td><td>18</td><td>25</td></tr>
-        <tr><td>11 Aug</td><td>Train</td><td class="hi">7,485</td><td>82.8</td><td>27.9</td><td>52</td><td>23</td><td>21</td></tr>
-        <tr><td>12 Aug</td><td>Train</td><td>7,116</td><td class="hi">75.3</td><td>29.1</td><td>88</td><td>23</td><td>34</td></tr>
-        <tr><td>18 Aug</td><td>Train</td><td>6,053</td><td>64.2</td><td class="hi">30.8</td><td class="hi">195</td><td>19</td><td>24</td></tr>
-        <tr><td>19 Aug</td><td>Train</td><td>5,908</td><td>68.4</td><td>27.2</td><td>44</td><td>26</td><td>32</td></tr>
-        <tr class="avg"><td>Average</td><td>—</td><td>5,902</td><td>72.1</td><td>27.9</td><td>51.9</td><td>22.3</td><td>25.1</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p style="font-size:12.5px;color:var(--muted);margin-top:10px">Full per-session trend charts &amp; speed-zone breakdown in the <a href="analytics.html">detailed analytics dashboard</a>. One dip (10 Aug) worth a recovery/rotation check.</p>
+    <h2 class="section-title">1 &middot; Latest-Session KPIs</h2>
+    <div class="section-note">19 Aug 2026 session &mdash; rank in squad, vs. team average, and vs. Itay's own 10-session average. The Max-Speed card leads with his career-best peak, not a single session.</div>
+    <div class="kpi-grid">
+
+      <div class="kpi-card">
+        <div class="kpi-top"><span class="kpi-icon">&#128207;</span><span class="kpi-label">Total Distance</span></div>
+        <div class="kpi-value">5,908<span class="kpi-unit">m</span></div>
+        <div class="kpi-sub">Latest session &middot; 19 Aug</div>
+        <div class="kpi-badge">RANK 1 <span class="of">of 19</span></div>
+        <div class="kpi-deltas">
+          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 21% vs team avg</div>
+          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 0% vs personal avg</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top"><span class="kpi-icon">&#9889;</span><span class="kpi-label">Distance / Min</span></div>
+        <div class="kpi-value">68.4<span class="kpi-unit">m/min</span></div>
+        <div class="kpi-sub">Latest session &middot; 19 Aug</div>
+        <div class="kpi-badge">RANK 1 <span class="of">of 19</span></div>
+        <div class="kpi-deltas">
+          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 21% vs team avg</div>
+          <div class="kpi-delta delta-down"><span class="arrow">&#9660;</span> 5% vs personal avg</div>
+        </div>
+      </div>
+
+      <div class="kpi-card lead">
+        <div class="kpi-top"><span class="kpi-icon">&#128168;</span><span class="kpi-label">Max Speed</span></div>
+        <div class="kpi-value">30.8<span class="kpi-unit">km/h</span></div>
+        <div class="kpi-sub">Peak (all sessions) &middot; hit on 18 Aug</div>
+        <div class="kpi-badge badge-strength">&#127942; TOP-SPEED STRENGTH &middot; 2 sessions &ge; 30 km/h</div>
+        <div class="kpi-note">Latest (19 Aug): 27.2 km/h &middot; rank 3 of 19</div>
+        <div class="kpi-deltas">
+          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 10% vs team avg (latest)</div>
+          <div class="kpi-delta delta-down"><span class="arrow">&#9660;</span> 3% vs personal avg</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top"><span class="kpi-icon">&#128640;</span><span class="kpi-label">Sprint Distance (25+ km/h)</span></div>
+        <div class="kpi-value">44<span class="kpi-unit">m</span></div>
+        <div class="kpi-sub">Latest session &middot; 19 Aug</div>
+        <div class="kpi-badge">RANK 1 <span class="of">of 19</span></div>
+        <div class="kpi-deltas">
+          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 368% vs team avg</div>
+          <div class="kpi-delta delta-down"><span class="arrow">&#9660;</span> 15% vs personal avg</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top"><span class="kpi-icon">&#127919;</span><span class="kpi-label">Accelerations</span></div>
+        <div class="kpi-value">26<span class="kpi-unit">count</span></div>
+        <div class="kpi-sub">Latest session &middot; 19 Aug</div>
+        <div class="kpi-badge">RANK 7 <span class="of">of 19</span></div>
+        <div class="kpi-deltas">
+          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 15% vs team avg</div>
+          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 17% vs personal avg</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top"><span class="kpi-icon">&#127919;</span><span class="kpi-label">Decelerations</span></div>
+        <div class="kpi-value">32<span class="kpi-unit">count</span></div>
+        <div class="kpi-sub">Latest session &middot; 19 Aug</div>
+        <div class="kpi-badge">RANK 2 <span class="of">of 19</span></div>
+        <div class="kpi-deltas">
+          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 76% vs team avg</div>
+          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 27% vs personal avg</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">2 &middot; Latest vs Personal Avg vs Team Avg</h2>
+    <div class="section-note">Every KPI compared three ways at once &mdash; the 19 Aug session, Itay's own 10-session baseline, and that session's squad average.</div>
+    <div class="legend-row">
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--pitch)"></span>Latest (19 Aug)</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--personal)"></span>Personal Avg (10 sessions)</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--muted)"></span>Team Avg (that session's squad)</span>
+    </div>
+    <div class="compare-grid" id="compareGrid"><!-- filled by JS --></div>
+
+    <h2 class="section-title">3 &middot; Week-by-Week Trend</h2>
+    <div class="section-note">Interactive: pick a window and a session-type filter to re-draw every chart below, or swap the metric on the featured chart. The 07 Aug match is flagged gold &mdash; a short high-intensity substitute cameo, a different context from training load.</div>
+
+    <div class="controls-row">
+      <div class="control-group">
+        <label for="windowSelect">Window</label>
+        <select id="windowSelect">
+          <option value="all" selected>All 10 sessions</option>
+          <option value="last5">Last 5</option>
+          <option value="last3">Last 3</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="typeSelect">Session type</label>
+        <select id="typeSelect">
+          <option value="all" selected>All</option>
+          <option value="train">Training only</option>
+          <option value="match">Match only</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="metricSelect">Featured metric</label>
+        <select id="metricSelect">
+          <option value="dist" selected>Total Distance</option>
+          <option value="mmin">Distance / Min</option>
+          <option value="maxSpeed">Max Speed</option>
+          <option value="sprint">Sprint Distance</option>
+          <option value="accel">Accelerations</option>
+          <option value="decel">Decelerations</option>
+        </select>
+      </div>
+      <div class="controls-note" id="filterNote"></div>
+    </div>
+
+    <div class="legend-row">
+      <span class="legend-item"><span class="legend-line" style="border-color:var(--pitch)"></span>Itay (Gosa)</span>
+      <span class="legend-item"><span class="legend-line dashed" style="border-color:var(--muted)"></span>Team Avg</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--gold)"></span>Match session</span>
+    </div>
+
+    <div class="trend-card featured">
+      <div class="trend-title-row">
+        <div class="trend-title" id="featuredTitle">Total Distance <span class="compare-unit">(m)</span></div>
+      </div>
+      <div class="chart-wrap" id="featuredChartWrap">
+        <svg viewBox="0 0 720 260" class="trend-svg" id="featuredSvg" role="img" aria-label="Featured trend chart"></svg>
+        <div class="chart-tooltip" id="featuredTooltip"></div>
+      </div>
+    </div>
+
+    <div class="trend-grid" id="smallMultiples"><!-- 4 charts filled by JS --></div>
+
+    <h2 class="section-title">4 &middot; Speed-Zone Distribution &mdash; Latest Session (19 Aug)</h2>
+    <div class="zone-card">
+      <div class="zbar">
+        <div class="zseg z-c1" style="width:57.18%" title="0&ndash;7 km/h: 3,379 m (57.2%)"></div>
+        <div class="zseg z-c2" style="width:30.82%" title="7&ndash;15 km/h: 1,821 m (30.8%)"></div>
+        <div class="zseg z-c3" style="width:8.51%" title="15&ndash;20 km/h: 503 m (8.5%)"></div>
+        <div class="zseg z-c4" style="width:2.74%" title="20&ndash;25 km/h: 162 m (2.7%)"></div>
+        <div class="zseg z-c5" style="width:0.74%" title="25+ km/h: 44 m (0.7%)"></div>
+      </div>
+      <table class="zone-table">
+        <thead><tr><th>Zone</th><th>Description</th><th class="a-num">Itay (m)</th><th class="a-num">Itay %</th><th class="a-num">Team avg (m)</th><th class="a-num">Team avg %</th></tr></thead>
+        <tbody>
+          <tr><td><span class="swatch z-c1"></span>0&ndash;7 km/h</td><td class="mut">Walk / jog</td><td class="a-num">3,379 m</td><td class="a-num">57.2%</td><td class="a-num mut">2,990 m</td><td class="a-num mut">61.1%</td></tr>
+          <tr><td><span class="swatch z-c2"></span>7&ndash;15 km/h</td><td class="mut">Low-med run</td><td class="a-num">1,821 m</td><td class="a-num">30.8%</td><td class="a-num mut">1,483 m</td><td class="a-num mut">30.3%</td></tr>
+          <tr><td><span class="swatch z-c3"></span>15&ndash;20 km/h</td><td class="mut">Med-high run</td><td class="a-num">503 m</td><td class="a-num">8.5%</td><td class="a-num mut">321 m</td><td class="a-num mut">6.6%</td></tr>
+          <tr><td><span class="swatch z-c4"></span>20&ndash;25 km/h</td><td class="mut">High speed</td><td class="a-num">162 m</td><td class="a-num">2.7%</td><td class="a-num mut">88 m</td><td class="a-num mut">1.8%</td></tr>
+          <tr><td><span class="swatch z-c5"></span>25+ km/h</td><td class="mut">Sprint</td><td class="a-num">44 m</td><td class="a-num">0.7%</td><td class="a-num mut">9 m</td><td class="a-num mut">0.2%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="section-title">5 &middot; Full Data Table (Auditable)</h2>
+    <div class="section-note">Every extracted value: Itay's figure and that session's team average, across all 10 sessions. Scroll horizontally to see all columns. &mdash; = not reported for that session.</div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr><th rowspan="2" style="text-align:left;">Session</th><th rowspan="2">Squad</th><th colspan="2">Max speed (km/h)</th><th colspan="2">Total distance (m)</th><th colspan="2">Distance/min (m/min)</th><th colspan="2">Accelerations (#)</th><th colspan="2">Decelerations (#)</th><th colspan="2">Sprint 25+ (m)</th></tr>
+          <tr><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th><th class="sub">Itay</th><th class="sub">Team&nbsp;Avg</th></tr>
+        </thead>
+        <tbody id="dataTableBody"><!-- filled by JS --></tbody>
+      </table>
+    </div>
+
+    <div class="insight-box">
+      <h3>What the trend says</h3>
+      <p><b>Top speed is a strength, not a development area.</b> Across 10 sessions his max speed ranged 21.6&ndash;30.8 km/h, peaking at <b>30.8 km/h on 18 Aug</b> and touching 30.6 km/h in the 07 Aug match &mdash; two sessions at or above 30 km/h, plus five more in the 27&ndash;29 km/h band. The training-only trend across the 9 non-match sessions is upward (+6% early-to-late split, slope +0.18 km/h/session), so his ceiling is climbing, not just a one-off.</p>
+      <p><b>The engine (work-rate) is climbing.</b> Total distance and m/min both trend up across training sessions (distance +6%, m/min +6% comparing his first 3 to his last 3 training sessions), with personal bests on <b>11 Aug (7,485 m, 82.8 m/min)</b> and <b>12 Aug (7,116 m, 75.3 m/min)</b> &mdash; both far above his own average and the squad average. He ranked #1 in the squad for total distance and m/min in 4 of the last 5 training sessions.</p>
+      <p><b>Sprint output is trending sharply up.</b> Distance covered at 25+ km/h rose from single digits in early August to 88 m (12 Aug) and 195 m (18 Aug) &mdash; a +445% early-to-late increase &mdash; consistent with the rising top-speed ceiling.</p>
+      <ul>
+        <li><b>Outlier to flag:</b> 10 Aug was his weakest session across the board (21.6 km/h max, lowest of the whole squad that day, and his personal low for distance/accel/decel) &mdash; worth checking with the coach whether this was a recovery/rotation day, minor knock, or a genuinely off session.</li>
+        <li><b>07 Aug match:</b> very low total distance (2,768 m) but very high intensity-per-minute (106.2 m/min, 30.6 km/h peak) &mdash; reads as a short, high-impact substitute cameo rather than a full 90.</li>
+        <li><b>Deceleration load</b> is consistently well above team average (latest 32 vs team 18.2, +76%) &mdash; combined with his high sprint volume, this is a normal signature of an explosive wide player, but worth monitoring for injury-prevention conditioning as training load builds.</li>
+      </ul>
+    </div>
+
+    <p class="section-note" style="margin-top:18px;text-align:center">Generated from 10 session GPS reports (30 Jul&ndash;19 Aug 2026) &middot; player identified as &ldquo;Gosa&rdquo; in source reports &middot; all figures cross-checked against source PDFs.</p>
+
   </section>
 
-  <!-- VIDEO -->
-  <section id="video">
-  <h2><span class="eyebrow">Video</span><br>On the ball</h2>
-  <div class="vid-actions">
-    <a class="btn yt" href="ADD_YOUTUBE_LINK" target="_blank" rel="noopener">▶ Watch highlights on YouTube</a>
-  </div>
-  <div class="todo">⚑ Send me your YouTube channel / playlist link (or per-clip links) and I'll wire the buttons here exactly.</div>
-  <div class="twrap">
-    <table style="font-size:13px">
-      <thead><tr><th>Clip</th><th style="text-align:left">Match</th><th style="text-align:left">Action</th><th style="text-align:left">Shows</th></tr></thead>
-      <tbody>
-        <tr><td style="text-align:left">Reel</td><td style="text-align:left">vs Hapoel Jerusalem</td><td style="text-align:left">Central involvements, receives between lines, tracks back</td><td style="text-align:left">CAM role, high involvement</td></tr>
-        <tr><td style="text-align:left">Clip 12</td><td style="text-align:left">Hapoel (night)</td><td style="text-align:left"><span class="goal">Goal</span> — driving run from the left, beats his man, finishes</td><td style="text-align:left">1v1 burst + composure</td></tr>
-        <tr><td style="text-align:left">Clip 15</td><td style="text-align:left">vs Maccabi TA</td><td style="text-align:left"><span class="goal">Goal</span> — arrives in the box for a close finish</td><td style="text-align:left">Poacher's timing</td></tr>
-        <tr><td style="text-align:left">Clips 16–17</td><td style="text-align:left">vs Maccabi TA</td><td style="text-align:left">Central carries through traffic + shots</td><td style="text-align:left">Press-resistance</td></tr>
-        <tr><td style="text-align:left">Reels (U13)</td><td style="text-align:left">Maccabi PT · #20</td><td style="text-align:left">Left-sided / central play, up an age</td><td style="text-align:left">Early two-way grounding</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <!-- ================= VIDEO ================= -->
+  <section id="panel-video" class="tabpanel panel-hub" role="tabpanel" aria-labelledby="tabbtn-video" tabindex="0">
+    <h2><span class="eyebrow">Video</span><br>On the ball</h2>
+    <div class="vid-actions">
+      <a class="btn yt" href="ADD_YOUTUBE_LINK" target="_blank" rel="noopener">&#9654; Watch highlights on YouTube</a>
+    </div>
+    <div class="todo">&#9873; Send me your YouTube channel / playlist link (or per-clip links) and I'll wire the buttons here exactly.</div>
+    <div class="twrap">
+      <table style="font-size:13px">
+        <thead><tr><th>Clip</th><th style="text-align:left">Match</th><th style="text-align:left">Action</th><th style="text-align:left">Shows</th></tr></thead>
+        <tbody>
+          <tr><td style="text-align:left">Reel</td><td style="text-align:left">vs Hapoel Jerusalem</td><td style="text-align:left">Central involvements, receives between lines, tracks back</td><td style="text-align:left">CAM role, high involvement</td></tr>
+          <tr><td style="text-align:left">Clip 12</td><td style="text-align:left">Hapoel (night)</td><td style="text-align:left"><span class="goal">Goal</span> &mdash; driving run from the left, beats his man, finishes</td><td style="text-align:left">1v1 burst + composure</td></tr>
+          <tr><td style="text-align:left">Clip 15</td><td style="text-align:left">vs Maccabi TA</td><td style="text-align:left"><span class="goal">Goal</span> &mdash; arrives in the box for a close finish</td><td style="text-align:left">Poacher's timing</td></tr>
+          <tr><td style="text-align:left">Clips 16&ndash;17</td><td style="text-align:left">vs Maccabi TA</td><td style="text-align:left">Central carries through traffic + shots</td><td style="text-align:left">Press-resistance</td></tr>
+          <tr><td style="text-align:left">Reels (U13)</td><td style="text-align:left">Maccabi PT &middot; #20</td><td style="text-align:left">Left-sided / central play, up an age</td><td style="text-align:left">Early two-way grounding</td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <!-- PROFILE -->
-  <section id="profile">
-  <h2><span class="eyebrow">Profile</span><br>Strengths &amp; development</h2>
-  <div class="split">
-    <div class="panel"><h3 style="color:var(--good)">Strengths</h3><ul>
-      <li><b>Two-footed finisher</b> — plays &amp; scores with both feet (rare)</li>
-      <li><b>Goalscoring versatility</b> — creates and finishes</li>
-      <li><b>Engine + work-rate</b> — #1 on the team, presses &amp; recovers</li>
-      <li><b>Top-end pace</b> — reaches 30.8 km/h</li>
-      <li><b>Press-resistance</b> — carries through traffic</li>
-      <li><b>Positional range</b> — LB (younger) → winger/CAM (now)</li>
-    </ul></div>
-    <div class="panel"><h3 style="color:var(--warn)">Develop next</h3><ul>
-      <li><b>Fine technique under pressure</b> — refine first touch &amp; finishing</li>
-      <li><b>Load management</b> — highest-volume runner while growing; watch weekly spikes</li>
-      <li><b>Position pathway</b> — define best long-term role</li>
-      <li><b>Nutrition for growth</b> — carbs around sessions, protein, iron / vit-D</li>
-    </ul></div>
-  </div>
-  <div class="note">★ <b>Standout signals:</b> two-footed finisher · scouted by Real Betis · two top-3 academies · plays up an age · scores vs top academies · elite work-rate <i>and</i> real pace together.</div>
+  <!-- ================= PROFILE ================= -->
+  <section id="panel-profile" class="tabpanel panel-hub" role="tabpanel" aria-labelledby="tabbtn-profile" tabindex="0">
+    <h2><span class="eyebrow">Profile</span><br>Strengths &amp; development</h2>
+    <div class="split">
+      <div class="panel"><h3 style="color:var(--good)">Strengths</h3><ul>
+        <li><b>Two-footed finisher</b> &mdash; plays &amp; scores with both feet (rare)</li>
+        <li><b>Goalscoring versatility</b> &mdash; creates and finishes</li>
+        <li><b>Engine + work-rate</b> &mdash; #1 on the team, presses &amp; recovers</li>
+        <li><b>Top-end pace</b> &mdash; reaches 30.8 km/h</li>
+        <li><b>Press-resistance</b> &mdash; carries through traffic</li>
+        <li><b>Positional range</b> &mdash; LB (younger) &rarr; winger/CAM (now)</li>
+      </ul></div>
+      <div class="panel"><h3 style="color:var(--warn)">Develop next</h3><ul>
+        <li><b>Fine technique under pressure</b> &mdash; refine first touch &amp; finishing</li>
+        <li><b>Load management</b> &mdash; highest-volume runner while growing; watch weekly spikes</li>
+        <li><b>Position pathway</b> &mdash; define best long-term role</li>
+        <li><b>Nutrition for growth</b> &mdash; carbs around sessions, protein, iron / vit-D</li>
+      </ul></div>
+    </div>
+    <div class="note">&#9733; <b>Standout signals:</b> two-footed finisher &middot; scouted by Real Betis &middot; two top-3 academies &middot; plays up an age &middot; scores vs top academies &middot; elite work-rate <i>and</i> real pace together.</div>
   </section>
 
   <div class="foot">
-    <div class="rep"><b>Represented by:</b> <span style="color:var(--muted)">‹ add agent / contact details ›</span></div>
-    Compiled from 10 GPS session reports + match video across every era (Spain/Real Betis · Maccabi Petach Tikva · Maccabi Tel Aviv · Hapoel Tel Aviv). Prepared for player representation. Updated 23 Aug 2026.
+    <div class="rep"><b>Represented by:</b> <span style="color:var(--muted)">&lsaquo; add agent / contact details &rsaquo;</span></div>
+    Compiled from 10 GPS session reports + match video across every era (Spain/Real Betis &middot; Maccabi Petach Tikva &middot; Maccabi Tel Aviv &middot; Hapoel Tel Aviv). Prepared for player representation. Full auditable GPS analytics in the Analytics tab. Updated 23 Aug 2026.
   </div>
 </div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------------- GPS Analytics module (lazy-initialized on first Analytics-tab activation) ---------------- */
+  var SESSIONS = [
+    { date:"30 Jul", type:"train", squad:21, dist:6567, teamDist:6487, mmin:70.7, teamMmin:69.1, maxSpeed:28.9, teamMaxSpeed:26.7, sprint:43,  teamSprint:23,  accel:null, teamAccel:null, decel:null, teamDecel:null },
+    { date:"4 Aug",  type:"train", squad:19, dist:5849, teamDist:5252, mmin:62.0, teamMmin:55.8, maxSpeed:25.0, teamMaxSpeed:25.1, sprint:1,   teamSprint:11,  accel:22,   teamAccel:33,   decel:32,   teamDecel:31   },
+    { date:"5 Aug",  type:"train", squad:21, dist:5660, teamDist:5061, mmin:63.4, teamMmin:56.7, maxSpeed:28.6, teamMaxSpeed:25.9, sprint:16,  teamSprint:17,  accel:27,   teamAccel:22,   decel:17,   teamDecel:28   },
+    { date:"7 Aug",  type:"match", squad:19, dist:2768, teamDist:4479, mmin:106.2,teamMmin:95.5, maxSpeed:30.6, teamMaxSpeed:28.0, sprint:60,  teamSprint:37,  accel:10,   teamAccel:14,   decel:13,   teamDecel:18   },
+    { date:"9 Aug",  type:"train", squad:22, dist:6471, teamDist:5588, mmin:72.6, teamMmin:63.0, maxSpeed:28.8, teamMaxSpeed:26.3, sprint:20,  teamSprint:11,  accel:33,   teamAccel:28,   decel:28,   teamDecel:25   },
+    { date:"10 Aug", type:"train", squad:23, dist:5146, teamDist:4475, mmin:55.5, teamMmin:48.2, maxSpeed:21.6, teamMaxSpeed:23.3, sprint:0,   teamSprint:0,   accel:18,   teamAccel:23,   decel:25,   teamDecel:24   },
+    { date:"11 Aug", type:"train", squad:20, dist:7485, teamDist:6348, mmin:82.8, teamMmin:70.6, maxSpeed:27.9, teamMaxSpeed:28.2, sprint:52,  teamSprint:59,  accel:23,   teamAccel:28,   decel:21,   teamDecel:25   },
+    { date:"12 Aug", type:"train", squad:22, dist:7116, teamDist:6029, mmin:75.3, teamMmin:63.8, maxSpeed:29.1, teamMaxSpeed:29.2, sprint:88,  teamSprint:98,  accel:23,   teamAccel:28,   decel:34,   teamDecel:29   },
+    { date:"18 Aug", type:"train", squad:19, dist:6053, teamDist:5898, mmin:64.2, teamMmin:62.7, maxSpeed:30.8, teamMaxSpeed:30.9, sprint:195, teamSprint:172, accel:19,   teamAccel:30,   decel:24,   teamDecel:22   },
+    { date:"19 Aug", type:"train", squad:19, dist:5908, teamDist:4892, mmin:68.4, teamMmin:56.7, maxSpeed:27.2, teamMaxSpeed:24.8, sprint:44,  teamSprint:9,   accel:26,   teamAccel:23,   decel:32,   teamDecel:18   }
+  ];
+
+  var METRICS = {
+    dist:      { label:"Total Distance",              unit:"m",     itayKey:"dist",      teamKey:"teamDist",      fmt:function(v){ return Math.round(v).toLocaleString("en-US"); } },
+    mmin:      { label:"Distance / Min",               unit:"m/min", itayKey:"mmin",      teamKey:"teamMmin",      fmt:function(v){ return v.toFixed(1); } },
+    maxSpeed:  { label:"Max Speed",                    unit:"km/h",  itayKey:"maxSpeed",  teamKey:"teamMaxSpeed",  fmt:function(v){ return v.toFixed(1); } },
+    sprint:    { label:"Sprint Distance (25+ km/h)",   unit:"m",     itayKey:"sprint",    teamKey:"teamSprint",    fmt:function(v){ return Math.round(v).toLocaleString("en-US"); } },
+    accel:     { label:"Accelerations",                unit:"",      itayKey:"accel",     teamKey:"teamAccel",     fmt:function(v){ return Math.round(v).toString(); } },
+    decel:     { label:"Decelerations",                unit:"",      itayKey:"decel",     teamKey:"teamDecel",     fmt:function(v){ return Math.round(v).toString(); } }
+  };
+  var SMALL_MULTIPLES = ["dist", "mmin", "maxSpeed", "sprint"];
+
+  var state = { window: "all", type: "all", metric: "dist" };
+  var initialized = false;
+
+  function getFiltered() {
+    var arr = SESSIONS.filter(function (s) { return state.type === "all" ? true : s.type === state.type; });
+    if (state.window !== "all") {
+      var n = state.window === "last3" ? 3 : 5;
+      arr = arr.slice(-n);
+    }
+    return arr;
+  }
+
+  function niceTicks(min, max, count) {
+    count = count || 5;
+    if (min === max) { min -= 1; max += 1; }
+    var range = max - min;
+    var rawStep = range / (count - 1);
+    var mag = Math.pow(10, Math.floor(Math.log(rawStep) / Math.LN10));
+    var norm = rawStep / mag;
+    var step;
+    if (norm < 1.5) step = 1 * mag;
+    else if (norm < 3) step = 2 * mag;
+    else if (norm < 7) step = 5 * mag;
+    else step = 10 * mag;
+    var niceMin = Math.floor(min / step) * step;
+    var niceMax = Math.ceil(max / step) * step;
+    if (niceMin < 0 && min >= 0) niceMin = 0;
+    var ticks = [];
+    for (var v = niceMin; v <= niceMax + step * 1e-6; v += step) ticks.push(Math.round(v * 1000) / 1000);
+    return { ticks: ticks, min: niceMin, max: niceMax };
+  }
+
+  function formatTick(v) {
+    if (Math.abs(v) >= 1000) return Math.round(v).toLocaleString("en-US");
+    if (Number.isInteger(v)) return v.toString();
+    return v.toFixed(1);
+  }
+
+  function runs(ptsArr) {
+    var out = [], cur = [];
+    ptsArr.forEach(function (p) {
+      if (p) { cur.push(p); } else { if (cur.length) out.push(cur); cur = []; }
+    });
+    if (cur.length) out.push(cur);
+    return out;
+  }
+
+  function renderChart(svgEl, tooltipEl, sessions, metricKey) {
+    var cfg = METRICS[metricKey];
+    var W = 720, H = 260, ml = 56, mr = 18, mt = 30, mb = 44;
+    var plotW = W - ml - mr, plotH = H - mt - mb;
+    var n = sessions.length;
+    var xs = sessions.map(function (s, i) {
+      return n === 1 ? ml + plotW / 2 : ml + (i * (plotW / (n - 1)));
+    });
+
+    var allVals = [];
+    sessions.forEach(function (s) {
+      if (s[cfg.itayKey] != null) allVals.push(s[cfg.itayKey]);
+      if (s[cfg.teamKey] != null) allVals.push(s[cfg.teamKey]);
+    });
+    if (allVals.length === 0) allVals = [0, 1];
+    var scale = niceTicks(Math.min.apply(null, allVals), Math.max.apply(null, allVals), 5);
+    var yMin = scale.min, yMax = scale.max;
+    function y(v) { return mt + plotH - ((v - yMin) / ((yMax - yMin) || 1)) * plotH; }
+
+    var svg = "";
+
+    scale.ticks.forEach(function (t) {
+      var ty = y(t);
+      svg += '<line x1="' + ml + '" y1="' + ty.toFixed(1) + '" x2="' + (W - mr) + '" y2="' + ty.toFixed(1) + '" class="grid-line"/>';
+      svg += '<text x="' + (ml - 8) + '" y="' + (ty + 3.5).toFixed(1) + '" class="axis-label" text-anchor="end">' + formatTick(t) + '</text>';
+    });
+
+    var itayPts = sessions.map(function (s, i) { return s[cfg.itayKey] != null ? { x: xs[i], y: y(s[cfg.itayKey]), i: i } : null; });
+    var teamPts = sessions.map(function (s, i) { return s[cfg.teamKey] != null ? { x: xs[i], y: y(s[cfg.teamKey]), i: i } : null; });
+    var itayRuns = runs(itayPts);
+    var teamRuns = runs(teamPts);
+
+    itayRuns.forEach(function (run) {
+      if (run.length > 1) {
+        var d = "M" + run[0].x.toFixed(1) + "," + (mt + plotH).toFixed(1) + " " +
+          run.map(function (p) { return "L" + p.x.toFixed(1) + "," + p.y.toFixed(1); }).join(" ") +
+          " L" + run[run.length - 1].x.toFixed(1) + "," + (mt + plotH).toFixed(1) + " Z";
+        svg += '<path d="' + d + '" class="area-fill"/>';
+      }
+    });
+    teamRuns.forEach(function (run) {
+      if (run.length > 1) {
+        svg += '<polyline points="' + run.map(function (p) { return p.x.toFixed(1) + "," + p.y.toFixed(1); }).join(" ") + '" class="line-team"/>';
+      }
+    });
+    itayRuns.forEach(function (run) {
+      if (run.length > 1) {
+        svg += '<polyline points="' + run.map(function (p) { return p.x.toFixed(1) + "," + p.y.toFixed(1); }).join(" ") + '" class="line-hero"/>';
+      }
+    });
+
+    teamPts.forEach(function (p) {
+      if (!p) return;
+      svg += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="3" class="pt-team"/>';
+    });
+
+    itayPts.forEach(function (p, i) {
+      if (!p) return;
+      var s = sessions[i];
+      var isLatest = i === n - 1;
+      var isMatch = s.type === "match";
+      var cls = isMatch ? "pt-match" : "pt-normal";
+      var r = isLatest ? 6 : 4;
+      svg += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + r + '" class="' + cls + '"/>';
+      if (isLatest) svg += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + (r + 4) + '" class="pt-latest-ring"/>';
+      svg += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="14" class="pt-hit" tabindex="0" data-i="' + i + '"/>';
+    });
+
+    sessions.forEach(function (s, i) {
+      var isMatch = s.type === "match";
+      svg += '<text x="' + xs[i].toFixed(1) + '" y="' + (H - mb + 18) + '" class="axis-label-x' + (isMatch ? " match-x" : "") + '" text-anchor="middle">' + s.date + '</text>';
+      if (isMatch) svg += '<text x="' + xs[i].toFixed(1) + '" y="' + (H - mb + 30) + '" class="match-tag" text-anchor="middle">MATCH</text>';
+    });
+
+    svgEl.setAttribute("aria-label", cfg.label + " trend across " + n + " session" + (n === 1 ? "" : "s"));
+    svgEl.innerHTML = svg;
+
+    function showTooltip(i) {
+      var s = sessions[i];
+      if (!s) return;
+      var itayVal = s[cfg.itayKey], teamVal = s[cfg.teamKey];
+      var px = xs[i], py = itayVal != null ? y(itayVal) : mt + plotH / 2;
+      var html = '<div class="tt-date">' + s.date + " &middot; " + (s.type === "match" ? "Match" : "Training") + '</div>';
+      html += '<div class="tt-row"><span class="tt-key k-hero"></span>Itay <b>' + (itayVal != null ? cfg.fmt(itayVal) : "n/a") + " " + cfg.unit + '</b></div>';
+      html += '<div class="tt-row"><span class="tt-key k-team"></span>Team avg <b>' + (teamVal != null ? cfg.fmt(teamVal) : "n/a") + " " + cfg.unit + '</b></div>';
+      tooltipEl.innerHTML = html;
+      tooltipEl.style.left = (px / W * 100) + "%";
+      tooltipEl.style.top = (py / H * 100) + "%";
+      tooltipEl.classList.remove("edge-left", "edge-right");
+      var frac = px / W;
+      if (frac < 0.16) tooltipEl.classList.add("edge-left");
+      else if (frac > 0.84) tooltipEl.classList.add("edge-right");
+      tooltipEl.classList.add("visible");
+
+      var existing = svgEl.querySelector(".crosshair");
+      if (existing) existing.remove();
+      var ns = "http://www.w3.org/2000/svg";
+      var line = document.createElementNS(ns, "line");
+      line.setAttribute("x1", px.toFixed(1)); line.setAttribute("x2", px.toFixed(1));
+      line.setAttribute("y1", mt); line.setAttribute("y2", mt + plotH);
+      line.setAttribute("class", "crosshair visible");
+      svgEl.insertBefore(line, svgEl.firstChild);
+    }
+    function hideTooltip() {
+      tooltipEl.classList.remove("visible");
+      var existing = svgEl.querySelector(".crosshair");
+      if (existing) existing.remove();
+    }
+
+    svgEl.onpointermove = function (e) {
+      var rect = svgEl.getBoundingClientRect();
+      if (rect.width === 0) return;
+      var relX = (e.clientX - rect.left) / rect.width * W;
+      var bestI = 0, bestD = Infinity;
+      xs.forEach(function (x, i) { var d = Math.abs(x - relX); if (d < bestD) { bestD = d; bestI = i; } });
+      showTooltip(bestI);
+    };
+    svgEl.onpointerleave = function () { hideTooltip(); };
+
+    var hits = svgEl.querySelectorAll(".pt-hit");
+    for (var k = 0; k < hits.length; k++) {
+      hits[k].addEventListener("focus", function (e) { showTooltip(parseInt(e.target.getAttribute("data-i"), 10)); });
+      hits[k].addEventListener("blur", hideTooltip);
+    }
+  }
+
+  var COMPARE = [
+    { key:"dist",     title:"Total Distance",            unit:"m",     latest:5908,  personal:5902, team:4892, fmtLatest:"5,908",  fmtPersonal:"5,902", fmtTeam:"4,892" },
+    { key:"mmin",     title:"Distance / Min",             unit:"m/min", latest:68.4,  personal:72.1, team:56.7, fmtLatest:"68.4",   fmtPersonal:"72.1",  fmtTeam:"56.7" },
+    { key:"maxSpeed", title:"Max Speed",                  unit:"km/h",  latest:27.2,  personal:27.9, team:24.8, fmtLatest:"27.2",   fmtPersonal:"27.9",  fmtTeam:"24.8" },
+    { key:"sprint",   title:"Sprint Distance (25+ km/h)", unit:"m",     latest:44,    personal:52,   team:9,    fmtLatest:"44",     fmtPersonal:"52",    fmtTeam:"9" },
+    { key:"accel",    title:"Accelerations",              unit:"count", latest:26,    personal:22,   team:23,   fmtLatest:"26",     fmtPersonal:"22",    fmtTeam:"23" },
+    { key:"decel",    title:"Decelerations",              unit:"count", latest:32,    personal:25,   team:18,   fmtLatest:"32",     fmtPersonal:"25",    fmtTeam:"18" }
+  ];
+
+  function renderCompareGrid() {
+    var grid = document.getElementById("compareGrid");
+    var html = "";
+    COMPARE.forEach(function (c) {
+      var maxV = Math.max(c.latest, c.personal, c.team) * 1.12;
+      var hL = (c.latest / maxV * 100).toFixed(1);
+      var hP = (c.personal / maxV * 100).toFixed(1);
+      var hT = (c.team / maxV * 100).toFixed(1);
+      html += '<div class="compare-card">' +
+        '<div class="compare-title">' + c.title + ' <span class="compare-unit">(' + c.unit + ')</span></div>' +
+        '<div class="cbar-group">' +
+          '<div class="cbar-col"><div class="cbar-track"><div class="cbar-fill bar-latest" style="height:' + hL + '%"><span class="cbar-val">' + c.fmtLatest + '</span></div></div><div class="cbar-label">Latest</div><div class="cbar-sublabel">19 Aug</div></div>' +
+          '<div class="cbar-col"><div class="cbar-track"><div class="cbar-fill bar-personal" style="height:' + hP + '%"><span class="cbar-val">' + c.fmtPersonal + '</span></div></div><div class="cbar-label">Personal Avg</div><div class="cbar-sublabel">10-session</div></div>' +
+          '<div class="cbar-col"><div class="cbar-track"><div class="cbar-fill bar-team" style="height:' + hT + '%"><span class="cbar-val">' + c.fmtTeam + '</span></div></div><div class="cbar-label">Team Avg</div><div class="cbar-sublabel">squad</div></div>' +
+        '</div></div>';
+    });
+    grid.innerHTML = html;
+  }
+
+  function buildSmallMultiplesScaffold() {
+    var grid = document.getElementById("smallMultiples");
+    var html = "";
+    SMALL_MULTIPLES.forEach(function (key) {
+      var cfg = METRICS[key];
+      html += '<div class="trend-card">' +
+        '<div class="trend-title">' + cfg.label + ' <span class="compare-unit">(' + (cfg.unit || "count") + ')</span></div>' +
+        '<div class="chart-wrap"><svg viewBox="0 0 720 260" class="trend-svg" id="sm-' + key + '" role="img"></svg>' +
+        '<div class="chart-tooltip" id="smtt-' + key + '"></div></div>' +
+      '</div>';
+    });
+    grid.innerHTML = html;
+  }
+
+  function renderDataTable() {
+    var body = document.getElementById("dataTableBody");
+    var html = "";
+    SESSIONS.forEach(function (s) {
+      var dash = "&mdash;";
+      html += "<tr>" +
+        '<td class="date-cell">' + s.date + (s.type === "match" ? ' <span class="tag-match">MATCH</span>' : "") + "</td>" +
+        '<td class="a-num mut">' + s.squad + "</td>" +
+        '<td class="a-num">' + s.maxSpeed.toFixed(1) + '</td><td class="a-num mut">' + s.teamMaxSpeed.toFixed(1) + "</td>" +
+        '<td class="a-num">' + s.dist.toLocaleString("en-US") + '</td><td class="a-num mut">' + s.teamDist.toLocaleString("en-US") + "</td>" +
+        '<td class="a-num">' + s.mmin.toFixed(1) + '</td><td class="a-num mut">' + s.teamMmin.toFixed(1) + "</td>" +
+        '<td class="a-num">' + (s.accel != null ? s.accel : dash) + '</td><td class="a-num mut">' + (s.teamAccel != null ? s.teamAccel : dash) + "</td>" +
+        '<td class="a-num">' + (s.decel != null ? s.decel : dash) + '</td><td class="a-num mut">' + (s.teamDecel != null ? s.teamDecel : dash) + "</td>" +
+        '<td class="a-num">' + s.sprint + '</td><td class="a-num mut">' + s.teamSprint + "</td>" +
+        "</tr>";
+    });
+    body.innerHTML = html;
+  }
+
+  function renderAll() {
+    var filtered = getFiltered();
+
+    var featCfg = METRICS[state.metric];
+    document.getElementById("featuredTitle").innerHTML = featCfg.label + ' <span class="compare-unit">(' + (featCfg.unit || "count") + ')</span>';
+    renderChart(document.getElementById("featuredSvg"), document.getElementById("featuredTooltip"), filtered, state.metric);
+
+    SMALL_MULTIPLES.forEach(function (key) {
+      var svgEl = document.getElementById("sm-" + key);
+      var ttEl = document.getElementById("smtt-" + key);
+      if (svgEl && ttEl) renderChart(svgEl, ttEl, filtered, key);
+    });
+
+    var windowLabel = state.window === "all" ? "all 10 sessions" : (state.window === "last5" ? "last 5 sessions" : "last 3 sessions");
+    var typeLabel = state.type === "all" ? "" : (state.type === "train" ? ", training only" : ", match only");
+    document.getElementById("filterNote").textContent = "Showing " + filtered.length + " of 10 sessions — " + windowLabel + typeLabel;
+  }
+
+  function init() {
+    if (initialized) return;
+    initialized = true;
+
+    document.getElementById("windowSelect").addEventListener("change", function (e) { state.window = e.target.value; renderAll(); });
+    document.getElementById("typeSelect").addEventListener("change", function (e) { state.type = e.target.value; renderAll(); });
+    document.getElementById("metricSelect").addEventListener("change", function (e) {
+      state.metric = e.target.value;
+      var filtered = getFiltered();
+      var featCfg = METRICS[state.metric];
+      document.getElementById("featuredTitle").innerHTML = featCfg.label + ' <span class="compare-unit">(' + (featCfg.unit || "count") + ')</span>';
+      renderChart(document.getElementById("featuredSvg"), document.getElementById("featuredTooltip"), filtered, state.metric);
+    });
+
+    renderCompareGrid();
+    buildSmallMultiplesScaffold();
+    renderDataTable();
+    renderAll();
+  }
+
+  window.GpsAnalytics = {
+    init: init,
+    resize: function () { if (initialized) renderAll(); }
+  };
+})();
+
+/* ---------------- Tab controller ---------------- */
+(function () {
+  "use strict";
+
+  var TABS = ["overview", "analytics", "video", "profile"];
+  var panels = {}, buttons = {};
+  TABS.forEach(function (id) {
+    panels[id] = document.getElementById("panel-" + id);
+    buttons[id] = document.getElementById("tabbtn-" + id);
+  });
+
+  function activate(id, opts) {
+    opts = opts || {};
+    if (TABS.indexOf(id) === -1) id = "overview";
+
+    TABS.forEach(function (t) {
+      var isActive = t === id;
+      panels[t].classList.toggle("active", isActive);
+      buttons[t].setAttribute("aria-selected", isActive ? "true" : "false");
+      buttons[t].tabIndex = isActive ? 0 : -1;
+    });
+
+    if (id === "analytics" && window.GpsAnalytics) {
+      window.GpsAnalytics.init();
+    }
+
+    if (location.hash.replace("#", "") !== id) {
+      history.replaceState(null, "", "#" + id);
+    }
+
+    if (opts.focus) buttons[id].focus();
+  }
+
+  TABS.forEach(function (id) {
+    buttons[id].addEventListener("click", function () { activate(id); });
+  });
+
+  var tabbarEl = document.querySelector('.tabbar[role="tablist"]');
+  tabbarEl.addEventListener("keydown", function (e) {
+    var current = document.activeElement && document.activeElement.id ? document.activeElement.id.replace("tabbtn-", "") : null;
+    var idx = TABS.indexOf(current);
+    if (idx === -1) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); activate(TABS[(idx + 1) % TABS.length], { focus: true }); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); activate(TABS[(idx - 1 + TABS.length) % TABS.length], { focus: true }); }
+    else if (e.key === "Home") { e.preventDefault(); activate(TABS[0], { focus: true }); }
+    else if (e.key === "End") { e.preventDefault(); activate(TABS[TABS.length - 1], { focus: true }); }
+  });
+
+  window.addEventListener("hashchange", function () {
+    activate(location.hash.replace("#", ""));
+  });
+
+  var resizeTimer;
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      if (window.GpsAnalytics) window.GpsAnalytics.resize();
+    }, 150);
+  });
+
+  activate(location.hash.replace("#", "") || "overview");
+})();
+</script>
+</body>
+</html>
