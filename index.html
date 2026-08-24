@@ -352,11 +352,15 @@
 
     <p class="section-note" id="introNote" style="margin-top:16px"><!-- filled by JS --></p>
 
-    <h2 class="section-title">1 &middot; Latest-Session KPIs</h2>
+    <h2 class="section-title">1 &middot; Season Average</h2>
+    <div class="section-note" id="sectionAvgNote"><!-- filled by JS --></div>
+    <div class="kpi-grid" id="avgKpiGrid"><!-- filled by JS --></div>
+
+    <h2 class="section-title" id="latestKpiHeading">2 &middot; Latest Session</h2>
     <div class="section-note" id="section1Note"><!-- filled by JS --></div>
     <div class="kpi-grid" id="kpiGrid"><!-- filled by JS --></div>
 
-    <h2 class="section-title">2 &middot; Latest vs Personal Avg vs Team Avg</h2>
+    <h2 class="section-title">3 &middot; Latest vs Personal Avg vs Team Avg</h2>
     <div class="section-note" id="section2Note"><!-- filled by JS --></div>
     <div class="legend-row">
       <span class="legend-item"><span class="legend-swatch" style="background:var(--pitch)"></span><span id="legendLatestLabel">Latest</span></span>
@@ -365,7 +369,7 @@
     </div>
     <div class="compare-grid" id="compareGrid"><!-- filled by JS --></div>
 
-    <h2 class="section-title">3 &middot; Week-by-Week Trend</h2>
+    <h2 class="section-title">4 &middot; Week-by-Week Trend</h2>
     <div class="section-note">Interactive: pick a window and a session-type filter to re-draw every chart below, or swap the metric on the featured chart. The 07 Aug match is flagged gold &mdash; a short high-intensity substitute cameo, a different context from training load.</div>
 
     <div class="controls-row">
@@ -417,10 +421,10 @@
 
     <div class="trend-grid" id="smallMultiples"><!-- 4 charts filled by JS --></div>
 
-    <h2 class="section-title" id="zoneHeading">4 &middot; Speed-Zone Distribution &mdash; Latest Session</h2>
+    <h2 class="section-title" id="zoneHeading">5 &middot; Speed-Zone Distribution &mdash; Latest Session</h2>
     <div class="zone-card" id="zoneCard"><!-- filled by JS --></div>
 
-    <h2 class="section-title">5 &middot; Full Data Table (Auditable)</h2>
+    <h2 class="section-title">6 &middot; Full Data Table (Auditable)</h2>
     <div class="section-note" id="section5Note"><!-- filled by JS --></div>
     <div class="table-scroll">
       <table class="data-table">
@@ -608,8 +612,10 @@
   function computeAggregates() {
     var latest = SESSIONS[SESSIONS.length - 1];
     var personal = {};
+    var teamAvg = {};
     METRIC_ORDER.forEach(function (k) {
       personal[k] = mean(SESSIONS.map(function (s) { return s[k] ? s[k].v : null; }));
+      teamAvg[k] = mean(SESSIONS.map(function (s) { return s[k] ? s[k].team : null; }));
     });
     var peakSpeed = null;
     SESSIONS.forEach(function (s) {
@@ -617,7 +623,7 @@
     });
     var countGE30 = SESSIONS.filter(function (s) { return s.maxspd.v != null && s.maxspd.v >= 30; }).length;
     return {
-      latest: latest, n: SESSIONS.length, personal: personal,
+      latest: latest, n: SESSIONS.length, personal: personal, teamAvg: teamAvg,
       peakSpeed: peakSpeed, countGE30: countGE30,
       trainingSessions: SESSIONS.filter(function (s) { return s.type === "Train"; }),
       matchSessions: SESSIONS.filter(function (s) { return s.type === "Match"; })
@@ -688,6 +694,55 @@
     document.getElementById("kpiGrid").innerHTML = cards.join("");
   }
 
+  /* ---------------- render: season-average KPI grid ---------------- */
+  /* Indicative elite/academy U15 training-load reference points, compiled from
+     general youth-football GPS literature — NOT official or verified standards.
+     Accelerations/decelerations have no widely-cited benchmark, so they're omitted. */
+  var ELITE_U15 = {
+    dist:   { v: 6000, disp: "6,000 m" },
+    mmin:   { v: 75,   disp: "75 m/min" },
+    maxspd: { v: 31,   disp: "31 km/h" },
+    sprint: { v: 60,   disp: "60 m" }
+  };
+
+  function benchmarkIndicator(key, val) {
+    var b = ELITE_U15[key];
+    if (!b) return "";
+    var diffPct = pctDelta(val, b.v);
+    var arrow = "&middot;", cls = "mut", word = "at benchmark";
+    if (diffPct != null) {
+      if (diffPct > 3) { arrow = "&#9650;"; cls = "delta-up"; word = "above benchmark"; }
+      else if (diffPct < -3) { arrow = "&#9660;"; cls = "delta-down"; word = "below benchmark"; }
+    }
+    return '<div class="kpi-note">vs elite U15 (indicative) &middot; ' + b.disp +
+      ' <span class="' + cls + '">' + arrow + ' ' + word + '</span></div>';
+  }
+
+  function renderAvgKpiGrid(agg) {
+    var p = agg.personal, teamAvg = agg.teamAvg;
+    var cards = [];
+
+    function avgMetricCard(key, label, unit) {
+      var v = p[key];
+      return '<div class="kpi-card">' +
+        '<div class="kpi-top"><span class="kpi-icon">' + METRICS[key].icon + '</span><span class="kpi-label">' + label + '</span></div>' +
+        '<div class="kpi-value">' + METRICS[key].fmt(v) + '<span class="kpi-unit">' + unit + '</span></div>' +
+        '<div class="kpi-sub">Season average &middot; ' + agg.n + ' sessions</div>' +
+        '<div class="kpi-deltas">' + deltaRow(pctDelta(v, teamAvg[key]), "vs team avg") + '</div>' +
+        benchmarkIndicator(key, v) +
+      '</div>';
+    }
+
+    cards.push(avgMetricCard("dist", "Total Distance", "m"));
+    cards.push(avgMetricCard("mmin", "Distance / Min", "m/min"));
+    cards.push(avgMetricCard("maxspd", "Max Speed", "km/h"));
+    cards.push(avgMetricCard("sprint", "Sprint Distance (25+ km/h)", "m"));
+    cards.push(avgMetricCard("accel", "Accelerations", "count"));
+    cards.push(avgMetricCard("decel", "Decelerations", "count"));
+
+    document.getElementById("avgKpiGrid").innerHTML = cards.join("");
+  }
+
   /* ---------------- render: compare grid ---------------- */
   function renderCompareGrid(agg) {
     var latest = agg.latest, p = agg.personal;
@@ -724,7 +779,7 @@
   function renderZoneCard(agg) {
     var latest = agg.latest;
     var heading = document.getElementById("zoneHeading");
-    heading.innerHTML = "4 &middot; Speed-Zone Distribution &mdash; Latest Session (" + latest.date + ")";
+    heading.innerHTML = "5 &middot; Speed-Zone Distribution &mdash; Latest Session (" + latest.date + ")";
     var el = document.getElementById("zoneCard");
     if (!latest.zones) {
       el.innerHTML = '<p class="mut" style="margin:0">No speed-zone breakdown recorded for the latest session (' + latest.date + ').</p>';
@@ -774,10 +829,7 @@
     });
 
     var p = agg.personal;
-    var teamAvg = {};
-    METRIC_ORDER.forEach(function (k) {
-      teamAvg[k] = mean(SESSIONS.map(function (s) { return s[k] ? s[k].team : null; }));
-    });
+    var teamAvg = agg.teamAvg;
     html += '<tr class="avg-row">' +
       '<td class="date-cell">Average (' + agg.n + ' sessions)</td>' +
       '<td class="a-num mut">&mdash;</td>' +
@@ -893,6 +945,8 @@
     setHtml("profilePeakSpeed", fmt1(agg.peakSpeed.v));
 
     setHtml("introNote", buildIntroSentence(agg));
+    setHtml("sectionAvgNote", "His baseline across all " + agg.n + " sessions &mdash; personal average per metric vs. squad average and, where one exists, an indicative elite/academy U15 training benchmark drawn from general youth-football GPS literature. These benchmark figures are indicative reference points only, not verified or official standards, and no widely-cited benchmark exists yet for accelerations or decelerations.");
+    setHtml("latestKpiHeading", "2 &middot; Latest Session (" + latest.date + ")");
     setHtml("section1Note", latest.date + " 2026 session &mdash; rank in squad, vs. team average, and vs. Itay's own " + agg.n + "-session average. The Max-Speed card leads with his career-best peak, not a single session.");
     setHtml("section2Note", "Every KPI compared three ways at once &mdash; the " + latest.date + " session, Itay's own " + agg.n + "-session baseline, and that session's squad average.");
     setHtml("legendLatestLabel", "Latest (" + latest.date + ")");
@@ -1127,6 +1181,7 @@
       renderChart(document.getElementById("featuredSvg"), document.getElementById("featuredTooltip"), filtered, state.metric);
     });
 
+    renderAvgKpiGrid(AGG);
     renderKpiGrid(AGG);
     renderCompareGrid(AGG);
     renderZoneCard(AGG);
