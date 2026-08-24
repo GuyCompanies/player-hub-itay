@@ -276,6 +276,8 @@
   table.data-table td { border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums; }
   table.data-table td.date-cell { font-weight:700; position:sticky; left:0; background:var(--surface); border-right:1px solid var(--line); }
   .tag-match { background: var(--crit); color:#fff; font-size:8.5px; font-weight:800; padding:2px 7px; border-radius:5px; margin-left:5px; letter-spacing:0.03em; }
+  tr.avg-row td { font-weight:800; background:var(--bg); border-top:2px solid var(--line); }
+  tr.avg-row td.date-cell { background:var(--bg); }
 
   .insight-box {
     background: color-mix(in srgb, var(--pitch) 8%, var(--surface)); border:1px solid var(--pitch); border-left-width:4px;
@@ -306,9 +308,9 @@
       <span class="chip">Born 09 Oct 2011 &middot; 14y 10m</span><span class="chip">1.77 m &middot; 57 kg</span>
       <span class="chip">Two-footed</span><span class="chip">Right &amp; left flank + central</span></div>
     <div class="strip">
-      <div class="s"><div class="lab">Team work-rate</div><div class="val">#1</div><div class="sub">68.4 m/min &middot; +21%</div></div>
-      <div class="s"><div class="lab">Distance</div><div class="val">#1</div><div class="sub">5,908 m &middot; +21%</div></div>
-      <div class="s"><div class="lab">Top speed</div><div class="val">30.8 km/h</div><div class="sub">peak &middot; 2 sessions &ge;30</div></div>
+      <div class="s"><div class="lab">Team work-rate</div><div class="val" id="stripWorkrateVal">&#8212;</div><div class="sub" id="stripWorkrateSub">&#8212;</div></div>
+      <div class="s"><div class="lab">Distance</div><div class="val" id="stripDistVal">&#8212;</div><div class="sub" id="stripDistSub">&#8212;</div></div>
+      <div class="s"><div class="lab">Top speed</div><div class="val" id="stripTopSpeedVal">&#8212;</div><div class="sub" id="stripTopSpeedSub">&#8212;</div></div>
       <div class="s"><div class="lab">Sprinting</div><div class="val">=#1</div><div class="sub">most sprint distance</div></div>
     </div>
   </div></div>
@@ -330,7 +332,7 @@
       <ul>
         <li><b class="hl">A high-ceiling attacking talent</b> &mdash; his team's <b>most physically dominant player</b> <i>and</i> a genuine <b>goalscorer</b>. A rare double.</li>
         <li><b class="hl">Two-footed &amp; scores two ways</b> &mdash; finishes with <b>either foot</b>, from self-created driving runs <i>and</i> poacher's finishes &mdash; against <b>top academies</b>.</li>
-        <li><b class="hl">Elite pace + an engine</b> &mdash; hits <b>30.8 km/h</b> (two sessions &ge;30) alongside the squad's highest work-rate.</li>
+        <li><b class="hl">Elite pace + an engine</b> &mdash; hits <b><span id="verdictPeakSpeed">&#8212;</span> km/h</b> (<span id="verdictGE30Count">&#8212;</span>) alongside the squad's highest work-rate.</li>
         <li><b class="hl">Pedigree:</b> <b>scouted by Real Betis</b> (Spain), played <b>up an age group</b>, came through <b>two top-3 Israeli academies</b>.</li>
       </ul>
     </div>
@@ -348,85 +350,17 @@
   <!-- ================= ANALYTICS ================= -->
   <section id="panel-analytics" class="tabpanel panel-gps" role="tabpanel" aria-labelledby="tabbtn-analytics" tabindex="0">
 
-    <p class="section-note" style="margin-top:16px">10 sessions analysed (9 training + the 07 Aug match), 30 Jul&ndash;19 Aug 2026 &middot; team reports list him as &ldquo;Gosa&rdquo; (short for Gussarsky). Every figure below is cross-checked against the source GPS PDFs.</p>
+    <p class="section-note" id="introNote" style="margin-top:16px"><!-- filled by JS --></p>
 
     <h2 class="section-title">1 &middot; Latest-Session KPIs</h2>
-    <div class="section-note">19 Aug 2026 session &mdash; rank in squad, vs. team average, and vs. Itay's own 10-session average. The Max-Speed card leads with his career-best peak, not a single session.</div>
-    <div class="kpi-grid">
-
-      <div class="kpi-card">
-        <div class="kpi-top"><span class="kpi-icon">&#128207;</span><span class="kpi-label">Total Distance</span></div>
-        <div class="kpi-value">5,908<span class="kpi-unit">m</span></div>
-        <div class="kpi-sub">Latest session &middot; 19 Aug</div>
-        <div class="kpi-badge">RANK 1 <span class="of">of 19</span></div>
-        <div class="kpi-deltas">
-          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 21% vs team avg</div>
-          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 0% vs personal avg</div>
-        </div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-top"><span class="kpi-icon">&#9889;</span><span class="kpi-label">Distance / Min</span></div>
-        <div class="kpi-value">68.4<span class="kpi-unit">m/min</span></div>
-        <div class="kpi-sub">Latest session &middot; 19 Aug</div>
-        <div class="kpi-badge">RANK 1 <span class="of">of 19</span></div>
-        <div class="kpi-deltas">
-          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 21% vs team avg</div>
-          <div class="kpi-delta delta-down"><span class="arrow">&#9660;</span> 5% vs personal avg</div>
-        </div>
-      </div>
-
-      <div class="kpi-card lead">
-        <div class="kpi-top"><span class="kpi-icon">&#128168;</span><span class="kpi-label">Max Speed</span></div>
-        <div class="kpi-value">30.8<span class="kpi-unit">km/h</span></div>
-        <div class="kpi-sub">Peak (all sessions) &middot; hit on 18 Aug</div>
-        <div class="kpi-badge badge-strength">&#127942; TOP-SPEED STRENGTH &middot; 2 sessions &ge; 30 km/h</div>
-        <div class="kpi-note">Latest (19 Aug): 27.2 km/h &middot; rank 3 of 19</div>
-        <div class="kpi-deltas">
-          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 10% vs team avg (latest)</div>
-          <div class="kpi-delta delta-down"><span class="arrow">&#9660;</span> 3% vs personal avg</div>
-        </div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-top"><span class="kpi-icon">&#128640;</span><span class="kpi-label">Sprint Distance (25+ km/h)</span></div>
-        <div class="kpi-value">44<span class="kpi-unit">m</span></div>
-        <div class="kpi-sub">Latest session &middot; 19 Aug</div>
-        <div class="kpi-badge">RANK 1 <span class="of">of 19</span></div>
-        <div class="kpi-deltas">
-          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 368% vs team avg</div>
-          <div class="kpi-delta delta-down"><span class="arrow">&#9660;</span> 15% vs personal avg</div>
-        </div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-top"><span class="kpi-icon">&#127919;</span><span class="kpi-label">Accelerations</span></div>
-        <div class="kpi-value">26<span class="kpi-unit">count</span></div>
-        <div class="kpi-sub">Latest session &middot; 19 Aug</div>
-        <div class="kpi-badge">RANK 7 <span class="of">of 19</span></div>
-        <div class="kpi-deltas">
-          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 15% vs team avg</div>
-          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 17% vs personal avg</div>
-        </div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-top"><span class="kpi-icon">&#127919;</span><span class="kpi-label">Decelerations</span></div>
-        <div class="kpi-value">32<span class="kpi-unit">count</span></div>
-        <div class="kpi-sub">Latest session &middot; 19 Aug</div>
-        <div class="kpi-badge">RANK 2 <span class="of">of 19</span></div>
-        <div class="kpi-deltas">
-          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 76% vs team avg</div>
-          <div class="kpi-delta delta-up"><span class="arrow">&#9650;</span> 27% vs personal avg</div>
-        </div>
-      </div>
-    </div>
+    <div class="section-note" id="section1Note"><!-- filled by JS --></div>
+    <div class="kpi-grid" id="kpiGrid"><!-- filled by JS --></div>
 
     <h2 class="section-title">2 &middot; Latest vs Personal Avg vs Team Avg</h2>
-    <div class="section-note">Every KPI compared three ways at once &mdash; the 19 Aug session, Itay's own 10-session baseline, and that session's squad average.</div>
+    <div class="section-note" id="section2Note"><!-- filled by JS --></div>
     <div class="legend-row">
-      <span class="legend-item"><span class="legend-swatch" style="background:var(--pitch)"></span>Latest (19 Aug)</span>
-      <span class="legend-item"><span class="legend-swatch" style="background:var(--personal)"></span>Personal Avg (10 sessions)</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--pitch)"></span><span id="legendLatestLabel">Latest</span></span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--personal)"></span><span id="legendPersonalLabel">Personal Avg</span></span>
       <span class="legend-item"><span class="legend-swatch" style="background:var(--muted)"></span>Team Avg (that session's squad)</span>
     </div>
     <div class="compare-grid" id="compareGrid"><!-- filled by JS --></div>
@@ -438,7 +372,7 @@
       <div class="control-group">
         <label for="windowSelect">Window</label>
         <select id="windowSelect">
-          <option value="all" selected>All 10 sessions</option>
+          <option value="all" id="optAllSessions" selected>All sessions</option>
           <option value="last5">Last 5</option>
           <option value="last3">Last 3</option>
         </select>
@@ -447,8 +381,8 @@
         <label for="typeSelect">Session type</label>
         <select id="typeSelect">
           <option value="all" selected>All</option>
-          <option value="train">Training only</option>
-          <option value="match">Match only</option>
+          <option value="Train">Training only</option>
+          <option value="Match">Match only</option>
         </select>
       </div>
       <div class="control-group">
@@ -456,7 +390,7 @@
         <select id="metricSelect">
           <option value="dist" selected>Total Distance</option>
           <option value="mmin">Distance / Min</option>
-          <option value="maxSpeed">Max Speed</option>
+          <option value="maxspd">Max Speed</option>
           <option value="sprint">Sprint Distance</option>
           <option value="accel">Accelerations</option>
           <option value="decel">Decelerations</option>
@@ -483,29 +417,11 @@
 
     <div class="trend-grid" id="smallMultiples"><!-- 4 charts filled by JS --></div>
 
-    <h2 class="section-title">4 &middot; Speed-Zone Distribution &mdash; Latest Session (19 Aug)</h2>
-    <div class="zone-card">
-      <div class="zbar">
-        <div class="zseg z-c1" style="width:57.18%" title="0&ndash;7 km/h: 3,379 m (57.2%)"></div>
-        <div class="zseg z-c2" style="width:30.82%" title="7&ndash;15 km/h: 1,821 m (30.8%)"></div>
-        <div class="zseg z-c3" style="width:8.51%" title="15&ndash;20 km/h: 503 m (8.5%)"></div>
-        <div class="zseg z-c4" style="width:2.74%" title="20&ndash;25 km/h: 162 m (2.7%)"></div>
-        <div class="zseg z-c5" style="width:0.74%" title="25+ km/h: 44 m (0.7%)"></div>
-      </div>
-      <table class="zone-table">
-        <thead><tr><th>Zone</th><th>Description</th><th class="a-num">Itay (m)</th><th class="a-num">Itay %</th><th class="a-num">Team avg (m)</th><th class="a-num">Team avg %</th></tr></thead>
-        <tbody>
-          <tr><td><span class="swatch z-c1"></span>0&ndash;7 km/h</td><td class="mut">Walk / jog</td><td class="a-num">3,379 m</td><td class="a-num">57.2%</td><td class="a-num mut">2,990 m</td><td class="a-num mut">61.1%</td></tr>
-          <tr><td><span class="swatch z-c2"></span>7&ndash;15 km/h</td><td class="mut">Low-med run</td><td class="a-num">1,821 m</td><td class="a-num">30.8%</td><td class="a-num mut">1,483 m</td><td class="a-num mut">30.3%</td></tr>
-          <tr><td><span class="swatch z-c3"></span>15&ndash;20 km/h</td><td class="mut">Med-high run</td><td class="a-num">503 m</td><td class="a-num">8.5%</td><td class="a-num mut">321 m</td><td class="a-num mut">6.6%</td></tr>
-          <tr><td><span class="swatch z-c4"></span>20&ndash;25 km/h</td><td class="mut">High speed</td><td class="a-num">162 m</td><td class="a-num">2.7%</td><td class="a-num mut">88 m</td><td class="a-num mut">1.8%</td></tr>
-          <tr><td><span class="swatch z-c5"></span>25+ km/h</td><td class="mut">Sprint</td><td class="a-num">44 m</td><td class="a-num">0.7%</td><td class="a-num mut">9 m</td><td class="a-num mut">0.2%</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <h2 class="section-title" id="zoneHeading">4 &middot; Speed-Zone Distribution &mdash; Latest Session</h2>
+    <div class="zone-card" id="zoneCard"><!-- filled by JS --></div>
 
     <h2 class="section-title">5 &middot; Full Data Table (Auditable)</h2>
-    <div class="section-note">Every extracted value: Itay's figure and that session's team average, across all 10 sessions. Scroll horizontally to see all columns. &mdash; = not reported for that session.</div>
+    <div class="section-note" id="section5Note"><!-- filled by JS --></div>
     <div class="table-scroll">
       <table class="data-table">
         <thead>
@@ -518,17 +434,10 @@
 
     <div class="insight-box">
       <h3>What the trend says</h3>
-      <p><b>Top speed is a strength, not a development area.</b> Across 10 sessions his max speed ranged 21.6&ndash;30.8 km/h, peaking at <b>30.8 km/h on 18 Aug</b> and touching 30.6 km/h in the 07 Aug match &mdash; two sessions at or above 30 km/h, plus five more in the 27&ndash;29 km/h band. The training-only trend across the 9 non-match sessions is upward (+6% early-to-late split, slope +0.18 km/h/session), so his ceiling is climbing, not just a one-off.</p>
-      <p><b>The engine (work-rate) is climbing.</b> Total distance and m/min both trend up across training sessions (distance +6%, m/min +6% comparing his first 3 to his last 3 training sessions), with personal bests on <b>11 Aug (7,485 m, 82.8 m/min)</b> and <b>12 Aug (7,116 m, 75.3 m/min)</b> &mdash; both far above his own average and the squad average. He ranked #1 in the squad for total distance and m/min in 4 of the last 5 training sessions.</p>
-      <p><b>Sprint output is trending sharply up.</b> Distance covered at 25+ km/h rose from single digits in early August to 88 m (12 Aug) and 195 m (18 Aug) &mdash; a +445% early-to-late increase &mdash; consistent with the rising top-speed ceiling.</p>
-      <ul>
-        <li><b>Outlier to flag:</b> 10 Aug was his weakest session across the board (21.6 km/h max, lowest of the whole squad that day, and his personal low for distance/accel/decel) &mdash; worth checking with the coach whether this was a recovery/rotation day, minor knock, or a genuinely off session.</li>
-        <li><b>07 Aug match:</b> very low total distance (2,768 m) but very high intensity-per-minute (106.2 m/min, 30.6 km/h peak) &mdash; reads as a short, high-impact substitute cameo rather than a full 90.</li>
-        <li><b>Deceleration load</b> is consistently well above team average (latest 32 vs team 18.2, +76%) &mdash; combined with his high sprint volume, this is a normal signature of an explosive wide player, but worth monitoring for injury-prevention conditioning as training load builds.</li>
-      </ul>
+      <div id="insightBody"><!-- filled by JS --></div>
     </div>
 
-    <p class="section-note" style="margin-top:18px;text-align:center">Generated from 10 session GPS reports (30 Jul&ndash;19 Aug 2026) &middot; player identified as &ldquo;Gosa&rdquo; in source reports &middot; all figures cross-checked against source PDFs.</p>
+    <p class="section-note" id="footerNote" style="margin-top:18px;text-align:center"><!-- filled by JS --></p>
 
   </section>
 
@@ -561,7 +470,7 @@
         <li><b>Two-footed finisher</b> &mdash; plays &amp; scores with both feet (rare)</li>
         <li><b>Goalscoring versatility</b> &mdash; creates and finishes</li>
         <li><b>Engine + work-rate</b> &mdash; #1 on the team, presses &amp; recovers</li>
-        <li><b>Top-end pace</b> &mdash; reaches 30.8 km/h</li>
+        <li><b>Top-end pace</b> &mdash; reaches <span id="profilePeakSpeed">&#8212;</span> km/h</li>
         <li><b>Press-resistance</b> &mdash; carries through traffic</li>
         <li><b>Positional range</b> &mdash; LB (younger) &rarr; winger/CAM (now)</li>
       </ul></div>
@@ -577,7 +486,7 @@
 
   <div class="foot">
     <div class="rep"><b>Represented by:</b> <span style="color:var(--muted)">&lsaquo; add agent / contact details &rsaquo;</span></div>
-    Compiled from 10 GPS session reports + match video across every era (Spain/Real Betis &middot; Maccabi Petach Tikva &middot; Maccabi Tel Aviv &middot; Hapoel Tel Aviv). Prepared for player representation. Full auditable GPS analytics in the Analytics tab. Updated 23 Aug 2026.
+    Compiled from <span id="globalFooterCount">&#8212;</span> GPS session reports + match video across every era (Spain/Real Betis &middot; Maccabi Petach Tikva &middot; Maccabi Tel Aviv &middot; Hapoel Tel Aviv). Prepared for player representation. Full auditable GPS analytics in the Analytics tab. Updated <span id="globalFooterDate">&#8212;</span>.
   </div>
 </div>
 
@@ -585,32 +494,420 @@
 (function () {
   "use strict";
 
-  /* ---------------- GPS Analytics module (lazy-initialized on first Analytics-tab activation) ---------------- */
+  /* =====================================================================
+     GPS Analytics module — SINGLE SOURCE OF TRUTH is the SESSIONS array.
+     Every KPI card, average, rank, chart, table row, speed-zone panel and
+     insight-box number on this page is computed from SESSIONS at load
+     time. To record a new session, add ONE object to the array (see the
+     marker above the last element) — nothing else needs to change.
+     ===================================================================== */
   var SESSIONS = [
-    { date:"30 Jul", type:"train", squad:21, dist:6567, teamDist:6487, mmin:70.7, teamMmin:69.1, maxSpeed:28.9, teamMaxSpeed:26.7, sprint:43,  teamSprint:23,  accel:null, teamAccel:null, decel:null, teamDecel:null },
-    { date:"4 Aug",  type:"train", squad:19, dist:5849, teamDist:5252, mmin:62.0, teamMmin:55.8, maxSpeed:25.0, teamMaxSpeed:25.1, sprint:1,   teamSprint:11,  accel:22,   teamAccel:33,   decel:32,   teamDecel:31   },
-    { date:"5 Aug",  type:"train", squad:21, dist:5660, teamDist:5061, mmin:63.4, teamMmin:56.7, maxSpeed:28.6, teamMaxSpeed:25.9, sprint:16,  teamSprint:17,  accel:27,   teamAccel:22,   decel:17,   teamDecel:28   },
-    { date:"7 Aug",  type:"match", squad:19, dist:2768, teamDist:4479, mmin:106.2,teamMmin:95.5, maxSpeed:30.6, teamMaxSpeed:28.0, sprint:60,  teamSprint:37,  accel:10,   teamAccel:14,   decel:13,   teamDecel:18   },
-    { date:"9 Aug",  type:"train", squad:22, dist:6471, teamDist:5588, mmin:72.6, teamMmin:63.0, maxSpeed:28.8, teamMaxSpeed:26.3, sprint:20,  teamSprint:11,  accel:33,   teamAccel:28,   decel:28,   teamDecel:25   },
-    { date:"10 Aug", type:"train", squad:23, dist:5146, teamDist:4475, mmin:55.5, teamMmin:48.2, maxSpeed:21.6, teamMaxSpeed:23.3, sprint:0,   teamSprint:0,   accel:18,   teamAccel:23,   decel:25,   teamDecel:24   },
-    { date:"11 Aug", type:"train", squad:20, dist:7485, teamDist:6348, mmin:82.8, teamMmin:70.6, maxSpeed:27.9, teamMaxSpeed:28.2, sprint:52,  teamSprint:59,  accel:23,   teamAccel:28,   decel:21,   teamDecel:25   },
-    { date:"12 Aug", type:"train", squad:22, dist:7116, teamDist:6029, mmin:75.3, teamMmin:63.8, maxSpeed:29.1, teamMaxSpeed:29.2, sprint:88,  teamSprint:98,  accel:23,   teamAccel:28,   decel:34,   teamDecel:29   },
-    { date:"18 Aug", type:"train", squad:19, dist:6053, teamDist:5898, mmin:64.2, teamMmin:62.7, maxSpeed:30.8, teamMaxSpeed:30.9, sprint:195, teamSprint:172, accel:19,   teamAccel:30,   decel:24,   teamDecel:22   },
-    { date:"19 Aug", type:"train", squad:19, dist:5908, teamDist:4892, mmin:68.4, teamMmin:56.7, maxSpeed:27.2, teamMaxSpeed:24.8, sprint:44,  teamSprint:9,   accel:26,   teamAccel:23,   decel:32,   teamDecel:18   }
+    { date:"30 Jul", type:"Train", squad:21,
+      dist:{v:6567, team:6487, rank:null}, mmin:{v:70.7, team:69.1, rank:null},
+      maxspd:{v:28.9, team:26.7, rank:null}, sprint:{v:43, team:23, rank:null},
+      accel:{v:null, team:null, rank:null}, decel:{v:null, team:null, rank:null},
+      zones:null, zonesTeam:null },
+    { date:"4 Aug", type:"Train", squad:19,
+      dist:{v:5849, team:5252, rank:null}, mmin:{v:62.0, team:55.8, rank:null},
+      maxspd:{v:25.0, team:25.1, rank:null}, sprint:{v:1, team:11, rank:null},
+      accel:{v:22, team:33, rank:null}, decel:{v:32, team:31, rank:null},
+      zones:null, zonesTeam:null },
+    { date:"5 Aug", type:"Train", squad:21,
+      dist:{v:5660, team:5061, rank:null}, mmin:{v:63.4, team:56.7, rank:null},
+      maxspd:{v:28.6, team:25.9, rank:null}, sprint:{v:16, team:17, rank:null},
+      accel:{v:27, team:22, rank:null}, decel:{v:17, team:28, rank:null},
+      zones:null, zonesTeam:null },
+    { date:"7 Aug", type:"Match", squad:19,
+      dist:{v:2768, team:4479, rank:null}, mmin:{v:106.2, team:95.5, rank:null},
+      maxspd:{v:30.6, team:28.0, rank:null}, sprint:{v:60, team:37, rank:null},
+      accel:{v:10, team:14, rank:null}, decel:{v:13, team:18, rank:null},
+      zones:null, zonesTeam:null },
+    { date:"9 Aug", type:"Train", squad:22,
+      dist:{v:6471, team:5588, rank:null}, mmin:{v:72.6, team:63.0, rank:null},
+      maxspd:{v:28.8, team:26.3, rank:null}, sprint:{v:20, team:11, rank:null},
+      accel:{v:33, team:28, rank:null}, decel:{v:28, team:25, rank:null},
+      zones:null, zonesTeam:null },
+    { date:"10 Aug", type:"Train", squad:23,
+      dist:{v:5146, team:4475, rank:null}, mmin:{v:55.5, team:48.2, rank:null},
+      maxspd:{v:21.6, team:23.3, rank:null}, sprint:{v:0, team:0, rank:null},
+      accel:{v:18, team:23, rank:null}, decel:{v:25, team:24, rank:null},
+      zones:null, zonesTeam:null },
+    { date:"11 Aug", type:"Train", squad:20,
+      dist:{v:7485, team:6348, rank:null}, mmin:{v:82.8, team:70.6, rank:null},
+      maxspd:{v:27.9, team:28.2, rank:null}, sprint:{v:52, team:59, rank:null},
+      accel:{v:23, team:28, rank:null}, decel:{v:21, team:25, rank:null},
+      zones:null, zonesTeam:null },
+    { date:"12 Aug", type:"Train", squad:22,
+      dist:{v:7116, team:6029, rank:null}, mmin:{v:75.3, team:63.8, rank:null},
+      maxspd:{v:29.1, team:29.2, rank:null}, sprint:{v:88, team:98, rank:null},
+      accel:{v:23, team:28, rank:null}, decel:{v:34, team:29, rank:null},
+      zones:null, zonesTeam:null },
+    { date:"18 Aug", type:"Train", squad:19,
+      dist:{v:6053, team:5898, rank:null}, mmin:{v:64.2, team:62.7, rank:null},
+      maxspd:{v:30.8, team:30.9, rank:null}, sprint:{v:195, team:172, rank:null},
+      accel:{v:19, team:30, rank:null}, decel:{v:24, team:22, rank:null},
+      zones:{ z07:3379, z715:1821, z1520:503, z2025:162, z25:44 },
+      zonesTeam:{ z07:2990, z715:1483, z1520:321, z2025:88, z25:9 } },
+    { date:"19 Aug", type:"Train", squad:19,
+      dist:{v:5908, team:4892, rank:1}, mmin:{v:68.4, team:56.7, rank:1},
+      maxspd:{v:27.2, team:24.8, rank:3}, sprint:{v:44, team:9, rank:1},
+      accel:{v:26, team:23, rank:7}, decel:{v:32, team:18, rank:2},
+      zones:null, zonesTeam:null },
+    // ========= ADD A NEW SESSION: copy the block below, edit the numbers =========
+    // Field order: date, type('Train'|'Match'), squad size, then per metric
+    // {v:Itay's value, team:that session's team average, rank:his squad rank for that metric or null if unknown},
+    // zones:{z07,z715,z1520,z2025,z25} = Itay's speed-zone distances (or null if not extracted),
+    // zonesTeam:{...same keys...} = team-average speed-zone distances (or null).
+    { date:"23 Aug", type:"Train", squad:21,
+      dist:{v:6596, team:5154, rank:1}, mmin:{v:73.2, team:58.5, rank:1},
+      maxspd:{v:24.9, team:25.0, rank:14}, sprint:{v:0, team:3.3, rank:14},
+      accel:{v:28, team:27, rank:9}, decel:{v:33, team:30.2, rank:7},
+      zones:{ z07:3608, z715:2386, z1520:516, z2025:86, z25:0 },
+      zonesTeam:{ z07:3025, z715:1706, z1520:353, z2025:67, z25:3 } }
   ];
 
+  var METRIC_ORDER = ["dist", "mmin", "maxspd", "sprint", "accel", "decel"];
+  function fmtInt(v) { return v == null ? null : Math.round(v).toLocaleString("en-US"); }
+  function fmt1(v) { return v == null ? null : v.toFixed(1); }
   var METRICS = {
-    dist:      { label:"Total Distance",              unit:"m",     itayKey:"dist",      teamKey:"teamDist",      fmt:function(v){ return Math.round(v).toLocaleString("en-US"); } },
-    mmin:      { label:"Distance / Min",               unit:"m/min", itayKey:"mmin",      teamKey:"teamMmin",      fmt:function(v){ return v.toFixed(1); } },
-    maxSpeed:  { label:"Max Speed",                    unit:"km/h",  itayKey:"maxSpeed",  teamKey:"teamMaxSpeed",  fmt:function(v){ return v.toFixed(1); } },
-    sprint:    { label:"Sprint Distance (25+ km/h)",   unit:"m",     itayKey:"sprint",    teamKey:"teamSprint",    fmt:function(v){ return Math.round(v).toLocaleString("en-US"); } },
-    accel:     { label:"Accelerations",                unit:"",      itayKey:"accel",     teamKey:"teamAccel",     fmt:function(v){ return Math.round(v).toString(); } },
-    decel:     { label:"Decelerations",                unit:"",      itayKey:"decel",     teamKey:"teamDecel",     fmt:function(v){ return Math.round(v).toString(); } }
+    dist:   { label:"Total Distance",              unit:"m",     icon:"&#128207;", fmt:fmtInt },
+    mmin:   { label:"Distance / Min",               unit:"m/min", icon:"&#9889;",   fmt:fmt1 },
+    maxspd: { label:"Max Speed",                    unit:"km/h",  icon:"&#128168;", fmt:fmt1 },
+    sprint: { label:"Sprint Distance (25+ km/h)",   unit:"m",     icon:"&#128640;", fmt:fmtInt },
+    accel:  { label:"Accelerations",                unit:"",      icon:"&#127919;", fmt:fmtInt },
+    decel:  { label:"Decelerations",                unit:"",      icon:"&#127919;", fmt:fmtInt }
   };
-  var SMALL_MULTIPLES = ["dist", "mmin", "maxSpeed", "sprint"];
+  var SMALL_MULTIPLES = ["dist", "mmin", "maxspd", "sprint"];
 
+  /* ---------------- computation helpers (pure functions of SESSIONS) ---------------- */
+  function mean(vals) {
+    var f = vals.filter(function (x) { return x != null; });
+    if (!f.length) return null;
+    return f.reduce(function (a, b) { return a + b; }, 0) / f.length;
+  }
+  function pctDelta(v, base) {
+    if (v == null || base == null) return null;
+    if (base === 0) return v === 0 ? 0 : null;
+    return (v - base) / base * 100;
+  }
+  function signPct(pct) {
+    if (pct == null) return "n/a";
+    return (pct >= 0 ? "+" : "") + Math.round(pct) + "%";
+  }
+  function fmtSignedPct(pct, decimals) {
+    if (pct == null) return "n/a";
+    return (pct >= 0 ? "+" : "") + pct.toFixed(decimals != null ? decimals : 1) + "%";
+  }
+  function trendWord(pct, upWord, flatWord, downWord) {
+    if (pct == null) return flatWord;
+    if (pct > 3) return upWord;
+    if (pct < -3) return downWord;
+    return flatWord;
+  }
+
+  function computeAggregates() {
+    var latest = SESSIONS[SESSIONS.length - 1];
+    var personal = {};
+    METRIC_ORDER.forEach(function (k) {
+      personal[k] = mean(SESSIONS.map(function (s) { return s[k] ? s[k].v : null; }));
+    });
+    var peakSpeed = null;
+    SESSIONS.forEach(function (s) {
+      if (s.maxspd.v != null && (!peakSpeed || s.maxspd.v > peakSpeed.v)) peakSpeed = { v: s.maxspd.v, date: s.date };
+    });
+    var countGE30 = SESSIONS.filter(function (s) { return s.maxspd.v != null && s.maxspd.v >= 30; }).length;
+    return {
+      latest: latest, n: SESSIONS.length, personal: personal,
+      peakSpeed: peakSpeed, countGE30: countGE30,
+      trainingSessions: SESSIONS.filter(function (s) { return s.type === "Train"; }),
+      matchSessions: SESSIONS.filter(function (s) { return s.type === "Match"; })
+    };
+  }
+
+  function splitTrend(sessions, key) {
+    if (sessions.length < 6) return null;
+    var first3 = sessions.slice(0, 3), last3 = sessions.slice(-3);
+    var f = mean(first3.map(function (s) { return s[key].v; }));
+    var l = mean(last3.map(function (s) { return s[key].v; }));
+    if (f == null || l == null || f === 0) return null;
+    return { f: f, l: l, pct: (l - f) / f * 100 };
+  }
+
+  var AGG = computeAggregates();
+  renderIntroTexts(AGG);   // hero strip / verdict / footer — render on page load (not lazy)
+
+  /* ---------------- render: KPI grid ---------------- */
+  function deltaRow(pct, label) {
+    if (pct == null) return '<div class="kpi-delta"><span class="arrow">&#8212;</span> n/a ' + label + '</div>';
+    var isUp = pct >= 0;
+    var cls = isUp ? "delta-up" : "delta-down";
+    var arrow = isUp ? "&#9650;" : "&#9660;";
+    return '<div class="kpi-delta ' + cls + '"><span class="arrow">' + arrow + '</span> ' + Math.round(Math.abs(pct)) + '% ' + label + '</div>';
+  }
+
+  function renderKpiGrid(agg) {
+    var latest = agg.latest, p = agg.personal;
+    var cards = [];
+
+    function metricCard(key, label, unit) {
+      var m = latest[key];
+      var rankHtml = m.rank != null ? ('RANK ' + m.rank + ' <span class="of">of ' + latest.squad + '</span>') : ('RANK <span class="of">&mdash; of ' + latest.squad + '</span>');
+      return '<div class="kpi-card">' +
+        '<div class="kpi-top"><span class="kpi-icon">' + METRICS[key].icon + '</span><span class="kpi-label">' + label + '</span></div>' +
+        '<div class="kpi-value">' + METRICS[key].fmt(m.v) + '<span class="kpi-unit">' + unit + '</span></div>' +
+        '<div class="kpi-sub">Latest session &middot; ' + latest.date + '</div>' +
+        '<div class="kpi-badge">' + rankHtml + '</div>' +
+        '<div class="kpi-deltas">' + deltaRow(pctDelta(m.v, m.team), "vs team avg") + deltaRow(pctDelta(m.v, p[key]), "vs personal avg") + '</div>' +
+      '</div>';
+    }
+
+    cards.push(metricCard("dist", "Total Distance", "m"));
+    cards.push(metricCard("mmin", "Distance / Min", "m/min"));
+
+    var ms = latest.maxspd;
+    var msRankHtml = ms.rank != null ? ('rank ' + ms.rank + ' of ' + latest.squad) : ('rank &mdash; of ' + latest.squad);
+    var badgeCls = agg.countGE30 > 0 ? "kpi-badge badge-strength" : "kpi-badge";
+    var badgeTxt = agg.countGE30 > 0
+      ? ('&#127942; TOP-SPEED STRENGTH &middot; ' + agg.countGE30 + ' session' + (agg.countGE30 === 1 ? "" : "s") + ' &ge; 30 km/h')
+      : (agg.countGE30 + ' sessions &ge; 30 km/h so far');
+    cards.push(
+      '<div class="kpi-card lead">' +
+        '<div class="kpi-top"><span class="kpi-icon">&#128168;</span><span class="kpi-label">Max Speed</span></div>' +
+        '<div class="kpi-value">' + fmt1(agg.peakSpeed.v) + '<span class="kpi-unit">km/h</span></div>' +
+        '<div class="kpi-sub">Peak (all sessions) &middot; hit on ' + agg.peakSpeed.date + '</div>' +
+        '<div class="' + badgeCls + '">' + badgeTxt + '</div>' +
+        '<div class="kpi-note">Latest (' + latest.date + '): ' + fmt1(ms.v) + ' km/h &middot; ' + msRankHtml + '</div>' +
+        '<div class="kpi-deltas">' + deltaRow(pctDelta(ms.v, ms.team), "vs team avg (latest)") + deltaRow(pctDelta(ms.v, p.maxspd), "vs personal avg") + '</div>' +
+      '</div>'
+    );
+
+    cards.push(metricCard("sprint", "Sprint Distance (25+ km/h)", "m"));
+    cards.push(metricCard("accel", "Accelerations", "count"));
+    cards.push(metricCard("decel", "Decelerations", "count"));
+
+    document.getElementById("kpiGrid").innerHTML = cards.join("");
+  }
+
+  /* ---------------- render: compare grid ---------------- */
+  function renderCompareGrid(agg) {
+    var latest = agg.latest, p = agg.personal;
+    var defs = [
+      { key:"dist", title:"Total Distance", unit:"m" },
+      { key:"mmin", title:"Distance / Min", unit:"m/min" },
+      { key:"maxspd", title:"Max Speed", unit:"km/h" },
+      { key:"sprint", title:"Sprint Distance (25+ km/h)", unit:"m" },
+      { key:"accel", title:"Accelerations", unit:"count" },
+      { key:"decel", title:"Decelerations", unit:"count" }
+    ];
+    var grid = document.getElementById("compareGrid");
+    var html = "";
+    defs.forEach(function (d) {
+      var lv = latest[d.key].v, pv = p[d.key], tv = latest[d.key].team;
+      var vals = [lv, pv, tv].filter(function (x) { return x != null; });
+      var maxV = (vals.length ? Math.max.apply(null, vals) : 1) * 1.12 || 1;
+      var hL = lv != null ? (lv / maxV * 100).toFixed(1) : 0;
+      var hP = pv != null ? (pv / maxV * 100).toFixed(1) : 0;
+      var hT = tv != null ? (tv / maxV * 100).toFixed(1) : 0;
+      var fL = METRICS[d.key].fmt(lv), fP = METRICS[d.key].fmt(pv), fT = METRICS[d.key].fmt(tv);
+      html += '<div class="compare-card">' +
+        '<div class="compare-title">' + d.title + ' <span class="compare-unit">(' + d.unit + ')</span></div>' +
+        '<div class="cbar-group">' +
+          '<div class="cbar-col"><div class="cbar-track"><div class="cbar-fill bar-latest" style="height:' + hL + '%"><span class="cbar-val">' + (fL != null ? fL : "&mdash;") + '</span></div></div><div class="cbar-label">Latest</div><div class="cbar-sublabel">' + latest.date + '</div></div>' +
+          '<div class="cbar-col"><div class="cbar-track"><div class="cbar-fill bar-personal" style="height:' + hP + '%"><span class="cbar-val">' + (fP != null ? fP : "&mdash;") + '</span></div></div><div class="cbar-label">Personal Avg</div><div class="cbar-sublabel">' + agg.n + '-session</div></div>' +
+          '<div class="cbar-col"><div class="cbar-track"><div class="cbar-fill bar-team" style="height:' + hT + '%"><span class="cbar-val">' + (fT != null ? fT : "&mdash;") + '</span></div></div><div class="cbar-label">Team Avg</div><div class="cbar-sublabel">squad</div></div>' +
+        '</div></div>';
+    });
+    grid.innerHTML = html;
+  }
+
+  /* ---------------- render: speed-zone card ---------------- */
+  function renderZoneCard(agg) {
+    var latest = agg.latest;
+    var heading = document.getElementById("zoneHeading");
+    heading.innerHTML = "4 &middot; Speed-Zone Distribution &mdash; Latest Session (" + latest.date + ")";
+    var el = document.getElementById("zoneCard");
+    if (!latest.zones) {
+      el.innerHTML = '<p class="mut" style="margin:0">No speed-zone breakdown recorded for the latest session (' + latest.date + ').</p>';
+      return;
+    }
+    var z = latest.zones, zt = latest.zonesTeam || null;
+    var total = z.z07 + z.z715 + z.z1520 + z.z2025 + z.z25;
+    var teamTotal = zt ? (zt.z07 + zt.z715 + zt.z1520 + zt.z2025 + zt.z25) : null;
+    var zoneDefs = [
+      { cls:"z-c1", label:"0&ndash;7 km/h", desc:"Walk / jog", key:"z07" },
+      { cls:"z-c2", label:"7&ndash;15 km/h", desc:"Low-med run", key:"z715" },
+      { cls:"z-c3", label:"15&ndash;20 km/h", desc:"Med-high run", key:"z1520" },
+      { cls:"z-c4", label:"20&ndash;25 km/h", desc:"High speed", key:"z2025" },
+      { cls:"z-c5", label:"25+ km/h", desc:"Sprint", key:"z25" }
+    ];
+    var bar = "", rows = "";
+    zoneDefs.forEach(function (zd) {
+      var v = z[zd.key];
+      var pct = total ? (v / total * 100) : 0;
+      bar += '<div class="zseg ' + zd.cls + '" style="width:' + pct.toFixed(2) + '%" title="' + zd.label + ': ' + fmtInt(v) + ' m (' + pct.toFixed(1) + '%)"></div>';
+      var tv = zt ? zt[zd.key] : null;
+      var tpct = (zt && teamTotal) ? (tv / teamTotal * 100) : null;
+      rows += '<tr><td><span class="swatch ' + zd.cls + '"></span>' + zd.label + '</td><td class="mut">' + zd.desc + '</td>' +
+        '<td class="a-num">' + fmtInt(v) + ' m</td><td class="a-num">' + pct.toFixed(1) + '%</td>' +
+        '<td class="a-num mut">' + (tv != null ? fmtInt(tv) + ' m' : "&mdash;") + '</td><td class="a-num mut">' + (tpct != null ? tpct.toFixed(1) + '%' : "&mdash;") + '</td></tr>';
+    });
+    el.innerHTML = '<div class="zbar">' + bar + '</div>' +
+      '<table class="zone-table"><thead><tr><th>Zone</th><th>Description</th><th class="a-num">Itay (m)</th><th class="a-num">Itay %</th><th class="a-num">Team avg (m)</th><th class="a-num">Team avg %</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  /* ---------------- render: data table + average row ---------------- */
+  function renderDataTable(agg) {
+    var body = document.getElementById("dataTableBody");
+    var dash = "&mdash;";
+    var html = "";
+    SESSIONS.forEach(function (s) {
+      html += "<tr>" +
+        '<td class="date-cell">' + s.date + (s.type === "Match" ? ' <span class="tag-match">MATCH</span>' : "") + "</td>" +
+        '<td class="a-num mut">' + s.squad + "</td>" +
+        '<td class="a-num">' + fmt1(s.maxspd.v) + '</td><td class="a-num mut">' + fmt1(s.maxspd.team) + "</td>" +
+        '<td class="a-num">' + fmtInt(s.dist.v) + '</td><td class="a-num mut">' + fmtInt(s.dist.team) + "</td>" +
+        '<td class="a-num">' + fmt1(s.mmin.v) + '</td><td class="a-num mut">' + fmt1(s.mmin.team) + "</td>" +
+        '<td class="a-num">' + (s.accel.v != null ? s.accel.v : dash) + '</td><td class="a-num mut">' + (s.accel.team != null ? s.accel.team : dash) + "</td>" +
+        '<td class="a-num">' + (s.decel.v != null ? s.decel.v : dash) + '</td><td class="a-num mut">' + (s.decel.team != null ? s.decel.team : dash) + "</td>" +
+        '<td class="a-num">' + fmtInt(s.sprint.v) + '</td><td class="a-num mut">' + fmt1(s.sprint.team) + "</td>" +
+        "</tr>";
+    });
+
+    var p = agg.personal;
+    var teamAvg = {};
+    METRIC_ORDER.forEach(function (k) {
+      teamAvg[k] = mean(SESSIONS.map(function (s) { return s[k] ? s[k].team : null; }));
+    });
+    html += '<tr class="avg-row">' +
+      '<td class="date-cell">Average (' + agg.n + ' sessions)</td>' +
+      '<td class="a-num mut">&mdash;</td>' +
+      '<td class="a-num">' + fmt1(p.maxspd) + '</td><td class="a-num mut">' + fmt1(teamAvg.maxspd) + "</td>" +
+      '<td class="a-num">' + fmtInt(p.dist) + '</td><td class="a-num mut">' + fmtInt(teamAvg.dist) + "</td>" +
+      '<td class="a-num">' + fmt1(p.mmin) + '</td><td class="a-num mut">' + fmt1(teamAvg.mmin) + "</td>" +
+      '<td class="a-num">' + fmt1(p.accel) + '</td><td class="a-num mut">' + fmt1(teamAvg.accel) + "</td>" +
+      '<td class="a-num">' + fmt1(p.decel) + '</td><td class="a-num mut">' + fmt1(teamAvg.decel) + "</td>" +
+      '<td class="a-num">' + fmtInt(p.sprint) + '</td><td class="a-num mut">' + fmt1(teamAvg.sprint) + "</td>" +
+      "</tr>";
+    body.innerHTML = html;
+  }
+
+  /* ---------------- render: insight box (wording kept; numbers + direction computed) ---------------- */
+  function renderInsightBox(agg) {
+    var latest = agg.latest, p = agg.personal, train = agg.trainingSessions;
+    var msTrendNow = splitTrend(train, "maxspd");
+    var msTrendPrior = splitTrend(train.slice(0, -1), "maxspd");
+    var distTrendNow = splitTrend(train, "dist");
+    var mminTrendNow = splitTrend(train, "mmin");
+    var wrCombinedPct = (distTrendNow && mminTrendNow) ? (distTrendNow.pct + mminTrendNow.pct) / 2 : null;
+
+    var msDirWord = trendWord(msTrendNow ? msTrendNow.pct : null, "still climbing", "roughly flat right now", "cooling");
+    var wrDirWord = trendWord(wrCombinedPct, "climbing", "holding steady", "easing back");
+
+    var distPeak = null, mminPeak = null, sprintPeak = null;
+    SESSIONS.forEach(function (s) {
+      if (!distPeak || s.dist.v > distPeak.v) distPeak = { v: s.dist.v, date: s.date };
+      if (!mminPeak || s.mmin.v > mminPeak.v) mminPeak = { v: s.mmin.v, date: s.date };
+      if (!sprintPeak || s.sprint.v > sprintPeak.v) sprintPeak = { v: s.sprint.v, date: s.date };
+    });
+    var prevSession = SESSIONS.length > 1 ? SESSIONS[SESSIONS.length - 2] : null;
+
+    var sprintDirWord;
+    if (latest.maxspd.v < 25 && latest.sprint.v === 0) sprintDirWord = "reset to zero on the same day top speed dipped";
+    else sprintDirWord = trendWord(pctDelta(latest.sprint.v, p.sprint), "trending up", "holding steady", "trending down");
+
+    var rankedSessions = SESSIONS.filter(function (s) { return s.dist.rank != null && s.mmin.rank != null; });
+    var rankedTop1 = rankedSessions.filter(function (s) { return s.dist.rank === 1 && s.mmin.rank === 1; });
+
+    var sortedSpeeds = SESSIONS.map(function (s) { return s.maxspd.v; }).slice().sort(function (a, b) { return a - b; });
+    var ordinal = sortedSpeeds.indexOf(latest.maxspd.v) + 1;
+    var ordinalWord = ordinal === 1 ? "his lowest" : (ordinal === 2 ? "his second-lowest" : ("his " + ordinal + "th-lowest"));
+    var lowSpeedDates = SESSIONS.filter(function (s) { return s.maxspd.v < 25; }).map(function (s) { return s.date; }).join(", ");
+
+    var decelTeamDelta = pctDelta(latest.decel.v, latest.decel.team);
+    var decelPersDelta = pctDelta(latest.decel.v, p.decel);
+    var matchSession = agg.matchSessions.length ? agg.matchSessions[agg.matchSessions.length - 1] : null;
+
+    var html = "";
+    html += "<p><b>Top speed trend: " + msDirWord + ".</b> Across " + agg.n + " sessions his max speed ranged " +
+      fmt1(sortedSpeeds[0]) + "&ndash;" + fmt1(agg.peakSpeed.v) + " km/h, peaking at <b>" + fmt1(agg.peakSpeed.v) + " km/h on " + agg.peakSpeed.date + "</b>" +
+      (matchSession ? (" and touching " + fmt1(matchSession.maxspd.v) + " km/h in the " + matchSession.date + " match") : "") +
+      " &mdash; " + agg.countGE30 + " session" + (agg.countGE30 === 1 ? "" : "s") + " at or above 30 km/h. The training-only early-to-late split (first 3 vs last 3 training sessions) is currently " +
+      (msTrendNow ? fmtSignedPct(msTrendNow.pct) : "n/a") +
+      (msTrendPrior ? (", versus " + fmtSignedPct(msTrendPrior.pct) + " before the latest session was added") : "") + ".</p>";
+
+    html += "<p><b>The engine (work-rate) is " + wrDirWord + ".</b> Total distance and m/min trend " +
+      (distTrendNow ? fmtSignedPct(distTrendNow.pct) : "n/a") + " / " + (mminTrendNow ? fmtSignedPct(mminTrendNow.pct) : "n/a") +
+      " (first 3 vs last 3 training sessions), with personal bests of <b>" + fmtInt(distPeak.v) + " m (" + distPeak.date + ")</b> and <b>" + fmt1(mminPeak.v) + " m/min (" + mminPeak.date + ")</b>. Latest session (" + latest.date + ") ranked " +
+      (latest.dist.rank != null ? "#" + latest.dist.rank : "unranked") + " of " + latest.squad + " for distance and " +
+      (latest.mmin.rank != null ? "#" + latest.mmin.rank : "unranked") + " of " + latest.squad + " for m/min. In the " + rankedSessions.length + " session" + (rankedSessions.length === 1 ? "" : "s") +
+      " with recorded squad ranks, he's finished #1 for both distance and m/min in " + rankedTop1.length + " of them.</p>";
+
+    html += "<p><b>Sprint output " + sprintDirWord + ".</b> Peak sprint distance on record is <b>" + fmtInt(sprintPeak.v) + " m (" + sprintPeak.date + ")</b>; the latest session recorded <b>" + fmtInt(latest.sprint.v) + " m (" + latest.date + ")</b>" +
+      (prevSession ? (", versus " + fmtInt(prevSession.sprint.v) + " m the session before (" + prevSession.date + ")") : "") +
+      ". Sprint distance requires clearing 25 km/h, and the latest max speed was " + fmt1(latest.maxspd.v) + " km/h &mdash; " + (latest.maxspd.v < 25 ? "below" : "at/above") + " that threshold.</p>";
+
+    html += "<ul>";
+    html += "<li><b>" + latest.date + " &mdash; high volume, low top-end:</b> squad-leading distance (" + fmtInt(latest.dist.v) + " m) and m/min (" + fmt1(latest.mmin.v) + "), but " + ordinalWord + " max speed of the sample (" + fmt1(latest.maxspd.v) + " km/h" +
+      (latest.maxspd.rank != null ? (", rank " + latest.maxspd.rank + " of " + latest.squad) : "") + ") and " + fmtInt(latest.sprint.v) + " m sprint distance" +
+      (lowSpeedDates ? (" &mdash; low-speed sessions on record: " + lowSpeedDates) : "") + ". Worth a quick check with the coach on whether these track to a specific tactical role or a genuine dip in top-end freshness.</li>";
+    if (matchSession) {
+      html += "<li><b>" + matchSession.date + " match:</b> total distance " + fmtInt(matchSession.dist.v) + " m but high intensity-per-minute (" + fmt1(matchSession.mmin.v) + " m/min, " + fmt1(matchSession.maxspd.v) + " km/h peak) &mdash; reads as a short, high-impact cameo rather than a full 90.</li>";
+    }
+    html += "<li><b>Deceleration load</b> is currently " + fmtSignedPct(decelTeamDelta, 0) + " vs team average (latest " + latest.decel.v + " vs " + fmt1(latest.decel.team) + ") and " + fmtSignedPct(decelPersDelta, 0) + " vs his own baseline &mdash; combined with his overall running volume, this is a normal signature of an explosive wide player, but worth monitoring for injury-prevention conditioning as training load builds.</li>";
+    html += "</ul>";
+
+    document.getElementById("insightBody").innerHTML = html;
+  }
+
+  /* ---------------- render: text spots that mention dates/counts (overview strip, notes, legends, footers) ---------------- */
+  function setHtml(id, html) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  }
+
+  function fmtDateRange(agg) {
+    return SESSIONS[0].date + "&ndash;" + agg.latest.date + " 2026";
+  }
+
+  function buildIntroSentence(agg) {
+    var trainCount = agg.trainingSessions.length, matchCount = agg.matchSessions.length;
+    var matchClause = "";
+    if (matchCount === 1) matchClause = " + the " + agg.matchSessions[0].date + " match";
+    else if (matchCount > 1) matchClause = " + " + matchCount + " matches";
+    return agg.n + " sessions analysed (" + trainCount + " training" + matchClause + "), " + fmtDateRange(agg) +
+      " &middot; team reports list him as &ldquo;Gosa&rdquo; (short for Gussarsky). Every figure below is cross-checked against the source GPS PDFs.";
+  }
+
+  function renderIntroTexts(agg) {
+    var latest = agg.latest;
+
+    setHtml("stripWorkrateVal", latest.mmin.rank != null ? "#" + latest.mmin.rank : "&#8212;");
+    setHtml("stripWorkrateSub", fmt1(latest.mmin.v) + " m/min &middot; " + signPct(pctDelta(latest.mmin.v, latest.mmin.team)));
+    setHtml("stripDistVal", latest.dist.rank != null ? "#" + latest.dist.rank : "&#8212;");
+    setHtml("stripDistSub", fmtInt(latest.dist.v) + " m &middot; " + signPct(pctDelta(latest.dist.v, latest.dist.team)));
+    setHtml("stripTopSpeedVal", fmt1(agg.peakSpeed.v) + " km/h");
+    setHtml("stripTopSpeedSub", "peak &middot; " + agg.countGE30 + " session" + (agg.countGE30 === 1 ? "" : "s") + " &ge;30");
+
+    setHtml("verdictPeakSpeed", fmt1(agg.peakSpeed.v));
+    setHtml("verdictGE30Count", agg.countGE30 + " session" + (agg.countGE30 === 1 ? "" : "s") + " &ge;30");
+    setHtml("profilePeakSpeed", fmt1(agg.peakSpeed.v));
+
+    setHtml("introNote", buildIntroSentence(agg));
+    setHtml("section1Note", latest.date + " 2026 session &mdash; rank in squad, vs. team average, and vs. Itay's own " + agg.n + "-session average. The Max-Speed card leads with his career-best peak, not a single session.");
+    setHtml("section2Note", "Every KPI compared three ways at once &mdash; the " + latest.date + " session, Itay's own " + agg.n + "-session baseline, and that session's squad average.");
+    setHtml("legendLatestLabel", "Latest (" + latest.date + ")");
+    setHtml("legendPersonalLabel", "Personal Avg (" + agg.n + " sessions)");
+    var optAll = document.getElementById("optAllSessions");
+    if (optAll) optAll.textContent = "All " + agg.n + " sessions";
+    setHtml("section5Note", "Every extracted value: Itay's figure and that session's team average, across all " + agg.n + " sessions. Scroll horizontally to see all columns. &mdash; = not reported for that session.");
+    setHtml("footerNote", "Generated from " + agg.n + " session GPS reports (" + fmtDateRange(agg) + ") &middot; player identified as &ldquo;Gosa&rdquo; in source reports &middot; all figures cross-checked against source PDFs.");
+
+    setHtml("globalFooterCount", agg.n.toString());
+    setHtml("globalFooterDate", latest.date + " 2026");
+  }
+
+  /* ---------------- trend charts (SVG) ---------------- */
   var state = { window: "all", type: "all", metric: "dist" };
-  var initialized = false;
 
   function getFiltered() {
     var arr = SESSIONS.filter(function (s) { return state.type === "all" ? true : s.type === state.type; });
@@ -667,8 +964,8 @@
 
     var allVals = [];
     sessions.forEach(function (s) {
-      if (s[cfg.itayKey] != null) allVals.push(s[cfg.itayKey]);
-      if (s[cfg.teamKey] != null) allVals.push(s[cfg.teamKey]);
+      if (s[metricKey].v != null) allVals.push(s[metricKey].v);
+      if (s[metricKey].team != null) allVals.push(s[metricKey].team);
     });
     if (allVals.length === 0) allVals = [0, 1];
     var scale = niceTicks(Math.min.apply(null, allVals), Math.max.apply(null, allVals), 5);
@@ -683,8 +980,8 @@
       svg += '<text x="' + (ml - 8) + '" y="' + (ty + 3.5).toFixed(1) + '" class="axis-label" text-anchor="end">' + formatTick(t) + '</text>';
     });
 
-    var itayPts = sessions.map(function (s, i) { return s[cfg.itayKey] != null ? { x: xs[i], y: y(s[cfg.itayKey]), i: i } : null; });
-    var teamPts = sessions.map(function (s, i) { return s[cfg.teamKey] != null ? { x: xs[i], y: y(s[cfg.teamKey]), i: i } : null; });
+    var itayPts = sessions.map(function (s, i) { return s[metricKey].v != null ? { x: xs[i], y: y(s[metricKey].v), i: i } : null; });
+    var teamPts = sessions.map(function (s, i) { return s[metricKey].team != null ? { x: xs[i], y: y(s[metricKey].team), i: i } : null; });
     var itayRuns = runs(itayPts);
     var teamRuns = runs(teamPts);
 
@@ -782,34 +1079,6 @@
     }
   }
 
-  var COMPARE = [
-    { key:"dist",     title:"Total Distance",            unit:"m",     latest:5908,  personal:5902, team:4892, fmtLatest:"5,908",  fmtPersonal:"5,902", fmtTeam:"4,892" },
-    { key:"mmin",     title:"Distance / Min",             unit:"m/min", latest:68.4,  personal:72.1, team:56.7, fmtLatest:"68.4",   fmtPersonal:"72.1",  fmtTeam:"56.7" },
-    { key:"maxSpeed", title:"Max Speed",                  unit:"km/h",  latest:27.2,  personal:27.9, team:24.8, fmtLatest:"27.2",   fmtPersonal:"27.9",  fmtTeam:"24.8" },
-    { key:"sprint",   title:"Sprint Distance (25+ km/h)", unit:"m",     latest:44,    personal:52,   team:9,    fmtLatest:"44",     fmtPersonal:"52",    fmtTeam:"9" },
-    { key:"accel",    title:"Accelerations",              unit:"count", latest:26,    personal:22,   team:23,   fmtLatest:"26",     fmtPersonal:"22",    fmtTeam:"23" },
-    { key:"decel",    title:"Decelerations",              unit:"count", latest:32,    personal:25,   team:18,   fmtLatest:"32",     fmtPersonal:"25",    fmtTeam:"18" }
-  ];
-
-  function renderCompareGrid() {
-    var grid = document.getElementById("compareGrid");
-    var html = "";
-    COMPARE.forEach(function (c) {
-      var maxV = Math.max(c.latest, c.personal, c.team) * 1.12;
-      var hL = (c.latest / maxV * 100).toFixed(1);
-      var hP = (c.personal / maxV * 100).toFixed(1);
-      var hT = (c.team / maxV * 100).toFixed(1);
-      html += '<div class="compare-card">' +
-        '<div class="compare-title">' + c.title + ' <span class="compare-unit">(' + c.unit + ')</span></div>' +
-        '<div class="cbar-group">' +
-          '<div class="cbar-col"><div class="cbar-track"><div class="cbar-fill bar-latest" style="height:' + hL + '%"><span class="cbar-val">' + c.fmtLatest + '</span></div></div><div class="cbar-label">Latest</div><div class="cbar-sublabel">19 Aug</div></div>' +
-          '<div class="cbar-col"><div class="cbar-track"><div class="cbar-fill bar-personal" style="height:' + hP + '%"><span class="cbar-val">' + c.fmtPersonal + '</span></div></div><div class="cbar-label">Personal Avg</div><div class="cbar-sublabel">10-session</div></div>' +
-          '<div class="cbar-col"><div class="cbar-track"><div class="cbar-fill bar-team" style="height:' + hT + '%"><span class="cbar-val">' + c.fmtTeam + '</span></div></div><div class="cbar-label">Team Avg</div><div class="cbar-sublabel">squad</div></div>' +
-        '</div></div>';
-    });
-    grid.innerHTML = html;
-  }
-
   function buildSmallMultiplesScaffold() {
     var grid = document.getElementById("smallMultiples");
     var html = "";
@@ -822,25 +1091,6 @@
       '</div>';
     });
     grid.innerHTML = html;
-  }
-
-  function renderDataTable() {
-    var body = document.getElementById("dataTableBody");
-    var html = "";
-    SESSIONS.forEach(function (s) {
-      var dash = "&mdash;";
-      html += "<tr>" +
-        '<td class="date-cell">' + s.date + (s.type === "match" ? ' <span class="tag-match">MATCH</span>' : "") + "</td>" +
-        '<td class="a-num mut">' + s.squad + "</td>" +
-        '<td class="a-num">' + s.maxSpeed.toFixed(1) + '</td><td class="a-num mut">' + s.teamMaxSpeed.toFixed(1) + "</td>" +
-        '<td class="a-num">' + s.dist.toLocaleString("en-US") + '</td><td class="a-num mut">' + s.teamDist.toLocaleString("en-US") + "</td>" +
-        '<td class="a-num">' + s.mmin.toFixed(1) + '</td><td class="a-num mut">' + s.teamMmin.toFixed(1) + "</td>" +
-        '<td class="a-num">' + (s.accel != null ? s.accel : dash) + '</td><td class="a-num mut">' + (s.teamAccel != null ? s.teamAccel : dash) + "</td>" +
-        '<td class="a-num">' + (s.decel != null ? s.decel : dash) + '</td><td class="a-num mut">' + (s.teamDecel != null ? s.teamDecel : dash) + "</td>" +
-        '<td class="a-num">' + s.sprint + '</td><td class="a-num mut">' + s.teamSprint + "</td>" +
-        "</tr>";
-    });
-    body.innerHTML = html;
   }
 
   function renderAll() {
@@ -856,10 +1106,12 @@
       if (svgEl && ttEl) renderChart(svgEl, ttEl, filtered, key);
     });
 
-    var windowLabel = state.window === "all" ? "all 10 sessions" : (state.window === "last5" ? "last 5 sessions" : "last 3 sessions");
+    var windowLabel = state.window === "all" ? "all 11 sessions" : (state.window === "last5" ? "last 5 sessions" : "last 3 sessions");
     var typeLabel = state.type === "all" ? "" : (state.type === "train" ? ", training only" : ", match only");
-    document.getElementById("filterNote").textContent = "Showing " + filtered.length + " of 10 sessions — " + windowLabel + typeLabel;
+    document.getElementById("filterNote").textContent = "Showing " + filtered.length + " of 11 sessions — " + windowLabel + typeLabel;
   }
+
+  var initialized = false;
 
   function init() {
     if (initialized) return;
@@ -875,9 +1127,12 @@
       renderChart(document.getElementById("featuredSvg"), document.getElementById("featuredTooltip"), filtered, state.metric);
     });
 
-    renderCompareGrid();
+    renderKpiGrid(AGG);
+    renderCompareGrid(AGG);
+    renderZoneCard(AGG);
+    renderInsightBox(AGG);
     buildSmallMultiplesScaffold();
-    renderDataTable();
+    renderDataTable(AGG);
     renderAll();
   }
 
