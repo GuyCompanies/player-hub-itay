@@ -162,10 +162,11 @@
 
   /* hero benchmark line — the standout comparison on a Season-Average card */
   .kpi-benchmark {
-    display:flex; align-items:center; gap:8px; margin-top: 14px; padding: 10px 13px;
-    border-radius: 12px; font-size: 13.5px; font-weight: 800; letter-spacing: 0.01em; line-height:1.3;
+    display:flex; align-items:center; flex-wrap:wrap; gap:6px 8px; margin-top: 14px; padding: 10px 13px;
+    border-radius: 12px; font-size: 13px; font-weight: 800; letter-spacing: 0.01em; line-height:1.3;
   }
   .kpi-benchmark .bm-dot { width:10px; height:10px; border-radius:50%; background:currentColor; flex-shrink:0; }
+  .kpi-benchmark .bm-text { flex:1 1 auto; min-width:0; }
   .kpi-benchmark .bm-arrow { font-size: 12px; }
   .kpi-benchmark .bm-sub { margin-left:auto; font-weight:600; font-size:11px; opacity:.8; white-space:nowrap; }
   .bench-green {
@@ -731,9 +732,9 @@
     var diffPct = pctDelta(val, b.v);
     var cls, text, arrowHtml = "";
     if (diffPct == null) { cls = "bench-amber"; text = "benchmark n/a"; }
-    else if (Math.abs(diffPct) <= 5) { cls = "bench-green"; text = "within benchmark range"; }
-    else if (diffPct > 5) { cls = "bench-green"; text = "above benchmark"; arrowHtml = ' <span class="bm-arrow">&#9650;</span>'; }
-    else { cls = "bench-amber"; text = "below benchmark"; arrowHtml = ' <span class="bm-arrow">&#9660;</span>'; }
+    else if (Math.abs(diffPct) <= 5) { cls = "bench-green"; text = "within global elite-academy benchmark"; }
+    else if (diffPct > 5) { cls = "bench-green"; text = "above global elite-academy benchmark"; arrowHtml = ' <span class="bm-arrow">&#9650;</span>'; }
+    else { cls = "bench-amber"; text = "below global elite-academy benchmark"; arrowHtml = ' <span class="bm-arrow">&#9660;</span>'; }
     return '<div class="kpi-benchmark ' + cls + '">' +
       '<span class="bm-dot"></span><span class="bm-text">' + text + arrowHtml + '</span>' +
       '<span class="bm-sub">vs ' + b.disp + '</span>' +
@@ -975,7 +976,7 @@
     setHtml("profilePeakSpeed", fmt1(agg.peakSpeed.v));
 
     setHtml("introNote", buildIntroSentence(agg));
-    setHtml("sectionAvgNote", "His baseline across all " + agg.n + " sessions &mdash; personal average per metric vs. squad average, with the standout comparison being an indicative elite/academy U15 training benchmark drawn from general youth-football GPS literature. Top speed is a capacity metric and is never averaged &mdash; the card shows his season <b>peak</b>, not a mean. These benchmark figures are indicative reference points only, not verified or official standards, and no widely-cited benchmark exists yet for accelerations or decelerations.");
+    setHtml("sectionAvgNote", "His baseline across all " + agg.n + " sessions &mdash; personal average per metric vs. squad average, <b>with the standout comparison being an indicative benchmark for the world&rsquo;s top elite/academy U15 players, drawn from general youth-football GPS literature.</b> Top speed is a capacity metric and is never averaged &mdash; the card shows his season <b>peak</b>, not a mean. These benchmark figures are indicative reference points only, not verified or official standards, and no widely-cited benchmark exists yet for accelerations or decelerations.");
     setHtml("latestKpiHeading", "2 &middot; Latest Session (" + latest.date + ")");
     setHtml("section1Note", latest.date + " 2026 session &mdash; rank in squad, vs. team average, and vs. Itay's own " + agg.n + "-session average. The Max-Speed card leads with his career-best peak, not a single session.");
     setHtml("section2Note", "Every KPI compared three ways at once &mdash; the " + latest.date + " session, Itay's own " + agg.n + "-session baseline, and that session's squad average.");
