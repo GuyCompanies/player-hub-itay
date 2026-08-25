@@ -160,23 +160,21 @@
   .delta-up { color: var(--good); }
   .delta-down { color: var(--crit); }
 
-  /* hero benchmark line — the standout comparison on a Season-Average card */
-  .kpi-benchmark {
-    display:flex; align-items:center; flex-wrap:wrap; gap:6px 8px; margin-top: 14px; padding: 10px 13px;
-    border-radius: 12px; font-size: 13px; font-weight: 800; letter-spacing: 0.01em; line-height:1.3;
-  }
-  .kpi-benchmark .bm-dot { width:10px; height:10px; border-radius:50%; background:currentColor; flex-shrink:0; }
-  .kpi-benchmark .bm-text { flex:1 1 auto; min-width:0; }
-  .kpi-benchmark .bm-arrow { font-size: 12px; }
-  .kpi-benchmark .bm-sub { margin-left:auto; font-weight:600; font-size:11px; opacity:.8; white-space:nowrap; }
-  .bench-green {
-    background: color-mix(in srgb, var(--good) 16%, var(--surface)); color: var(--good);
-    border: 1px solid color-mix(in srgb, var(--good) 42%, transparent);
-  }
-  .bench-amber {
-    background: color-mix(in srgb, var(--warn) 16%, var(--surface)); color: var(--warn);
-    border: 1px solid color-mix(in srgb, var(--warn) 42%, transparent);
-  }
+  /* benchmark radial gauge — the standout comparison on a Season-Average card */
+  .kpi-benchmark { display:flex; align-items:center; gap:13px; margin-top: 15px; }
+  .kpi-benchmark .ring { width: 54px; height:54px; flex-shrink:0; }
+  .kpi-benchmark .ring-track { fill:none; stroke: var(--line); stroke-width: 6; }
+  .kpi-benchmark .ring-val { fill:none; stroke-width: 6; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; }
+  .kpi-benchmark .ring-val.g { stroke: var(--good); }
+  .kpi-benchmark .ring-val.a { stroke: var(--warn); }
+  .kpi-benchmark .ring-pct { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .kpi-benchmark .ring-pct.g { fill: var(--good); }
+  .kpi-benchmark .ring-pct.a { fill: var(--warn); }
+  .kpi-benchmark .bm-txt-t { font-size: 12.5px; font-weight: 800; line-height:1.25; }
+  .kpi-benchmark .bm-txt-t.g { color: var(--good); }
+  .kpi-benchmark .bm-txt-t.a { color: var(--warn); }
+  .kpi-benchmark .bm-txt-t .bm-arrow { font-size: 12px; }
+  .kpi-benchmark .bm-txt-s { font-size: 11px; color: var(--muted); margin-top: 3px; font-variant-numeric: tabular-nums; }
 
   .legend-row { display:flex; gap:20px; flex-wrap:wrap; margin: 2px 0 18px; font-size:12.5px; color: var(--ink); align-items:center; }
   .legend-item { display:flex; align-items:center; gap:7px; }
@@ -731,14 +729,27 @@
     var b = ELITE_U15[key];
     if (!b) return "";
     var diffPct = pctDelta(val, b.v);
-    var cls, text, arrowHtml = "";
-    if (diffPct == null) { cls = "bench-amber"; text = "benchmark n/a"; }
-    else if (Math.abs(diffPct) <= 5) { cls = "bench-green"; text = "within global elite-academy benchmark"; }
-    else if (diffPct > 5) { cls = "bench-green"; text = "above global elite-academy benchmark"; arrowHtml = ' <span class="bm-arrow">&#9650;</span>'; }
-    else { cls = "bench-amber"; text = "below global elite-academy benchmark"; arrowHtml = ' <span class="bm-arrow">&#9660;</span>'; }
-    return '<div class="kpi-benchmark ' + cls + '">' +
-      '<span class="bm-dot"></span><span class="bm-text">' + text + arrowHtml + '</span>' +
-      '<span class="bm-sub">vs ' + b.disp + '</span>' +
+    if (diffPct == null) return "";
+    // status: within +/-5% = green; >5% above = green; >5% below = amber
+    var g, text, arrowHtml = "";
+    if (Math.abs(diffPct) <= 5) { g = true; text = "Within Global Elite-Academy Benchmark"; }
+    else if (diffPct > 5) { g = true; text = "Above Global Elite-Academy Benchmark"; arrowHtml = ' <span class="bm-arrow">&#9650;</span>'; }
+    else { g = false; text = "Below Global Elite-Academy Benchmark"; arrowHtml = ' <span class="bm-arrow">&#9660;</span>'; }
+    var cls = g ? "g" : "a";
+    // radial gauge: percent of benchmark reached, arc capped at 100%
+    var pct = Math.round(val / b.v * 100);
+    var C = 138.23;                       // 2*pi*r, r=22
+    var arc = C * Math.min(pct, 100) / 100;
+    return '<div class="kpi-benchmark">' +
+      '<svg class="ring" viewBox="0 0 54 54" aria-hidden="true">' +
+        '<circle class="ring-track" cx="27" cy="27" r="22"></circle>' +
+        '<circle class="ring-val ' + cls + '" cx="27" cy="27" r="22" stroke-dasharray="' + arc.toFixed(2) + ' ' + C + '" stroke-dashoffset="0"></circle>' +
+        '<text class="ring-pct ' + cls + '" x="27" y="27" text-anchor="middle" dominant-baseline="central">' + pct + '%</text>' +
+      '</svg>' +
+      '<div>' +
+        '<div class="bm-txt-t ' + cls + '">' + text + arrowHtml + '</div>' +
+        '<div class="bm-txt-s">' + pct + '% of ' + b.disp + ' reference</div>' +
+      '</div>' +
     '</div>';
   }
 
