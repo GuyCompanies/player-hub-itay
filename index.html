@@ -272,6 +272,8 @@
   table.zone-table { width:100%; border-collapse: collapse; margin-top:20px; font-size:13px; }
   table.zone-table th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.03em; color:var(--muted); padding:7px 10px; border-bottom:1px solid var(--line); font-weight:700; }
   table.zone-table td { padding:9px 10px; border-bottom:1px solid var(--line); }
+  /* numeric columns: header + values centered together (zone table only) */
+  table.zone-table th.a-num, table.zone-table td.a-num { text-align:center; }
   .swatch { width:11px; height:11px; border-radius:3px; display:inline-block; margin-right:9px; vertical-align:middle; }
   .a-num { font-variant-numeric: tabular-nums; text-align:right; }
   .mut { color: var(--muted); }
