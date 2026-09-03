@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="robots" content="noindex,nofollow">
 <title>Itay Gussarsky &mdash; Player Hub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -329,7 +328,7 @@
       <div class="s"><div class="lab">Team work-rate</div><div class="val" id="stripWorkrateVal">&#8212;</div><div class="sub" id="stripWorkrateSub">&#8212;</div></div>
       <div class="s"><div class="lab">Distance</div><div class="val" id="stripDistVal">&#8212;</div><div class="sub" id="stripDistSub">&#8212;</div></div>
       <div class="s"><div class="lab">Top speed</div><div class="val" id="stripTopSpeedVal">&#8212;</div><div class="sub" id="stripTopSpeedSub">&#8212;</div></div>
-      <div class="s"><div class="lab">Sprinting</div><div class="val">=#1</div><div class="sub">most sprint distance</div></div>
+      <div class="s"><div class="lab">Sprinting</div><div class="val" id="stripSprintVal">&#8212;</div><div class="sub" id="stripSprintSub">&#8212;</div></div>
     </div>
   </div></div>
 
@@ -586,7 +585,25 @@
       maxspd:{v:24.9, team:25.0, rank:14}, sprint:{v:0, team:3.3, rank:14},
       accel:{v:28, team:27, rank:9}, decel:{v:33, team:30.2, rank:7},
       zones:{ z07:3608, z715:2386, z1520:516, z2025:86, z25:0 },
-      zonesTeam:{ z07:3025, z715:1706, z1520:353, z2025:67, z25:3 } }
+      zonesTeam:{ z07:3025, z715:1706, z1520:353, z2025:67, z25:3 } },
+    { date:"29 Aug", type:"Match", squad:16,
+      dist:{v:5884, team:5554, rank:8}, mmin:{v:103.2, team:102.9, rank:9},
+      maxspd:{v:33.0, team:28.2, rank:1}, sprint:{v:141, team:51, rank:1},
+      accel:{v:25, team:18.3, rank:4}, decel:{v:27, team:24.1, rank:7},
+      zones:{ z07:2606, z715:2249, z1520:613, z2025:275, z25:141 },
+      zonesTeam:{ z07:2127, z715:2485, z1520:670, z2025:220, z25:51 } },
+    { date:"1 Sep", type:"Train", squad:17,
+      dist:{v:5337, team:4894, rank:3}, mmin:{v:61.7, team:56.9, rank:3},
+      maxspd:{v:26.4, team:24.1, rank:3}, sprint:{v:6, team:3.1, rank:3},
+      accel:{v:24, team:23.1, rank:7}, decel:{v:27, team:28.2, rank:11},
+      zones:{ z07:3218, z715:1752, z1520:273, z2025:88, z25:6 },
+      zonesTeam:{ z07:3028, z715:1600, z1520:227, z2025:36, z25:3 } },
+    { date:"2 Sep", type:"Train", squad:20,
+      dist:{v:5902, team:6063, rank:12}, mmin:{v:63.3, team:65.5, rank:13},
+      maxspd:{v:31.4, team:29.9, rank:4}, sprint:{v:201, team:137.8, rank:2},
+      accel:{v:29, team:31.6, rank:11}, decel:{v:30, team:24.3, rank:7},
+      zones:{ z07:3834, z715:1512, z1520:235, z2025:120, z25:201 },
+      zonesTeam:{ z07:3440, z715:1852, z1520:470, z2025:163, z25:138 } }
   ];
 
   var METRIC_ORDER = ["dist", "mmin", "maxspd", "sprint", "accel", "decel"];
@@ -982,6 +999,8 @@
     setHtml("stripWorkrateSub", fmt1(latest.mmin.v) + " m/min &middot; " + signPct(pctDelta(latest.mmin.v, latest.mmin.team)));
     setHtml("stripDistVal", latest.dist.rank != null ? "#" + latest.dist.rank : "&#8212;");
     setHtml("stripDistSub", fmtInt(latest.dist.v) + " m &middot; " + signPct(pctDelta(latest.dist.v, latest.dist.team)));
+    setHtml("stripSprintVal", latest.sprint.rank != null ? "#" + latest.sprint.rank : "&#8212;");
+    setHtml("stripSprintSub", fmtInt(latest.sprint.v) + " m &middot; " + signPct(pctDelta(latest.sprint.v, latest.sprint.team)));
     setHtml("stripTopSpeedVal", fmt1(agg.peakSpeed.v) + " km/h");
     setHtml("stripTopSpeedSub", "peak &middot; " + agg.countGE30 + " session" + (agg.countGE30 === 1 ? "" : "s") + " &ge;30");
 
@@ -1205,9 +1224,9 @@
       if (svgEl && ttEl) renderChart(svgEl, ttEl, filtered, key);
     });
 
-    var windowLabel = state.window === "all" ? "all 11 sessions" : (state.window === "last5" ? "last 5 sessions" : "last 3 sessions");
+    var windowLabel = state.window === "all" ? ("all " + SESSIONS.length + " sessions") : (state.window === "last5" ? "last 5 sessions" : "last 3 sessions");
     var typeLabel = state.type === "all" ? "" : (state.type === "train" ? ", training only" : ", match only");
-    document.getElementById("filterNote").textContent = "Showing " + filtered.length + " of 11 sessions — " + windowLabel + typeLabel;
+    document.getElementById("filterNote").textContent = "Showing " + filtered.length + " of " + SESSIONS.length + " sessions — " + windowLabel + typeLabel;
   }
 
   var initialized = false;
